@@ -3,7 +3,7 @@
 // ============================================================
 
 import { useGameStore } from '../../stores/useGameStore';
-import { CHARACTER_NAMES, CHARACTER_ICONS } from '../../utils/constants';
+import { CHARACTER_ICONS } from '../../utils/constants';
 import socket from '../../socket';
 
 export function GameOverScreen() {

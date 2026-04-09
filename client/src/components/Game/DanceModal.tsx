@@ -13,7 +13,7 @@ interface DanceModalProps {
 }
 
 export function DanceModal({ mode, onClose, preSelectedTarget }: DanceModalProps) {
-  const { room, pendingDance, danceResult, clearDanceResult } = useGameStore();
+  const { room, pendingDance } = useGameStore();
   const [targetId, setTargetId] = useState<string | null>(preSelectedTarget || null);
 
   if (!room) return null;
