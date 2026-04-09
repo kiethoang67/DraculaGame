@@ -41,7 +41,7 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 600 }}>
         <h3 style={{ textAlign: 'center', marginBottom: 'var(--space-sm)' }}>
-          ⚡ Make Your Accusation
+          ⚡ Lên Phường Bóc Phốt
         </h3>
         <p style={{
           textAlign: 'center',
@@ -49,7 +49,7 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
           fontSize: '0.85rem',
           marginBottom: 'var(--space-lg)',
         }}>
-          ⚠️ This will reveal your identity! You must get ALL correct to win.
+          ⚠️ Thận trọng! Skill này sẽ làm lòi mặt mốc của bạn ra luôn. Phải đoán trúng tên 100% cả làng thì mới ăn gà.
         </p>
 
         {/* Player → Character assignments */}
@@ -86,7 +86,7 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
                   className="btn btn--ghost btn--sm"
                   onClick={() => setSelectingFor(player.id)}
                 >
-                  Select character →
+                  Chỉ Mặt Gọi Tên →
                 </button>
               )}
             </div>
@@ -97,7 +97,7 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
         {selectingFor && (
           <div style={{ marginBottom: 'var(--space-lg)' }}>
             <h4 style={{ fontSize: '0.85rem', marginBottom: 'var(--space-sm)', color: 'var(--text-gold)' }}>
-              Assign to: {room.players.find(p => p.id === selectingFor)?.nickname}
+              Lên Đơn Bóc Phốt: {room.players.find(p => p.id === selectingFor)?.nickname}
             </h4>
             <div className="character-grid">
               {CHARACTER_IDS.map(id => {
@@ -123,7 +123,7 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
         {/* Actions */}
         <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
           <button className="btn btn--ghost" onClick={onClose} style={{ flex: 1 }}>
-            Cancel
+            Quay Dừng
           </button>
           <button
             className="btn btn--primary"
@@ -131,7 +131,7 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
             disabled={!allAssigned}
             style={{ flex: 1 }}
           >
-            ⚡ Accuse ({Object.keys(accusations).length}/{targets.length})
+            ⚡ Phốt Liền ({Object.keys(accusations).length}/{targets.length})
           </button>
         </div>
       </div>

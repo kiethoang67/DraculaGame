@@ -20,7 +20,7 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
       <div className="action-panel">
         <div className="turn-indicator">
           <div className="turn-indicator__text">
-            ⏳ Waiting for {room?.players.find(p => p.id === gameState?.turnPlayerId)?.nickname || '...'}'s turn
+            ⏳ Đang pha trà ngồi xem {room?.players.find(p => p.id === gameState?.turnPlayerId)?.nickname || '...'} diễn
           </div>
         </div>
       </div>
@@ -30,7 +30,7 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
   return (
     <div className="action-panel">
       <div className="turn-indicator turn-indicator--active" style={{ width: '100%', marginBottom: 'var(--space-md)' }}>
-        <div className="turn-indicator__text">⚔️ Your Turn — Choose an Action</div>
+        <div className="turn-indicator__text">⚔️ Tới Lượt Sếp — Bấm Lẹ Lên</div>
       </div>
       <div style={{ display: 'flex', gap: 'var(--space-md)', width: '100%' }}>
         <button
@@ -39,8 +39,8 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
           onClick={onInquire}
         >
           <span className="action-btn__icon">🔍</span>
-          <span>Inquire</span>
-          <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Ask identity</span>
+          <span>Check Var</span>
+          <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Hỏi cung bí mật</span>
         </button>
 
         <button
@@ -50,8 +50,8 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
           disabled={!canDance}
         >
           <span className="action-btn__icon">💃</span>
-          <span>Dance</span>
-          <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Swap cards</span>
+          <span>Rủ Quẩy</span>
+          <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Ép đổi thẻ bài</span>
         </button>
 
         <button
@@ -60,8 +60,8 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
           onClick={onAccuse}
         >
           <span className="action-btn__icon">⚡</span>
-          <span>Accuse</span>
-          <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Guess all</span>
+          <span>Bắt Bài</span>
+          <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Lật tẩy cả sới</span>
         </button>
       </div>
     </div>

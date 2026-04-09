@@ -11,8 +11,9 @@ import { CharacterId } from '../types';
 
 export class Trickster extends CharacterRole {
   readonly id = CharacterId.TRICKSTER;
-  readonly name = 'Trickster';
-  readonly description = 'Always answer "Yes" when inquired. Answer honestly during accusations.';
+  readonly name = 'Chuyên Gia Phông Bạt';
+  readonly description = 'Chúa nói dối, ai tra hỏi cũng trả lời CÓ. Chỉ thành thật khi bị bóc phốt.';
+  readonly backstory = 'Kỹ năng thì ít nhưng văn vở thì nhiều. Lên mạng mua khóa học làm giàu rồi ra sàn khiêu vũ lùa gà người khác.';
 
   /**
    * Override: Always returns true (Yes) regardless of the guess.

@@ -30,9 +30,9 @@ export function PlayerCircle({ onPlayerClick, selectedPlayerId }: PlayerCirclePr
           color: 'var(--text-muted)',
           marginTop: 'var(--space-xs)',
         }}>
-          Mystery Guest
+          Khách Không Mời
           <br />
-          ({gameState.mysteryGuestCount} card{gameState.mysteryGuestCount !== 1 ? 's' : ''})
+          ({gameState.mysteryGuestCount} thẻ{gameState.mysteryGuestCount !== 1 ? '' : ''})
         </div>
       </div>
 
@@ -91,7 +91,7 @@ export function PlayerCircle({ onPlayerClick, selectedPlayerId }: PlayerCirclePr
                 whiteSpace: 'nowrap',
               }}>
                 {player.nickname}
-                {isSelf ? ' (you)' : ''}
+                {isSelf ? ' (bản tôn)' : ''}
               </span>
               {isRevealed && player.revealedCharacterId && (
                 <span style={{
@@ -107,7 +107,7 @@ export function PlayerCircle({ onPlayerClick, selectedPlayerId }: PlayerCirclePr
                   color: 'var(--color-gold-bright)',
                   animation: 'pulse 1.5s ease-in-out infinite',
                 }}>
-                  ◆ Active
+                  ◆ Đang quậy
                 </span>
               )}
             </div>

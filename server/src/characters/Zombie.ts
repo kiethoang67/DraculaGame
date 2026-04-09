@@ -15,8 +15,9 @@ import { ActionResult, CharacterId } from '../types';
 
 export class Zombie extends CharacterRole {
   readonly id = CharacterId.ZOMBIE;
-  readonly name = 'Zombie';
-  readonly description = 'Must accept all dances. If the previous player danced, you must dance. If your dance is refused, you may immediately accuse.';
+  readonly name = 'Thây Ma Lười Biếng';
+  readonly description = 'Ai rủ nhảy là phải gật. Ăn theo: Nếu đứa đi trước vừa múa, bạn cũng bị lây và PHẢI rủ ai đó múa. Nếu rủ múa bị từ chối, bạn được quyền bóc nghẹt họng đứa đó liền.';
+  readonly backstory = 'Mua gói tạ gym định tập cardio giảm mỡ, nhưng cứ chạy là bị rớt khớp gối. Cuối cùng chỉ biết lết bộ tà tà làm nền cho team.';
 
   /** Override: Must accept all dance invitations. */
   mustAcceptDance(): boolean {

@@ -24,7 +24,7 @@ export function RoomLobby() {
 
   const handleCopyCode = () => {
     navigator.clipboard.writeText(room.id).then(() => {
-      addToast('Room code copied!', 'success');
+      addToast('Đã copy phòng, mau lùa bạn vào!', 'success');
     });
   };
 
@@ -32,7 +32,7 @@ export function RoomLobby() {
     <div className="page-center">
       <div className="room-lobby">
         <h2 style={{ textAlign: 'center', marginBottom: 'var(--space-sm)' }}>
-          🏰 Waiting Room
+          🏰 Sảnh Đợi Xập Xình
         </h2>
         <p style={{
           textAlign: 'center',
@@ -40,7 +40,7 @@ export function RoomLobby() {
           marginBottom: 'var(--space-lg)',
           fontFamily: 'var(--font-body)',
         }}>
-          Share this code with your friends
+          Ném mã này cho đứa nào vừa lười vừa ham chơi
         </p>
 
         <div className="room-code" onClick={handleCopyCode} title="Click to copy">
@@ -52,12 +52,12 @@ export function RoomLobby() {
           color: 'var(--text-muted)',
           marginTop: 'var(--space-xs)',
         }}>
-          Click to copy • {playerCount}/{room.maxPlayers} players
+          Khều để copy • {playerCount}/{room.maxPlayers} mạng
         </p>
 
         <div className="glass-card" style={{ padding: 'var(--space-lg)', marginTop: 'var(--space-lg)' }}>
           <h4 style={{ marginBottom: 'var(--space-md)' }}>
-            🎭 Guests ({playerCount})
+            🎭 Hội Báo Thủ ({playerCount})
           </h4>
           <div className="player-list">
             {room.players.map((player, index) => (
@@ -68,16 +68,16 @@ export function RoomLobby() {
                   </span>
                   <span>{player.nickname}</span>
                   {player.id === socket.id && (
-                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>(you)</span>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>(bản tôn)</span>
                   )}
                 </div>
                 <div style={{ display: 'flex', gap: 'var(--space-xs)' }}>
                   {player.isHost && (
-                    <span className="player-list-item__badge">Host</span>
+                    <span className="player-list-item__badge">Chủ Xị</span>
                   )}
                   {!player.isConnected && (
                     <span className="player-list-item__badge" style={{ background: 'var(--text-muted)' }}>
-                      Offline
+                      Mất Tích
                     </span>
                   )}
                 </div>
@@ -95,14 +95,14 @@ export function RoomLobby() {
               marginTop: 'var(--space-md)',
               animation: 'pulse 2s ease-in-out infinite'
             }}>
-              Waiting for {room.minPlayers - playerCount} more player{room.minPlayers - playerCount > 1 ? 's' : ''}...
+              Đang đợi đủ chân, thiếu mất {room.minPlayers - playerCount} tay chơi...
             </p>
           )}
         </div>
 
         <div style={{ display: 'flex', gap: 'var(--space-md)', marginTop: 'var(--space-lg)' }}>
           <button className="btn btn--ghost" onClick={handleLeave} style={{ flex: 1 }}>
-            🚪 Leave
+            🚪 Lẩn Lẹ
           </button>
           {isHost && (
             <button
@@ -113,8 +113,8 @@ export function RoomLobby() {
               style={{ flex: 2 }}
             >
               {canStart
-                ? '⚔️ Start the Feast!'
-                : `Need ${room.minPlayers}+ players`}
+                ? '⚔️ Lên Nhạc Quẩy Quẩy!'
+                : `Phải gom đủ ${room.minPlayers}+ tay chơi`}
             </button>
           )}
           {!isHost && (
@@ -127,7 +127,7 @@ export function RoomLobby() {
               fontStyle: 'italic',
             }}>
               <span className="spinner" style={{ width: 20, height: 20, marginRight: 'var(--space-sm)' }}></span>
-              Waiting for host to start...
+              Ngồi chơi xơi nước đợi chủ xị chốt...
             </div>
           )}
         </div>

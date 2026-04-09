@@ -33,13 +33,13 @@ export function InquiryModal({ onClose, preSelectedTarget }: InquiryModalProps) 
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
         <h3 style={{ textAlign: 'center', marginBottom: 'var(--space-lg)' }}>
-          🔍 Inquire
+          🔍 Check Var Toàn Tập
         </h3>
 
         {/* Step 1: Select target */}
         <div style={{ marginBottom: 'var(--space-lg)' }}>
           <h4 style={{ fontSize: '0.85rem', marginBottom: 'var(--space-sm)' }}>
-            1. Who do you want to ask?
+            1. Khứa nào bạn muốn gài thóp?
           </h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
             {validTargets.map(player => (
@@ -62,7 +62,7 @@ export function InquiryModal({ onClose, preSelectedTarget }: InquiryModalProps) 
         {targetId && (
           <div style={{ marginBottom: 'var(--space-lg)' }}>
             <h4 style={{ fontSize: '0.85rem', marginBottom: 'var(--space-sm)' }}>
-              2. "Are you...?"
+              2. Giơ mặt ra hỏi: "Ê phen, mài là..."
             </h4>
             <div className="character-grid">
               {CHARACTER_IDS.map(id => (
@@ -82,7 +82,7 @@ export function InquiryModal({ onClose, preSelectedTarget }: InquiryModalProps) 
         {/* Actions */}
         <div style={{ display: 'flex', gap: 'var(--space-md)', marginTop: 'var(--space-lg)' }}>
           <button className="btn btn--ghost" onClick={onClose} style={{ flex: 1 }}>
-            Cancel
+            Tem Tém Lại
           </button>
           <button
             className="btn btn--primary"
@@ -90,7 +90,7 @@ export function InquiryModal({ onClose, preSelectedTarget }: InquiryModalProps) 
             disabled={!targetId || !characterGuess}
             style={{ flex: 1 }}
           >
-            Ask
+            Hỏi Thử Cái Nhe
           </button>
         </div>
       </div>

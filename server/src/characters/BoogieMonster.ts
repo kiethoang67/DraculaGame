@@ -15,8 +15,9 @@ import { ActionResult, CharacterId } from '../types';
 
 export class BoogieMonster extends CharacterRole {
   readonly id = CharacterId.BOOGIE_MONSTER;
-  readonly name = 'Boogie Monster';
-  readonly description = 'Must accept all dances. May accuse after any dance or if your dance is refused.';
+  readonly name = 'Quái Ế Gầm Giường';
+  readonly description = 'Ai rủ nhảy cũng phải đi. Được quyền tung đòn bóc phốt sau bất kỳ vụ nhảy nào trong làng, hoặc khi bị đứa khác bơ thẳng thừng màn quẩy của mình.';
+  readonly backstory = 'Tướng tá 6 múi cơ bắp thế thôi chứ vừa nhát gan vừa lười bóng chuyền. Cuối tháng gom không đủ tiền trọ đành chui xuống gầm giường trốn chủ nhà.';
 
   /** Override: Must accept all dance invitations. */
   mustAcceptDance(): boolean {

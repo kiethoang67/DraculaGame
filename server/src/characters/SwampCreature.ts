@@ -12,8 +12,9 @@ import { CharacterId } from '../types';
 
 export class SwampCreature extends CharacterRole {
   readonly id = CharacterId.SWAMP_CREATURE;
-  readonly name = 'Swamp Creature';
-  readonly description = 'You can win by explicitly accusing only your two neighbors, provided neither is revealed yet.';
+  readonly name = 'Mầm Đá Đầm Lầy';
+  readonly description = 'Bạn thăng thiên win game ngay khi bóc phốt trúng phóc 2 khứa ngồi kế bên cạnh, nhưng với điều kiện 2 khứa đó chưa lộ mặt.';
+  readonly backstory = 'Ba ngày chưa gội đầu nên luôn tránh xa mấy hoạt động đổ mồ hôi. Ngại giao tiếp xã hội, ai kéo ra nhảy là phản kháng tới cùng.';
 
   /**
    * Override: Can only accuse immediate left and right neighbors.

@@ -34,10 +34,10 @@ export function DanceModal({ mode, onClose, preSelectedTarget }: DanceModalProps
       <div className="modal-overlay" onClick={onClose}>
         <div className="modal-content" onClick={e => e.stopPropagation()}>
           <h3 style={{ textAlign: 'center', marginBottom: 'var(--space-lg)' }}>
-            💃 Invite to Dance
+            💃 Gạ Trai/Gái Đi Quẩy
           </h3>
           <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: 'var(--space-lg)' }}>
-            If accepted, you'll swap character cards with your partner.
+            Nếu nó gật đầu, 2 đứa sẽ tráo thẻ bài cho nhau đấy nhé.
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
@@ -58,7 +58,7 @@ export function DanceModal({ mode, onClose, preSelectedTarget }: DanceModalProps
 
           <div style={{ display: 'flex', gap: 'var(--space-md)', marginTop: 'var(--space-lg)' }}>
             <button className="btn btn--ghost" onClick={onClose} style={{ flex: 1 }}>
-              Cancel
+              Thôi Ngại Lắm
             </button>
             <button
               className="btn btn--primary"
@@ -66,7 +66,7 @@ export function DanceModal({ mode, onClose, preSelectedTarget }: DanceModalProps
               disabled={!targetId}
               style={{ flex: 1 }}
             >
-              💃 Invite
+              💃 Gạ Luôn
             </button>
           </div>
         </div>
@@ -85,14 +85,14 @@ export function DanceModal({ mode, onClose, preSelectedTarget }: DanceModalProps
       <div className="modal-overlay">
         <div className="modal-content">
           <h3 style={{ textAlign: 'center', marginBottom: 'var(--space-lg)' }}>
-            💃 Dance Invitation
+            💃 Có Đứa Gạ Nhảy Nè
           </h3>
           <p style={{ textAlign: 'center', fontSize: '1.1rem', marginBottom: 'var(--space-lg)' }}>
             <strong style={{ color: 'var(--text-gold)' }}>{pendingDance.fromNickname}</strong>
-            {' '}has invited you to dance!
+            {' '}đang rủ rê bạn lên bar quẩy kìa!
           </p>
           <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: 'var(--space-lg)' }}>
-            If you accept, you will swap character cards.
+            Nếu bật đèn xanh, hai đứa sẽ tráo thân thế cho nhau đó.
           </p>
 
           <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
@@ -101,14 +101,14 @@ export function DanceModal({ mode, onClose, preSelectedTarget }: DanceModalProps
               onClick={() => handleRespond(false)}
               style={{ flex: 1 }}
             >
-              ✋ Refuse
+              ✋ Chê Không Sang
             </button>
             <button
               className="btn btn--primary btn--lg"
               onClick={() => handleRespond(true)}
               style={{ flex: 1 }}
             >
-              💃 Accept
+              💃 Ô Kê Lên
             </button>
           </div>
         </div>
@@ -131,18 +131,18 @@ export function DanceResultModal() {
     <div className="modal-overlay" onClick={clearDanceResult}>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
         <h3 style={{ textAlign: 'center', marginBottom: 'var(--space-lg)' }}>
-          💃 Dance Complete!
+          💃 Quẩy Đục Nước Xong!
         </h3>
         <p style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-          You danced with <strong style={{ color: 'var(--text-gold)' }}>{partner?.nickname}</strong>
+          Bạn vừa quẩy banh nóc với <strong style={{ color: 'var(--text-gold)' }}>{partner?.nickname}</strong>
         </p>
         <p style={{ textAlign: 'center', marginTop: 'var(--space-md)' }}>
-          They were: <strong style={{ color: 'var(--text-blood)', fontSize: '1.2rem' }}>
+          Thân phận thật sự của nó là: <strong style={{ color: 'var(--text-blood)', fontSize: '1.2rem' }}>
             {danceResult.partnerCharacterName}
           </strong>
         </p>
         <p style={{ textAlign: 'center', marginTop: 'var(--space-md)' }}>
-          Your new identity: <strong style={{ color: 'var(--color-gold-bright)', fontSize: '1.2rem' }}>
+          Còn thẻ mới của bạn bây giờ là: <strong style={{ color: 'var(--color-gold-bright)', fontSize: '1.2rem' }}>
             {danceResult.newCharacterName}
           </strong>
         </p>
@@ -154,7 +154,7 @@ export function DanceResultModal() {
           onClick={clearDanceResult}
           style={{ width: '100%', marginTop: 'var(--space-lg)' }}
         >
-          Got it
+          Đã Rõ Việc Tráo Hàng!
         </button>
       </div>
     </div>

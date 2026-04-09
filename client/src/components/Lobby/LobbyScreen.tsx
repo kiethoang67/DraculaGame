@@ -18,7 +18,7 @@ export function LobbyScreen() {
       return;
     }
     if (nickname.trim().length > 20) {
-      addToast('Nickname must be 20 characters or less', 'error');
+      addToast('Tên dài quá không ai rảnh đọc cả, ngắn lại dùm.', 'error');
       return;
     }
     setNickname(nickname.trim());
@@ -43,7 +43,7 @@ export function LobbyScreen() {
 
   const handleJoin = () => {
     if (!roomId.trim()) {
-      addToast('Please enter a Room ID', 'error');
+      addToast('Chưa nhập mã phòng sao vô fen?', 'error');
       return;
     }
     handleConnect();
@@ -60,8 +60,8 @@ export function LobbyScreen() {
   return (
     <div className="page-center">
       <div className="lobby-container">
-        <h1 className="lobby-title">🧛 Dracula's Feast</h1>
-        <p className="lobby-subtitle">New Blood — A Social Deduction Game</p>
+        <h1 className="lobby-title">🧛 Dạ Tiệc Dracula</h1>
+        <p className="lobby-subtitle">Trò Chơi Hủy Diệt Tình Bạn Thân Thiết</p>
 
         <div className="glass-card lobby-card">
           {mode === 'menu' && (
@@ -76,13 +76,13 @@ export function LobbyScreen() {
                   letterSpacing: '0.1em',
                   marginBottom: 'var(--space-xs)'
                 }}>
-                  Your Name
+                  Tuổi Gi mà tên Rì
                 </label>
                 <input
                   id="nickname-input"
                   className="input"
                   type="text"
-                  placeholder="Enter your nickname..."
+                  placeholder="Nhập nick của sếp vào đây..."
                   value={nickname}
                   onChange={(e) => setNicknameLocal(e.target.value)}
                   maxLength={20}
@@ -95,40 +95,40 @@ export function LobbyScreen() {
                 className="btn btn--primary btn--lg"
                 onClick={() => {
                   if (!nickname.trim()) {
-                    addToast('Enter a nickname first!', 'error');
+                    addToast('Gõ tên vào đã nào sếp ơi!', 'error');
                     return;
                   }
                   setMode('create');
                 }}
                 style={{ width: '100%' }}
               >
-                🏰 Create New Room
+                🏰 Mở Rạp (Tạo Phòng)
               </button>
 
-              <div className="lobby-divider">or</div>
+              <div className="lobby-divider">hoặc</div>
 
               <button
                 id="join-room-btn"
                 className="btn btn--secondary btn--lg"
                 onClick={() => {
                   if (!nickname.trim()) {
-                    addToast('Enter a nickname first!', 'error');
+                    addToast('Ông chưa kêu tên sao biết ai mà cho dzô?!', 'error');
                     return;
                   }
                   setMode('join');
                 }}
                 style={{ width: '100%' }}
               >
-                🚪 Join Existing Room
+                🚪 Tham Gia Sới (Vào Phòng)
               </button>
             </div>
           )}
 
           {mode === 'create' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
-              <h3 style={{ textAlign: 'center' }}>Create a Room</h3>
+              <h3 style={{ textAlign: 'center' }}>Lập Kèo Mới</h3>
               <p style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-                Playing as <strong style={{ color: 'var(--text-gold)' }}>{nickname}</strong>
+                Đang dùng acc: <strong style={{ color: 'var(--text-gold)' }}>{nickname}</strong>
               </p>
               <button
                 id="confirm-create-btn"
@@ -136,29 +136,29 @@ export function LobbyScreen() {
                 onClick={handleCreate}
                 style={{ width: '100%' }}
               >
-                🧛 Create & Enter Room
+                🧛 Triển Bàn Mới Ngay
               </button>
               <button
                 className="btn btn--ghost"
                 onClick={() => setMode('menu')}
                 style={{ width: '100%' }}
               >
-                ← Back
+                ← Quay Xe
               </button>
             </div>
           )}
 
           {mode === 'join' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
-              <h3 style={{ textAlign: 'center' }}>Join a Room</h3>
+              <h3 style={{ textAlign: 'center' }}>Vào Kèo</h3>
               <p style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-                Playing as <strong style={{ color: 'var(--text-gold)' }}>{nickname}</strong>
+                Xưng danh: <strong style={{ color: 'var(--text-gold)' }}>{nickname}</strong>
               </p>
               <input
                 id="room-id-input"
                 className="input"
                 type="text"
-                placeholder="Enter Room ID (e.g. ABC123)"
+                placeholder="Khè Mã Phòng Vô (Ví dụ: ABC123)"
                 value={roomId}
                 onChange={(e) => setRoomId(e.target.value.toUpperCase())}
                 maxLength={6}
@@ -171,14 +171,14 @@ export function LobbyScreen() {
                 onClick={handleJoin}
                 style={{ width: '100%' }}
               >
-                🚪 Join Room
+                🚪 Bay Vào Quẩy
               </button>
               <button
                 className="btn btn--ghost"
                 onClick={() => setMode('menu')}
                 style={{ width: '100%' }}
               >
-                ← Back
+                ← De Lại
               </button>
             </div>
           )}
@@ -190,7 +190,7 @@ export function LobbyScreen() {
           fontSize: '0.8rem',
           color: 'var(--text-muted)',
         }}>
-          4-8 players • Social deduction • Unmask the monsters
+          4-8 Mạng Cùng Chơi • Trò Trách Nhiệm Xã Hội • Lột Mặt Nạ Hội Báo Thủ
         </p>
       </div>
     </div>

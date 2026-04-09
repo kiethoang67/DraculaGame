@@ -18,12 +18,12 @@ export function GameLog() {
         padding: 'var(--space-sm) var(--space-md)',
         borderBottom: '1px solid var(--border-subtle)',
       }}>
-        <h4 style={{ fontSize: '0.85rem' }}>📜 Game Log</h4>
+        <h4 style={{ fontSize: '0.85rem' }}>📜 Camera Chạy Bằng Cơm</h4>
       </div>
       <div className="game-log">
         {entries.length === 0 && (
           <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', fontSize: '0.85rem' }}>
-            Game just started...
+            Sới vừa mở, chưa có vụ phốt nào để hít...
           </p>
         )}
         {entries.map((entry, i) => (
@@ -34,30 +34,30 @@ export function GameLog() {
             <span className="highlight">{entry.playerNickname}</span>
             {entry.action === 'inquire' && (
               <>
-                {' '}asked{' '}
+                {' '}check var{' '}
                 <span className="highlight">{entry.targetNickname}</span>
-                {' '}"Are you{' '}
+                {' '}"Khai mau, mài có phải là{' '}
                 {entry.characterGuess && (
                   <>
                     {CHARACTER_ICONS[entry.characterGuess]}{' '}
                     {CHARACTER_NAMES[entry.characterGuess]}
                   </>
                 )}
-                ?"
+                không mạy?"
               </>
             )}
             {entry.action === 'dance' && (
               <>
                 {entry.danceAccepted
-                  ? <> danced with <span className="highlight">{entry.targetNickname}</span> 💃</>
-                  : <>'s dance with <span className="highlight">{entry.targetNickname}</span> was refused 🚫</>
+                  ? <> đã lôi cổ <span className="highlight">{entry.targetNickname}</span> lên múa quạt 💃</>
+                  : <> gạ quẩy <span className="highlight">{entry.targetNickname}</span> nhưng bị chê từ chối 🚫</>
                 }
               </>
             )}
             {entry.action === 'accuse' && (
               <>
-                {' '}made an accusation{' '}
-                {entry.accuseSuccess ? '✅ SUCCESS' : '❌ FAILED'}
+                {' '}đóng vai thám tử bóc phốt cả làng{' '}
+                {entry.accuseSuccess ? '✅ VÀ CHUẨN ĐÉT' : '❌ NHƯNG QUÊ VÌ BẮT TRƯỢT'}
               </>
             )}
           </div>

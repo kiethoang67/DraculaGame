@@ -19,6 +19,7 @@ export interface ICharacterRole {
   readonly id: CharacterId;
   readonly name: string;
   readonly description: string;
+  readonly backstory: string;
 
   // ── Inquiry Hooks ─────────────────────────────────────
   /**
@@ -142,6 +143,7 @@ export abstract class CharacterRole implements ICharacterRole {
   abstract readonly id: CharacterId;
   abstract readonly name: string;
   abstract readonly description: string;
+  abstract readonly backstory: string;
 
   /**
    * Default: Answer truthfully.

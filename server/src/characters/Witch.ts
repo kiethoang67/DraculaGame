@@ -11,8 +11,9 @@ import { CharacterId } from '../types';
 
 export class Witch extends CharacterRole {
   readonly id = CharacterId.WITCH;
-  readonly name = 'Witch';
-  readonly description = 'Must lie about your identity when queried by a neighbor.';
+  readonly name = 'Phù Thủy Rớt Bằng';
+  readonly description = 'Bắt buộc phải nói dối (đáp ngược lại) khi bị 2 đứa ngồi ngay cạnh hỏi dò thẻ bài. Đứa ngồi xa thì trả lời thật.';
+  readonly backstory = 'Thông minh sắc sảo nhưng không qua nổi bài thi thực hành bằng lái chổi. Toàn kẹt số de đâm lùi vào biển báo giao thông phường.';
 
   /**
    * Override: If the asker is a neighbor (adjacent seat),

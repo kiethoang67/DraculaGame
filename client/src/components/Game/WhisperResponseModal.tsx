@@ -27,12 +27,12 @@ export function WhisperResponseModal() {
     <div className="modal-overlay">
       <div className="modal-content" style={{ textAlign: 'center' }}>
         <h3 style={{ marginBottom: 'var(--space-lg)' }}>
-          🃏 Whisper Card
+          🃏 Tờ Tóp Tóp Bí Mật
         </h3>
 
         <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-sm)' }}>
           <strong style={{ color: 'var(--text-gold)' }}>{pendingInquiry.fromNickname}</strong>
-          {' '}asks you:
+          {' '}vừa check var bạn:
         </p>
 
         <p style={{
@@ -43,7 +43,7 @@ export function WhisperResponseModal() {
           borderRadius: 'var(--radius-sm)',
           border: '1px solid var(--border-gold)',
         }}>
-          "Are you {charIcon} <strong>{charName}</strong>?"
+          "Nghe đồn fen là {charIcon} <strong>{charName}</strong> hả?"
         </p>
 
         {/* Suggested answer from ability */}
@@ -56,7 +56,7 @@ export function WhisperResponseModal() {
           color: 'var(--text-muted)',
           fontStyle: 'italic',
         }}>
-          💡 Your ability suggests: <strong style={{
+          💡 Luận điệu của thẻ khuyên bạn nên múa mỏ: <strong style={{
             color: pendingInquiry.suggestedAnswer ? '#4caf50' : 'var(--color-blood-light)',
           }}>
             {pendingInquiry.suggestedAnswer ? 'YES' : 'NO'}
@@ -68,7 +68,7 @@ export function WhisperResponseModal() {
           color: 'var(--text-secondary)',
           marginBottom: 'var(--space-lg)',
         }}>
-          Choose a Whisper card to hand back:
+          Đưa cho nó 1 tấm thẻ để chốt deal:
         </p>
 
         <div style={{ display: 'flex', gap: 'var(--space-lg)', justifyContent: 'center' }}>
@@ -148,7 +148,7 @@ export function WhisperResponseModal() {
           fontSize: '0.75rem',
           color: 'var(--text-muted)',
         }}>
-          Only the asker will see your answer
+          Chỉ có đứa rảnh đi check var mới thấy câu trả lời này
         </p>
       </div>
     </div>
@@ -169,16 +169,16 @@ export function InquiryWaitingModal() {
     <div className="modal-overlay">
       <div className="modal-content" style={{ textAlign: 'center' }}>
         <h3 style={{ marginBottom: 'var(--space-lg)' }}>
-          🔍 Awaiting Response...
+          🔍 Đang Chờ Ai Đó Seen...
         </h3>
 
         <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-md)' }}>
-          You asked <strong style={{ color: 'var(--text-gold)' }}>
+          Bạn vừa tra hỏi <strong style={{ color: 'var(--text-gold)' }}>
             {inquiryWaiting.targetNickname}
           </strong>:
         </p>
         <p style={{ fontSize: '1.1rem', marginBottom: 'var(--space-lg)' }}>
-          "Are you {charIcon} <strong>{charName}</strong>?"
+          "Ê fen có phải {charIcon} <strong>{charName}</strong> hử?"
         </p>
 
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--space-md)' }}>
@@ -186,7 +186,7 @@ export function InquiryWaitingModal() {
         </div>
 
         <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', fontSize: '0.85rem' }}>
-          Waiting for their Whisper card...
+          Đang chờ nó đánh rơi tờ tóp tóp Whisper card...
         </p>
       </div>
     </div>
