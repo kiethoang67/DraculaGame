@@ -24,7 +24,7 @@ export function RoomLobby() {
 
   const handleCopyCode = () => {
     navigator.clipboard.writeText(room.id).then(() => {
-      addToast('Đã copy phòng, mau lùa bạn vào!', 'success');
+      addToast('Đã sao chép mã phòng vào khay nhớ tạm!', 'success');
     });
   };
 
@@ -32,7 +32,7 @@ export function RoomLobby() {
     <div className="page-center">
       <div className="room-lobby">
         <h2 style={{ textAlign: 'center', marginBottom: 'var(--space-sm)' }}>
-          🏰 Sảnh Đợi Xập Xình
+          🏰 Sảnh Chờ Bắt Đầu
         </h2>
         <p style={{
           textAlign: 'center',
@@ -40,7 +40,7 @@ export function RoomLobby() {
           marginBottom: 'var(--space-lg)',
           fontFamily: 'var(--font-body)',
         }}>
-          Ném mã này cho đứa nào vừa lười vừa ham chơi
+          Chia sẻ mã phòng này cho các người chơi khác để tham gia
         </p>
 
         <div className="room-code" onClick={handleCopyCode} title="Click to copy">
@@ -52,12 +52,12 @@ export function RoomLobby() {
           color: 'var(--text-muted)',
           marginTop: 'var(--space-xs)',
         }}>
-          Khều để copy • {playerCount}/{room.maxPlayers} mạng
+          Nhấp vào để sao chép • {playerCount}/{room.maxPlayers} người chơi
         </p>
 
         <div className="glass-card" style={{ padding: 'var(--space-lg)', marginTop: 'var(--space-lg)' }}>
           <h4 style={{ marginBottom: 'var(--space-md)' }}>
-            🎭 Hội Báo Thủ ({playerCount})
+            🎭 Danh sách người chơi ({playerCount})
           </h4>
           <div className="player-list">
             {room.players.map((player, index) => (
@@ -68,16 +68,16 @@ export function RoomLobby() {
                   </span>
                   <span>{player.nickname}</span>
                   {player.id === socket.id && (
-                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>(bản tôn)</span>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>(bản thân)</span>
                   )}
                 </div>
                 <div style={{ display: 'flex', gap: 'var(--space-xs)' }}>
                   {player.isHost && (
-                    <span className="player-list-item__badge">Chủ Xị</span>
+                    <span className="player-list-item__badge">Chủ Phòng</span>
                   )}
                   {!player.isConnected && (
                     <span className="player-list-item__badge" style={{ background: 'var(--text-muted)' }}>
-                      Mất Tích
+                      Ngắt kết nối
                     </span>
                   )}
                 </div>
@@ -95,14 +95,14 @@ export function RoomLobby() {
               marginTop: 'var(--space-md)',
               animation: 'pulse 2s ease-in-out infinite'
             }}>
-              Đang đợi đủ chân, thiếu mất {room.minPlayers - playerCount} tay chơi...
+              Đang chờ người chơi, cần thêm ít nhất {room.minPlayers - playerCount} người tham gia...
             </p>
           )}
         </div>
 
         <div style={{ display: 'flex', gap: 'var(--space-md)', marginTop: 'var(--space-lg)' }}>
           <button className="btn btn--ghost" onClick={handleLeave} style={{ flex: 1 }}>
-            🚪 Lẩn Lẹ
+            🚪 Rời phòng
           </button>
           {isHost && (
             <button
@@ -113,8 +113,8 @@ export function RoomLobby() {
               style={{ flex: 2 }}
             >
               {canStart
-                ? '⚔️ Lên Nhạc Quẩy Quẩy!'
-                : `Phải gom đủ ${room.minPlayers}+ tay chơi`}
+                ? '⚔️ Bắt đầu trò chơi'
+                : `Yêu cầu ít nhất ${room.minPlayers} người chơi`}
             </button>
           )}
           {!isHost && (
@@ -127,7 +127,7 @@ export function RoomLobby() {
               fontStyle: 'italic',
             }}>
               <span className="spinner" style={{ width: 20, height: 20, marginRight: 'var(--space-sm)' }}></span>
-              Ngồi chơi xơi nước đợi chủ xị chốt...
+              Chủ phòng ({room.players.find(p => p.isHost)?.nickname}) đang chuẩn bị bắt đầu...
             </div>
           )}
         </div>
