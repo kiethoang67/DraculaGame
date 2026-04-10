@@ -11,9 +11,9 @@ import { ActionResult, CharacterId } from '../types';
 
 export class DoctorJekyll extends CharacterRole {
   readonly id = CharacterId.DOCTOR_JEKYLL;
-  readonly name = 'Tiến Sĩ Chập Mạch';
-  readonly description = 'Ai rủ nhảy cũng phải nhận lời. Cuối lượt, bạn có quyền lật bài để tráo thân phận với thẻ Khách Mời Bí Ẩn đang úp ở giữa bàn.';
-  readonly backstory = 'Hôm qua đang chế thuốc thì vấp phải dây điện nguồn máy chủ. Từ đó phần cứng lâu lâu bị chập phát sinh ra đa nhân cách lúc này lúc nọ.';
+  readonly name = 'Doctor Jekyll';
+  readonly description = 'Bắt buộc phải chấp nhận mọi lời mời Khiêu vũ. Khi kết thúc lượt tiến hành của mình, bạn có quyền lật mặt nạ và bí mật tráo đổi Thẻ vai trò của mình với Khách Ẩn giữa bàn.';
+  readonly backstory = '';
 
   /** Override: Must accept all dance invitations. */
   mustAcceptDance(): boolean {

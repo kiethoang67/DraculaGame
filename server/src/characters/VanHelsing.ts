@@ -13,9 +13,9 @@ import { ActionResult, CharacterId } from '../types';
 
 export class VanHelsing extends CharacterRole {
   readonly id = CharacterId.VAN_HELSING;
-  readonly name = 'Thợ Săn Mù Đường';
-  readonly description = 'Nếu có vụ bóc phốt xịt 100%, bạn được quyền lật mặt nạ và đoán xem ai là bá tước Dracula. Đoán đúng là bạn lụm lúa.';
-  readonly backstory = 'Mua skin xịn chớp nháy nhưng vào trận toàn bấm lộn nút xả skill. Ra đường toàn săn hụt con mồi do mù bản đồ google maps.';
+  readonly name = 'Van Helsing';
+  readonly description = 'Nếu có một vòng Buộc tội (Accuse) ra kết quả toàn thẻ "No", bạn có quyền lật bài lên và Buộc tội 1 người duy nhất là Dracula. Nếu dự đoán đúng, bạn lập tức thắng trò chơi.';
+  readonly backstory = '';
 
   /**
    * Override (Observer): React to ANY player's accusation result.

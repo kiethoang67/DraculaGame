@@ -12,9 +12,9 @@ import { ActionResult, CharacterId } from '../types';
 
 export class Ghost extends CharacterRole {
   readonly id = CharacterId.GHOST;
-  readonly name = 'Hồn Ma Bú Fame';
-  readonly description = 'Ai rủ quẩy cũng phải gật. Ai nhắm mắt vu khống xịt là bạn có quyền đứng lên sờ gáy họ lại ngay tập lập tức.';
-  readonly backstory = 'Mắc chứng sợ bị cho ra rìa. Thấy nhà ai có drama cãi lộn xập xình là hóng hớt, rủ rê cái gì cũng hùa theo cho bằng được.';
+  readonly name = 'Ghost';
+  readonly description = 'Bắt buộc phải nhận lời mời Khiêu vũ. Nếu có ai đó Buộc tội đúng thân thế của bạn nhưng toàn bộ vòng Buộc tội của họ lại thất bại, bạn có quyền lật bài và nhảy vào Buộc tội lại ngay lập tức.';
+  readonly backstory = '';
 
   /** Override: Must accept all dance invitations. */
   mustAcceptDance(): boolean {

@@ -38,9 +38,9 @@ export function GameLog() {
               <span className="highlight">{entry.playerNickname}</span>
               {entry.action === 'inquire' && (
                 <>
-                  {' '}hỏi{' '}
+                  {' '}đã hỏi{' '}
                   <span className="highlight">{entry.targetNickname}</span>
-                  {' '}"Mài là{' '}
+                  {' '}rằng "Bạn là{' '}
                   {entry.characterGuess && (
                     <>
                       {CHARACTER_ICONS[entry.characterGuess]}{' '}
@@ -53,8 +53,8 @@ export function GameLog() {
               {entry.action === 'dance' && (
                 <>
                   {entry.danceAccepted
-                    ? <> 💃 quẩy với <span className="highlight">{entry.targetNickname}</span></>
-                    : <> 🚫 bị <span className="highlight">{entry.targetNickname}</span> chê</>
+                    ? <> 💃 Khiêu vũ cùng <span className="highlight">{entry.targetNickname}</span></>
+                    : <> 🚫 bị từ chối Khiêu vũ bởi <span className="highlight">{entry.targetNickname}</span></>
                   }
                 </>
               )}

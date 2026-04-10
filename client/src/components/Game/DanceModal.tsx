@@ -34,10 +34,10 @@ export function DanceModal({ mode, onClose, preSelectedTarget }: DanceModalProps
       <div className="modal-overlay" onClick={onClose}>
         <div className="modal-content" onClick={e => e.stopPropagation()}>
           <h3 style={{ textAlign: 'center', marginBottom: 'var(--space-lg)' }}>
-            💃 Gạ Trai/Gái Đi Quẩy
+            💃 Lời Mời Khiêu Vũ
           </h3>
           <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: 'var(--space-lg)' }}>
-            Nếu nó gật đầu, 2 đứa sẽ tráo thẻ bài cho nhau đấy nhé.
+            Nếu người chơi chấp nhận, hai bạn sẽ cho nhau xem thẻ bài.
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>

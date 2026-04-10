@@ -33,13 +33,13 @@ export function InquiryModal({ onClose, preSelectedTarget }: InquiryModalProps) 
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
         <h3 style={{ textAlign: 'center', marginBottom: 'var(--space-lg)' }}>
-          🔍 Check Var Toàn Tập
+          🔍 Hỏi (Inquire)
         </h3>
 
         {/* Step 1: Select target */}
         <div style={{ marginBottom: 'var(--space-lg)' }}>
           <h4 style={{ fontSize: '0.85rem', marginBottom: 'var(--space-sm)' }}>
-            1. Khứa nào bạn muốn gài thóp?
+            1. Bạn muốn Hỏi người chơi nào?
           </h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
             {validTargets.map(player => (

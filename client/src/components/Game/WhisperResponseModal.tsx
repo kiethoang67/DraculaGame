@@ -27,12 +27,12 @@ export function WhisperResponseModal() {
     <div className="modal-overlay">
       <div className="modal-content" style={{ textAlign: 'center' }}>
         <h3 style={{ marginBottom: 'var(--space-lg)' }}>
-          🃏 Tờ Tóp Tóp Bí Mật
+          🃏 Trả Lời "Thì Thầm"
         </h3>
 
         <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-sm)' }}>
           <strong style={{ color: 'var(--text-gold)' }}>{pendingInquiry.fromNickname}</strong>
-          {' '}vừa check var bạn:
+          {' '}đã hỏi bạn:
         </p>
 
         <p style={{
@@ -43,7 +43,7 @@ export function WhisperResponseModal() {
           borderRadius: 'var(--radius-sm)',
           border: '1px solid var(--border-gold)',
         }}>
-          "Nghe đồn fen là {charIcon} <strong>{charName}</strong> hả?"
+          "Bạn có phải là {charIcon} <strong>{charName}</strong> không?"
         </p>
 
         {/* Suggested answer from ability */}
@@ -56,7 +56,7 @@ export function WhisperResponseModal() {
           color: 'var(--text-muted)',
           fontStyle: 'italic',
         }}>
-          💡 Luận điệu của thẻ khuyên bạn nên múa mỏ: <strong style={{
+          💡 Gợi ý trả lời dựa trên kỹ năng của bạn: <strong style={{
             color: pendingInquiry.suggestedAnswer ? '#4caf50' : 'var(--color-blood-light)',
           }}>
             {pendingInquiry.suggestedAnswer ? 'YES' : 'NO'}

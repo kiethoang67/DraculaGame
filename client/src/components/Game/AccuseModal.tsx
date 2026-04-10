@@ -41,7 +41,7 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 600 }}>
         <h3 style={{ textAlign: 'center', marginBottom: 'var(--space-sm)' }}>
-          ⚡ Lên Phường Bóc Phốt
+          ⚖️ Thực Hiện Buộc Tội
         </h3>
         <p style={{
           textAlign: 'center',
@@ -49,7 +49,7 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
           fontSize: '0.85rem',
           marginBottom: 'var(--space-lg)',
         }}>
-          ⚠️ Thận trọng! Skill này sẽ làm lòi mặt mốc của bạn ra luôn. Phải đoán trúng tên 100% cả làng thì mới ăn gà.
+          ⚠️ Lưu ý: Hành động này yêu cầu bạn lật ngửa thẻ bí mật của mình. Bạn phải dự đoán chuẩn xác 100% tất cả người chơi để giành chiến thắng.
         </p>
 
         {/* Player → Character assignments */}

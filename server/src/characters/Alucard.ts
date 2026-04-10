@@ -14,9 +14,9 @@ import { ActionResult, CharacterId } from '../types';
 
 export class Alucard extends CharacterRole {
   readonly id = CharacterId.ALUCARD;
-  readonly name = 'Báo Thủ Ăn Ké';
-  readonly description = 'Làm nũng đòi làm Dracula. Trả lời Yes khi bị hỏi có phải Dracula. Thắng ngay nếu bị tố hoặc múa chung với Dracula.';
-  readonly backstory = 'Nghề nghiệp chính là "con trai của Dracula". Không có tài cán gì ngoài việc mượn oai bố đi khè thiên hạ và ăn trực.';
+  readonly name = 'Alucard';
+  readonly description = 'Khi bị người khác Hỏi (Inquire) xem có phải là Dracula không, phải bí mật đưa thẻ Yes. Thắng trò chơi ngay lập tức nếu Khiêu vũ với Dracula, hoặc bị người khác Buộc tội là Dracula.';
+  readonly backstory = '';
 
   /**
    * Override: Must answer "Yes" when asked "Are you Dracula?"

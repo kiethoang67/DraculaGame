@@ -19,7 +19,7 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
     return (
       <div className="action-panel action-panel--compact">
         <span className="action-panel__status">
-          ⏳ Đang chờ {room?.players.find(p => p.id === gameState?.turnPlayerId)?.nickname || '...'} diễn
+          ⏳ Đang đợi lượt của {room?.players.find(p => p.id === gameState?.turnPlayerId)?.nickname || '...'}
         </span>
       </div>
     );
@@ -28,7 +28,7 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
   return (
     <div className="action-panel">
       <span className="action-panel__status action-panel__status--active">
-        ⚔️ Lượt sếp
+        ⚔️ Lượt của bạn
       </span>
       <div className="action-panel__buttons">
         <button
@@ -36,7 +36,7 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
           className="btn btn--secondary action-btn--inline"
           onClick={onInquire}
         >
-          🔍 Check Var
+          🔍 Hỏi (Inquire)
         </button>
 
         <button
@@ -45,7 +45,7 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
           onClick={onDance}
           disabled={!canDance}
         >
-          💃 Rủ Quẩy
+          💃 Khiêu vũ (Dance)
         </button>
 
         <button
@@ -53,7 +53,7 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
           className="btn btn--primary action-btn--inline"
           onClick={onAccuse}
         >
-          ⚡ Bắt Bài
+          ⚖️ Buộc tội (Accuse)
         </button>
       </div>
     </div>

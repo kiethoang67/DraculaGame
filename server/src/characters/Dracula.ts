@@ -11,9 +11,9 @@ import { ActionResult, CharacterId } from '../types';
 
 export class Dracula extends CharacterRole {
   readonly id = CharacterId.DRACULA;
-  readonly name = 'Bá Tước Mỡ Máu';
-  readonly description = 'Nếu phốt xịt lần đầu, bạn có quyền nháp lại và bóc phốt tiếp ngay lập tức.';
-  readonly backstory = 'Vẫn đam mê tiết canh tào phớ nhưng gần đây đi khám bị mỡ máu cao, bác sĩ bắt chuyển sang bú trà kombucha ép cân.';
+  readonly name = 'Dracula';
+  readonly description = 'Nếu bạn Buộc tội (Accuse) sai trong lượt của mình, bạn được quyền ưu tiên thực hiện thêm một hành động Buộc tội lần thứ 2 ngay lập tức.';
+  readonly backstory = '';
 
   /**
    * Override: When Dracula's accusation fails, he gets a second chance
