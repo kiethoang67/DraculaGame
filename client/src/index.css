@@ -84,7 +84,7 @@ html {
 
 body {
   font-family: var(--font-ui);
-  background: var(--bg-primary);
+  background: url('/background.webp') center/cover fixed, var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
@@ -698,11 +698,6 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('/board-bg.png');
-  background-size: cover;
-  background-position: center;
-  border-radius: var(--radius-lg);
-  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.9);
 }
 
 .game-main__top-overlay {
