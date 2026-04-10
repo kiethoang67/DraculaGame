@@ -159,6 +159,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // Connection events
     socket.on('connect', () => {
       set({ isConnected: true, playerId: socket.id || null });
+
+      // Auto-rejoin if we have session data (page reload)
+      const savedRoom = sessionStorage.getItem('dracula_roomId');
+      const savedNick = sessionStorage.getItem('dracula_nickname');
+      if (savedRoom && savedNick) {
+        console.log(`[Rejoin] Attempting to rejoin room ${savedRoom} as ${savedNick}`);
+        socket.emit('rejoin-room', { roomId: savedRoom, nickname: savedNick });
+      }
     });
 
     socket.on('disconnect', () => {
@@ -168,12 +176,51 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // Room events
     socket.on('room-created', (data: { room: RoomData; player: PublicPlayer }) => {
       set({ room: data.room, screen: 'room' });
+      sessionStorage.setItem('dracula_roomId', data.room.id);
+      sessionStorage.setItem('dracula_nickname', get().nickname);
       get().addToast(`Room ${data.room.id} created!`, 'success');
     });
 
     socket.on('room-joined', (data: { room: RoomData; player: PublicPlayer }) => {
       set({ room: data.room, screen: 'room' });
+      sessionStorage.setItem('dracula_roomId', data.room.id);
+      sessionStorage.setItem('dracula_nickname', get().nickname);
       get().addToast(`Joined room ${data.room.id}!`, 'success');
+    });
+
+    // ── Rejoin handlers ──────────────────────────────────
+    socket.on('rejoin-success', (data: any) => {
+      if (data.gameInProgress) {
+        // Rejoining a game in progress
+        set({
+          room: data.room,
+          screen: 'game',
+          myCharacterId: data.characterId,
+          myCharacterName: data.characterName,
+          myCharacterDescription: data.characterDescription,
+          gameState: data.gameState,
+          isMyTurn: data.isMyTurn,
+        });
+        get().addToast('Đã vào lại game!', 'success');
+      } else {
+        // Rejoining a waiting room
+        set({ room: data.room, screen: 'room' });
+        get().addToast('Đã vào lại phòng!', 'success');
+      }
+    });
+
+    socket.on('rejoin-failed', (_data: { message: string }) => {
+      // Clear session data since room is gone
+      sessionStorage.removeItem('dracula_roomId');
+      sessionStorage.removeItem('dracula_nickname');
+    });
+
+    socket.on('player-reconnected', (data: { playerId: string; nickname: string; players: PublicPlayer[] }) => {
+      const room = get().room;
+      if (room) {
+        set({ room: { ...room, players: data.players } });
+      }
+      get().addToast(`${data.nickname} đã quay lại!`, 'info');
     });
 
     socket.on('player-joined', (data: { player: PublicPlayer; room: RoomData }) => {
@@ -186,6 +233,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
     });
 
     socket.on('room-left', () => {
+      sessionStorage.removeItem('dracula_roomId');
+      sessionStorage.removeItem('dracula_nickname');
       get().resetGame();
     });
 

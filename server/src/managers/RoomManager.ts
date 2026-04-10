@@ -151,6 +151,80 @@ export class RoomManager {
   }
 
   /**
+   * Rejoin a room after disconnect. Swaps old socket ID with new one.
+   * Returns the room, player, and whether the game is in progress.
+   */
+  rejoinRoom(newSocketId: string, roomId: string, nickname: string): { room: Room; player: Player; gameInProgress: boolean } | null {
+    const room = this.rooms.get(roomId.toUpperCase());
+    if (!room) return null;
+
+    // Find the disconnected player by nickname
+    let oldPlayer: Player | undefined;
+    let oldSocketId: string | undefined;
+    for (const [id, p] of room.players.entries()) {
+      if (p.nickname.toLowerCase() === nickname.toLowerCase() && !p.isConnected) {
+        oldPlayer = p;
+        oldSocketId = id;
+        break;
+      }
+    }
+
+    if (!oldPlayer || !oldSocketId) return null;
+
+    // Remove any existing mapping for the new socket
+    this.removePlayerFromCurrentRoom(newSocketId);
+
+    // Swap socket IDs in the room's players map
+    room.players.delete(oldSocketId);
+    oldPlayer.id = newSocketId;
+    oldPlayer.isConnected = true;
+    room.players.set(newSocketId, oldPlayer);
+
+    // Update playerRoomMap
+    this.playerRoomMap.delete(oldSocketId);
+    this.playerRoomMap.set(newSocketId, room.id);
+
+    // If host, update hostId
+    if (room.hostId === oldSocketId) {
+      room.hostId = newSocketId;
+    }
+
+    // Update gameState references (seatOrder, characterAssignments, etc.)
+    if (room.gameState) {
+      const gs = room.gameState;
+      // Update seatOrder
+      const seatIdx = gs.seatOrder.indexOf(oldSocketId);
+      if (seatIdx !== -1) {
+        gs.seatOrder[seatIdx] = newSocketId;
+      }
+      // Update characterAssignments
+      const charId = gs.characterAssignments.get(oldSocketId);
+      if (charId !== undefined) {
+        gs.characterAssignments.delete(oldSocketId);
+        gs.characterAssignments.set(newSocketId, charId);
+      }
+      // Update turnPlayerId if it was this player
+      if (gs.turnPlayerId === oldSocketId) {
+        gs.turnPlayerId = newSocketId;
+      }
+      // Update revealedPlayers
+      if (gs.revealedPlayers.has(oldSocketId)) {
+        gs.revealedPlayers.delete(oldSocketId);
+        gs.revealedPlayers.add(newSocketId);
+      }
+      // Update failedAccusersThisTurn
+      if (gs.failedAccusersThisTurn.has(oldSocketId)) {
+        gs.failedAccusersThisTurn.delete(oldSocketId);
+        gs.failedAccusersThisTurn.add(newSocketId);
+      }
+    }
+
+    const gameInProgress = room.status === 'playing' && room.gameState !== null;
+    console.log(`[RoomManager] ${nickname} rejoined room ${room.id} (${oldSocketId} -> ${newSocketId}), gameInProgress: ${gameInProgress}`);
+    return { room, player: oldPlayer, gameInProgress };
+  }
+
+  /**
    * Mark a player as disconnected (but keep their slot for reconnection).
    */
   markPlayerDisconnected(socketId: string): Room | null {
