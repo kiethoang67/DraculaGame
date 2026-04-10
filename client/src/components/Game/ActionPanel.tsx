@@ -1,5 +1,5 @@
 // ============================================================
-// ActionPanel — Inquire / Dance / Accuse action buttons
+// ActionPanel — Compact inline turn indicator + action buttons
 // ============================================================
 
 import { useGameStore } from '../../stores/useGameStore';
@@ -17,51 +17,43 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
 
   if (!isMyTurn) {
     return (
-      <div className="action-panel">
-        <div className="turn-indicator">
-          <div className="turn-indicator__text">
-            ⏳ Đang pha trà ngồi xem {room?.players.find(p => p.id === gameState?.turnPlayerId)?.nickname || '...'} diễn
-          </div>
-        </div>
+      <div className="action-panel action-panel--compact">
+        <span className="action-panel__status">
+          ⏳ Đang chờ {room?.players.find(p => p.id === gameState?.turnPlayerId)?.nickname || '...'} diễn
+        </span>
       </div>
     );
   }
 
   return (
     <div className="action-panel">
-      <div className="turn-indicator turn-indicator--active" style={{ width: '100%', marginBottom: 'var(--space-md)' }}>
-        <div className="turn-indicator__text">⚔️ Tới Lượt Sếp — Bấm Lẹ Lên</div>
-      </div>
-      <div style={{ display: 'flex', gap: 'var(--space-md)', width: '100%' }}>
+      <span className="action-panel__status action-panel__status--active">
+        ⚔️ Lượt sếp
+      </span>
+      <div className="action-panel__buttons">
         <button
           id="inquire-btn"
-          className="btn btn--secondary action-btn"
+          className="btn btn--secondary action-btn--inline"
           onClick={onInquire}
         >
-          <span className="action-btn__icon">🔍</span>
-          <span>Check Var</span>
-          <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Hỏi cung bí mật</span>
+          🔍 Check Var
         </button>
 
         <button
           id="dance-btn"
-          className="btn btn--secondary action-btn"
+          className="btn btn--secondary action-btn--inline"
           onClick={onDance}
           disabled={!canDance}
         >
-          <span className="action-btn__icon">💃</span>
-          <span>Rủ Quẩy</span>
-          <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Ép đổi thẻ bài</span>
+          💃 Rủ Quẩy
         </button>
 
         <button
           id="accuse-btn"
-          className="btn btn--primary action-btn"
+          className="btn btn--primary action-btn--inline"
           onClick={onAccuse}
         >
-          <span className="action-btn__icon">⚡</span>
-          <span>Bắt Bài</span>
-          <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Lật tẩy cả sới</span>
+          ⚡ Bắt Bài
         </button>
       </div>
     </div>

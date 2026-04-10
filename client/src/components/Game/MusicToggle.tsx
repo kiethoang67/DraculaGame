@@ -4,8 +4,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 
-// Using a royalty-free gothic/dark ambient music from a CDN
-const MUSIC_URL = 'https://cdn.pixabay.com/audio/2022/10/25/audio_032a0fcc78.mp3';
+// Royalty-free dark ambient music
+const MUSIC_URL = 'https://cdn.pixabay.com/audio/2022/03/15/audio_8a1a666a5a.mp3';
 
 export function MusicToggle() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -17,6 +17,7 @@ export function MusicToggle() {
     const audio = new Audio(MUSIC_URL);
     audio.loop = true;
     audio.volume = volume;
+    audio.preload = 'auto';
     audioRef.current = audio;
 
     return () => {
@@ -35,31 +36,31 @@ export function MusicToggle() {
     if (!audioRef.current) return;
     if (isPlaying) {
       audioRef.current.pause();
+      setIsPlaying(false);
     } else {
-      audioRef.current.play().catch(() => {
-        // Autoplay might be blocked, just ignore
+      audioRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch(() => {
+        // Autoplay might be blocked
       });
     }
-    setIsPlaying(!isPlaying);
   };
 
   return (
-    <div className="music-toggle">
+    <div
+      className="music-toggle"
+      onMouseEnter={() => setShowVolume(true)}
+      onMouseLeave={() => setShowVolume(false)}
+    >
       <button
         className="music-toggle__btn"
         onClick={toggleMusic}
-        onMouseEnter={() => setShowVolume(true)}
-        onMouseLeave={() => setShowVolume(false)}
         title={isPlaying ? 'Tắt nhạc' : 'Bật nhạc'}
       >
         {isPlaying ? '🔊' : '🔇'}
       </button>
       {showVolume && (
-        <div
-          className="music-toggle__volume"
-          onMouseEnter={() => setShowVolume(true)}
-          onMouseLeave={() => setShowVolume(false)}
-        >
+        <div className="music-toggle__volume">
           <input
             type="range"
             min="0"
@@ -67,8 +68,11 @@ export function MusicToggle() {
             step="0.05"
             value={volume}
             onChange={(e) => setVolume(parseFloat(e.target.value))}
-            style={{ width: 80, accentColor: 'var(--color-blood-light)' }}
+            className="music-toggle__slider"
           />
+          <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', minWidth: 28, textAlign: 'center' }}>
+            {Math.round(volume * 100)}%
+          </span>
         </div>
       )}
     </div>

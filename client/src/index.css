@@ -762,37 +762,50 @@ p {
   transform: translate(-50%, -50%) scale(1.1);
 }
 
-/* ── Action Panel ──────────────────────────────────────────── */
+/* ── Action Panel — Compact Inline Row ─────────────────────── */
 .action-panel {
   display: flex;
   gap: var(--space-sm);
-  justify-content: center;
   align-items: center;
-  padding: var(--space-sm) var(--space-md);
-  background: rgba(10, 10, 15, 0.75);
+  padding: 6px var(--space-md);
+  background: rgba(10, 10, 15, 0.8);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border-subtle);
   border-radius: 0 0 var(--radius-md) var(--radius-md);
 }
 
-.action-btn {
-  flex: 1;
-  max-width: 180px;
-  padding: var(--space-sm) var(--space-md);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  font-size: 0.8rem;
+.action-panel--compact {
+  justify-content: center;
 }
 
-.action-btn__icon {
-  font-size: 1.2rem;
+.action-panel__status {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.action-panel__status--active {
+  color: var(--text-gold);
+  font-weight: 600;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.action-panel__buttons {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.action-btn--inline {
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 /* ── Collapsible Game Log Panel ────────────────────────────── */
 .game-log-panel {
-  background: rgba(10, 10, 15, 0.75);
+  background: rgba(10, 10, 15, 0.8);
   backdrop-filter: blur(8px);
   border-top: 1px solid var(--border-subtle);
   border-radius: var(--radius-md) var(--radius-md) 0 0;
@@ -802,7 +815,7 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-xs) var(--space-md);
+  padding: 4px var(--space-md);
   cursor: pointer;
   user-select: none;
   transition: background var(--transition-fast);
@@ -812,8 +825,15 @@ p {
   background: rgba(212, 165, 116, 0.05);
 }
 
-.game-log-panel--open .game-log {
-  max-height: 150px;
+.game-log--compact {
+  padding: 2px var(--space-md) 6px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.game-log--compact .game-log__entry {
+  font-size: 0.75rem;
+  padding: 1px 0;
 }
 
 /* ── Music Toggle ──────────────────────────────────────────── */
@@ -828,13 +848,13 @@ p {
 }
 
 .music-toggle__btn {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-round);
   background: var(--bg-glass);
   backdrop-filter: blur(8px);
   border: 1px solid var(--border-gold);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -850,12 +870,21 @@ p {
 }
 
 .music-toggle__volume {
-  background: var(--bg-glass);
-  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: var(--bg-secondary);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
-  padding: var(--space-xs) var(--space-sm);
+  padding: 4px var(--space-sm);
   animation: fadeIn var(--transition-fast);
+}
+
+.music-toggle__slider {
+  width: 80px;
+  height: 4px;
+  cursor: pointer;
+  accent-color: var(--color-blood-light);
 }
 
 /* ── Secret Hand ───────────────────────────────────────────── */

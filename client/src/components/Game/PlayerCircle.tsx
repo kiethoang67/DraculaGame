@@ -75,9 +75,9 @@ export function PlayerCircle({ onPlayerClick, selectedPlayerId }: PlayerCirclePr
                   : isRevealed
                     ? 'var(--text-muted)'
                     : 'linear-gradient(135deg, var(--color-blood), var(--color-blood-light))',
-                width: 36,
-                height: 36,
-                fontSize: '1rem',
+                width: 48,
+                height: 48,
+                fontSize: '1.4rem',
               }}>
                 {isRevealed && player.revealedCharacterId
                   ? CHARACTER_ICONS[player.revealedCharacterId] || '❓'

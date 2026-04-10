@@ -1,5 +1,5 @@
 // ============================================================
-// GameLog — Public game event log (collapsible)
+// GameLog — Public game event log (collapsible, max 3 visible)
 // ============================================================
 
 import { useState } from 'react';
@@ -13,64 +13,55 @@ export function GameLog() {
   if (!gameState) return null;
 
   const entries = [...gameState.turnHistory].reverse();
+  const displayEntries = isOpen ? entries.slice(0, 8) : entries.slice(0, 2);
 
   return (
-    <div className={`game-log-panel ${isOpen ? 'game-log-panel--open' : ''}`}>
+    <div className="game-log-panel">
       <div
         className="game-log-panel__header"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <h4 style={{ fontSize: '0.8rem', margin: 0 }}>
-          📜 Camera Chạy Bằng Cơm
-          {entries.length > 0 && (
-            <span style={{ color: 'var(--text-muted)', fontWeight: 400, marginLeft: 8 }}>
-              ({entries.length})
-            </span>
-          )}
+        <h4 style={{ fontSize: '0.75rem', margin: 0 }}>
+          📜 Log ({entries.length})
         </h4>
-        <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
-          {isOpen ? '▼ Thu gọn' : '▲ Mở log'}
+        <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', cursor: 'pointer' }}>
+          {isOpen ? '▼ Thu gọn' : '▲ Xem thêm'}
         </span>
       </div>
-      {isOpen && (
-        <div className="game-log">
-          {entries.length === 0 && (
-            <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', fontSize: '0.85rem' }}>
-              Sới vừa mở, chưa có vụ phốt nào để hít...
-            </p>
-          )}
-          {entries.map((entry, i) => (
+      {entries.length > 0 && (
+        <div className="game-log game-log--compact">
+          {displayEntries.map((entry, i) => (
             <div key={i} className="game-log__entry">
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>
                 T{entry.turnNumber}
               </span>{' '}
               <span className="highlight">{entry.playerNickname}</span>
               {entry.action === 'inquire' && (
                 <>
-                  {' '}check var{' '}
+                  {' '}hỏi{' '}
                   <span className="highlight">{entry.targetNickname}</span>
-                  {' '}"Khai mau, mài có phải là{' '}
+                  {' '}"Mài là{' '}
                   {entry.characterGuess && (
                     <>
                       {CHARACTER_ICONS[entry.characterGuess]}{' '}
                       {CHARACTER_NAMES[entry.characterGuess]}
                     </>
                   )}
-                  không mạy?"
+                  ?"
                 </>
               )}
               {entry.action === 'dance' && (
                 <>
                   {entry.danceAccepted
-                    ? <> đã lôi cổ <span className="highlight">{entry.targetNickname}</span> lên múa quạt 💃</>
-                    : <> gạ quẩy <span className="highlight">{entry.targetNickname}</span> nhưng bị chê từ chối 🚫</>
+                    ? <> 💃 quẩy với <span className="highlight">{entry.targetNickname}</span></>
+                    : <> 🚫 bị <span className="highlight">{entry.targetNickname}</span> chê</>
                   }
                 </>
               )}
               {entry.action === 'accuse' && (
                 <>
-                  {' '}đóng vai thám tử bóc phốt cả làng{' '}
-                  {entry.accuseSuccess ? '✅ VÀ CHUẨN ĐÉT' : '❌ NHƯNG QUÊ VÌ BẮT TRƯỢT'}
+                  {' '}bóc phốt{' '}
+                  {entry.accuseSuccess ? '✅ TRÚNG' : '❌ TRƯỢT'}
                 </>
               )}
             </div>
