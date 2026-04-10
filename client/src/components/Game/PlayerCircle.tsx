@@ -12,7 +12,7 @@ interface PlayerCircleProps {
 }
 
 export function PlayerCircle({ onPlayerClick, selectedPlayerId }: PlayerCircleProps) {
-  const { room, gameState } = useGameStore();
+  const { room, gameState, myCharacterId } = useGameStore();
 
   if (!room || !gameState) return null;
 
@@ -81,7 +81,9 @@ export function PlayerCircle({ onPlayerClick, selectedPlayerId }: PlayerCirclePr
               }}>
                 {isRevealed && player.revealedCharacterId
                   ? CHARACTER_ICONS[player.revealedCharacterId] || '❓'
-                  : player.nickname.charAt(0).toUpperCase()
+                  : isSelf && myCharacterId
+                    ? CHARACTER_ICONS[myCharacterId] || player.nickname.charAt(0).toUpperCase()
+                    : player.nickname.charAt(0).toUpperCase()
                 }
               </div>
               <span style={{

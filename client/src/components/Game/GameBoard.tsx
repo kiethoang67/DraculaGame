@@ -15,6 +15,7 @@ import { WhisperResponseModal, InquiryWaitingModal } from './WhisperResponseModa
 import { GameLog } from './GameLog';
 import { GameOverScreen } from './GameOverScreen';
 import { ChatBox } from '../Chat/ChatBox';
+import { MusicToggle } from './MusicToggle';
 
 export function GameBoard() {
   const { gameState, pendingDance, pendingInquiry, inquiryWaiting, inquiryResult, danceResult, gameOver } = useGameStore();
@@ -34,10 +35,18 @@ export function GameBoard() {
   return (
     <>
       <div className="game-layout">
-        {/* Main game area */}
+        {/* Main game area — PlayerCircle fills the space, panels overlay */}
         <div className="game-main">
-          {/* Turn indicator */}
-          <div style={{ flexShrink: 0 }}>
+          {/* Player circle — takes full space */}
+          <div className="game-main__arena">
+            <PlayerCircle
+              onPlayerClick={handlePlayerClick}
+              selectedPlayerId={selectedPlayerId}
+            />
+          </div>
+
+          {/* Action panel — overlays top */}
+          <div className="game-main__top-overlay">
             <ActionPanel
               onInquire={() => setShowInquiry(true)}
               onDance={() => setShowDance(true)}
@@ -45,16 +54,8 @@ export function GameBoard() {
             />
           </div>
 
-          {/* Player circle */}
-          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-            <PlayerCircle
-              onPlayerClick={handlePlayerClick}
-              selectedPlayerId={selectedPlayerId}
-            />
-          </div>
-
-          {/* Game log */}
-          <div style={{ flexShrink: 0 }}>
+          {/* Game log — overlays bottom, collapsible */}
+          <div className="game-main__bottom-overlay">
             <GameLog />
           </div>
         </div>
@@ -70,6 +71,9 @@ export function GameBoard() {
           </div>
         </div>
       </div>
+
+      {/* Music toggle — fixed position */}
+      <MusicToggle />
 
       {/* ── Modals ──────────────────────────────────────── */}
 
