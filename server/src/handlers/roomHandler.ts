@@ -6,7 +6,7 @@ import { Server, Socket } from 'socket.io';
 import { RoomManager } from '../managers/RoomManager';
 import { GameManager } from '../managers/GameManager';
 import { CharacterFactory } from '../characters/CharacterFactory';
-import { CreateRoomPayload, JoinRoomPayload, StartGamePayload } from '../types';
+import { CreateRoomPayload, JoinRoomPayload, StartGamePayload, RoomStatus } from '../types';
 
 export function registerRoomHandler(io: Server, socket: Socket, gameManager: GameManager): void {
   const roomManager = RoomManager.getInstance();
@@ -41,22 +41,76 @@ export function registerRoomHandler(io: Server, socket: Socket, gameManager: Gam
       const roomId = data.roomId?.trim().toUpperCase();
 
       if (!nickname || nickname.length < 1 || nickname.length > 20) {
-        socket.emit('room-error', { message: 'Nickname must be 1-20 characters.' });
+        socket.emit('room-error', { message: 'Tên phải từ 1-20 ký tự.' });
         return;
       }
       if (!roomId) {
-        socket.emit('room-error', { message: 'Room ID is required.' });
+        socket.emit('room-error', { message: 'Mã phòng là bắt buộc.' });
         return;
       }
 
-      const { room, player } = roomManager.joinRoom(socket.id, roomId, nickname);
+      let result;
+      try {
+        result = roomManager.joinRoom(socket.id, roomId, nickname);
+      } catch (err: any) {
+        if (err.message === 'REJOIN_REQUIRED') {
+          console.log(`[RoomHandler] Tên trùng nhưng offline -> Kích hoạt REJOIN cho ${nickname} tại phòng ${roomId}`);
+          const rejoinResult = roomManager.rejoinRoom(socket.id, roomId, nickname);
+          if (rejoinResult) {
+            const { room, player, gameInProgress } = rejoinResult;
+            socket.join(room.id);
+            if (gameInProgress && room.gameState) {
+              const charInfo = player.characterId ? CharacterFactory.create(player.characterId) : null;
+              socket.emit('rejoin-success', {
+                room: room.toPublic(),
+                player: player.toPublic(),
+                gameInProgress: true,
+                characterId: player.characterId,
+                characterName: charInfo?.name || 'Vô danh',
+                characterDescription: charInfo?.description || '',
+                gameState: room.gameState.toPublic(),
+                isMyTurn: room.gameState.turnPlayerId === socket.id,
+              });
+            } else {
+              socket.emit('rejoin-success', {
+                room: room.toPublic(),
+                player: player.toPublic(),
+                gameInProgress: false,
+              });
+            }
+            io.to(room.id).emit('player-reconnected', {
+              playerId: socket.id,
+              nickname: player.nickname,
+              players: room.getPlayersArray().map(p => p.toPublic()),
+            });
+            return;
+          }
+        }
+        socket.emit('room-error', { message: err.message });
+        return;
+      }
+
+      const { room, player } = result;
       socket.join(room.id);
 
-      // Tell the joining player about the room
-      socket.emit('room-joined', {
-        room: room.toPublic(),
-        player: player.toPublic(),
-      });
+      // If game is in progress, join as spectator
+      if (room.status === RoomStatus.PLAYING && room.gameState) {
+        socket.emit('rejoin-success', {
+          room: room.toPublic(),
+          player: player.toPublic(),
+          gameInProgress: true,
+          characterId: null,
+          characterName: 'Spectator',
+          characterDescription: 'Bạn đang theo dõi ván đấu đang diễn ra. Chúc bạn vui vẻ!',
+          gameState: room.gameState.toPublic(),
+          isMyTurn: false,
+        });
+      } else {
+        socket.emit('room-joined', {
+          room: room.toPublic(),
+          player: player.toPublic(),
+        });
+      }
 
       // Tell everyone else a new player joined
       socket.to(room.id).emit('player-joined', {

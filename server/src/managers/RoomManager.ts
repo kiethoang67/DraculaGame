@@ -63,20 +63,24 @@ export class RoomManager {
   joinRoom(socketId: string, roomId: string, nickname: string): { room: Room; player: Player } {
     const room = this.rooms.get(roomId.toUpperCase());
     if (!room) {
-      throw new Error(`Room "${roomId}" not found.`);
+      throw new Error(`Không tìm thấy phòng "${roomId}".`);
     }
-    if (room.status !== 'waiting') {
-      throw new Error('Game has already started in this room.');
-    }
-    if (room.players.size >= room.maxPlayers) {
-      throw new Error('Room is full.');
-    }
-
+    
     // Check for duplicate nicknames
     for (const p of room.players.values()) {
       if (p.nickname.toLowerCase() === nickname.toLowerCase()) {
-        throw new Error(`Nickname "${nickname}" is already taken in this room.`);
+        if (p.isConnected) {
+          throw new Error(`Tên "${nickname}" đã có người sử dụng trong phòng này.`);
+        } else {
+          // If the player is disconnected, we should tell the handler to try rejoining
+          // instead of joining as a new player.
+          throw new Error('REJOIN_REQUIRED');
+        }
       }
+    }
+
+    if (room.players.size >= room.maxPlayers) {
+      throw new Error('Phòng đã đầy.');
     }
 
     // Remove player from any existing room

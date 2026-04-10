@@ -33,7 +33,7 @@ export class Room {
    */
   addPlayer(player: Player): boolean {
     if (this.players.size >= this.maxPlayers) return false;
-    if (this.status !== RoomStatus.WAITING) return false;
+    // Allow joining even if status is not WAITING (Spectator support)
     this.players.set(player.id, player);
     return true;
   }
