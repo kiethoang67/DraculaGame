@@ -29,6 +29,8 @@ export function LobbyScreen() {
   };
 
   const handleCreate = () => {
+    sessionStorage.removeItem('dracula_roomId');
+    sessionStorage.removeItem('dracula_nickname');
     handleConnect();
     // Wait for connection then create
     const tryCreate = () => {
@@ -46,6 +48,8 @@ export function LobbyScreen() {
       addToast('Vui lòng nhập mã phòng để tham gia.', 'error');
       return;
     }
+    sessionStorage.removeItem('dracula_roomId');
+    sessionStorage.removeItem('dracula_nickname');
     handleConnect();
     const tryJoin = () => {
       if (socket.connected) {
@@ -158,9 +162,11 @@ export function LobbyScreen() {
                 id="room-id-input"
                 className="input"
                 type="text"
-                placeholder="Nhập Mã Phòng (Ví dụ: ABC123)"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                placeholder="Ví dụ: 123456"
                 value={roomId}
-                onChange={(e) => setRoomId(e.target.value.toUpperCase())}
+                onChange={(e) => setRoomId(e.target.value.replace(/\D/g, ''))}
                 maxLength={6}
                 style={{ textAlign: 'center', fontSize: '1.3rem', letterSpacing: '0.2em', fontFamily: 'var(--font-display)' }}
                 onKeyDown={(e) => e.key === 'Enter' && handleJoin()}

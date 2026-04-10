@@ -144,21 +144,25 @@ export const useGameStore = create<GameStore>((set, get) => ({
   clearInquiryWaiting: () => set({ inquiryWaiting: null }),
   clearDanceResult: () => set({ danceResult: null }),
 
-  resetGame: () => set({
-    room: null,
-    gameState: null,
-    myCharacterId: null,
-    myCharacterName: null,
-    myCharacterDescription: null,
-    isMyTurn: false,
-    screen: 'lobby',
-    pendingDance: null,
-    pendingInquiry: null,
-    inquiryWaiting: null,
-    inquiryResult: null,
-    danceResult: null,
-    gameOver: null,
-  }),
+  resetGame: () => {
+    sessionStorage.removeItem('dracula_roomId');
+    sessionStorage.removeItem('dracula_nickname');
+    set({
+      room: null,
+      gameState: null,
+      myCharacterId: null,
+      myCharacterName: null,
+      myCharacterDescription: null,
+      isMyTurn: false,
+      screen: 'lobby',
+      pendingDance: null,
+      pendingInquiry: null,
+      inquiryWaiting: null,
+      inquiryResult: null,
+      danceResult: null,
+      gameOver: null,
+    });
+  },
 
   initSocketListeners: () => {
     // Connection events

@@ -26,13 +26,9 @@ export class RoomManager {
    * Generate a unique 6-character room code.
    */
   private generateRoomId(): string {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // No ambiguous chars (0/O, 1/I)
     let id: string;
     do {
-      id = '';
-      for (let i = 0; i < CONFIG.ROOM_ID_LENGTH; i++) {
-        id += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
+      id = Math.floor(100000 + Math.random() * 900000).toString();
     } while (this.rooms.has(id));
     return id;
   }

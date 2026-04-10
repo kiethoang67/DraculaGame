@@ -15,6 +15,7 @@ import { WhisperResponseModal, InquiryWaitingModal } from './WhisperResponseModa
 import { GameLog } from './GameLog';
 import { GameOverScreen } from './GameOverScreen';
 import { ChatBox } from '../Chat/ChatBox';
+import { Notepad } from './Notepad';
 
 export function GameBoard() {
   const { gameState, pendingDance, pendingInquiry, inquiryWaiting, inquiryResult, danceResult, gameOver } = useGameStore();
@@ -112,6 +113,12 @@ export function GameBoard() {
       {/* Result modals */}
       {inquiryResult && <InquiryResultModal />}
       {danceResult && <DanceResultModal />}
+
+      {/* Overlays / Modals */}
+      <div className="game-overlays">
+        <ChatBox />
+        <Notepad />
+      </div>
 
       {/* Game over overlay */}
       {gameOver && <GameOverScreen />}
