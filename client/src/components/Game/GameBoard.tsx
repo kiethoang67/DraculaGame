@@ -15,7 +15,6 @@ import { WhisperResponseModal, InquiryWaitingModal } from './WhisperResponseModa
 import { GameLog } from './GameLog';
 import { GameOverScreen } from './GameOverScreen';
 import { ChatBox } from '../Chat/ChatBox';
-import { MusicToggle } from './MusicToggle';
 
 export function GameBoard() {
   const { gameState, pendingDance, pendingInquiry, inquiryWaiting, inquiryResult, danceResult, gameOver } = useGameStore();
@@ -71,9 +70,6 @@ export function GameBoard() {
           </div>
         </div>
       </div>
-
-      {/* Music toggle — fixed position */}
-      <MusicToggle />
 
       {/* ── Modals ──────────────────────────────────────── */}
 
