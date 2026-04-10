@@ -28,14 +28,14 @@ export function ChatBox() {
         id="chat-toggle-btn"
         className="btn btn--secondary"
         onClick={toggleChat}
-        style={{ position: 'relative' }}
+        style={{ position: 'relative', marginTop: 8, marginRight: 8 }}
       >
         💬 Chat
         {unreadCount > 0 && (
           <span style={{
             position: 'absolute',
-            top: -8,
-            right: -8,
+            top: -4,
+            right: -4,
             background: 'var(--color-blood-light)',
             color: '#fff',
             borderRadius: '50%',
