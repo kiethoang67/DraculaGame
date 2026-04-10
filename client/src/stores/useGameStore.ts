@@ -101,6 +101,8 @@ interface GameStore {
   clearDanceResult: () => void;
   initSocketListeners: () => void;
   resetGame: () => void;
+  isRulesOpen: boolean;
+  toggleRules: () => void;
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -116,6 +118,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   isMyTurn: false,
   screen: 'lobby',
   toasts: [],
+  isRulesOpen: false,
   pendingDance: null,
   pendingInquiry: null,
   inquiryWaiting: null,
@@ -134,6 +137,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   removeToast: (id) => {
     set(state => ({ toasts: state.toasts.filter(t => t.id !== id) }));
   },
+
+  toggleRules: () => set(state => ({ isRulesOpen: !state.isRulesOpen })),
 
   clearInquiryResult: () => set({ inquiryResult: null }),
   clearInquiryWaiting: () => set({ inquiryWaiting: null }),
