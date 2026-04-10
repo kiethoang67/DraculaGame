@@ -21,16 +21,16 @@
   --bg-primary: #0a0a0f;
   --bg-secondary: #12121a;
   --bg-tertiary: #1a1a2e;
-  --bg-card: rgba(26, 26, 46, 0.7);
-  --bg-glass: rgba(20, 20, 35, 0.6);
-  --bg-glass-hover: rgba(30, 30, 50, 0.8);
+  --bg-card: rgba(10, 10, 15, 0.85);
+  --bg-glass: rgba(10, 10, 15, 0.85);
+  --bg-glass-hover: rgba(20, 20, 30, 0.95);
   
   /* Text */
-  --text-primary: #e8e6e3;
-  --text-secondary: #a09c97;
-  --text-muted: #6b6560;
-  --text-gold: #d4a574;
-  --text-blood: #c41e3a;
+  --text-primary: #ffffff;
+  --text-secondary: #e0dcd5;
+  --text-muted: #aca396;
+  --text-gold: #f2cca1;
+  --text-blood: #ff4d6d;
   
   /* Borders */
   --border-subtle: rgba(212, 165, 116, 0.15);
@@ -124,12 +124,17 @@ h1, h2, h3, h4 {
   font-family: var(--font-display);
   color: var(--text-gold);
   letter-spacing: 0.05em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
 }
 
 h1 { font-size: 2.5rem; font-weight: 900; }
 h2 { font-size: 1.8rem; font-weight: 700; }
 h3 { font-size: 1.4rem; font-weight: 600; }
 h4 { font-size: 1.1rem; font-weight: 600; }
+
+p, span, div {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
 
 p {
   font-family: var(--font-body);
