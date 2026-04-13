@@ -38,8 +38,8 @@ export function Notepad() {
     }}>
       {isOpen && (
         <div className="glass-card" style={{
-          width: '300px',
-          height: '250px',
+          width: 'min(300px, 45vw)',
+          height: 'min(250px, 40vh)',
           marginBottom: 'var(--space-sm)',
           display: 'flex',
           flexDirection: 'column',
@@ -84,12 +84,12 @@ export function Notepad() {
         onClick={() => setIsOpen(!isOpen)}
         style={{
           borderRadius: '50%',
-          width: '50px',
-          height: '50px',
+          width: '40px',
+          height: '40px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '1.2rem',
+          fontSize: '1rem',
           pointerEvents: 'auto',
           boxShadow: '0 4px 15px rgba(0,0,0,0.4)'
         }}
