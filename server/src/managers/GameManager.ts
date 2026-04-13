@@ -10,6 +10,7 @@ import { Room } from '../models/Room';
 import { Player } from '../models/Player';
 import { GameState } from '../models/GameState';
 import { DeckManager } from './DeckManager';
+import { RoomManager } from './RoomManager';
 import { CharacterFactory } from '../characters/CharacterFactory';
 import {
   GamePhase,
@@ -77,6 +78,9 @@ export class GameManager {
     // Announce first turn
     this.emitTurnStart(room);
 
+    // Persist to Redis
+    RoomManager.getInstance().persistRoom(room);
+
     console.log(`[GameManager] Game started in room ${room.id} with ${playerCount} players`);
   }
 
@@ -95,6 +99,9 @@ export class GameManager {
       phase: room.gameState.phase,
       gameState: room.gameState.toPublic(),
     });
+
+    // Persist to Redis after every turn change
+    RoomManager.getInstance().persistRoom(room);
   }
 
   /**

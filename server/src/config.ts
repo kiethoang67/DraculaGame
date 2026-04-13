@@ -5,6 +5,7 @@
 export const CONFIG = {
   PORT: parseInt(process.env.PORT || '3001', 10),
   CORS_ORIGIN: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  REDIS_URL: process.env.REDIS_URL || '',
 
   // Game rules
   MIN_PLAYERS: 4,

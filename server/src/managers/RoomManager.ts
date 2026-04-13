@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Room } from '../models/Room';
 import { Player } from '../models/Player';
 import { CONFIG } from '../config';
+import { saveRoom, deleteRoom, loadAllRooms } from '../persistence/RedisStore';
 
 export class RoomManager {
   private static instance: RoomManager;
@@ -53,6 +54,7 @@ export class RoomManager {
     this.rooms.set(roomId, room);
     this.playerRoomMap.set(hostSocketId, roomId);
 
+    saveRoom(room);
     console.log(`[RoomManager] Room ${roomId} created by ${nickname} (${hostSocketId})`);
     return { room, player };
   }
@@ -92,6 +94,7 @@ export class RoomManager {
     room.addPlayer(player);
     this.playerRoomMap.set(socketId, roomId);
 
+    saveRoom(room);
     console.log(`[RoomManager] ${nickname} (${socketId}) joined room ${roomId}`);
     return { room, player };
   }
@@ -115,6 +118,7 @@ export class RoomManager {
 
     if (shouldDestroy) {
       this.rooms.delete(roomId);
+      deleteRoom(roomId);
       console.log(`[RoomManager] Room ${roomId} destroyed (empty)`);
       return null;
     }
@@ -123,6 +127,7 @@ export class RoomManager {
     const players = room.getPlayersArray();
     players.forEach((p, i) => { p.seatIndex = i; });
 
+    saveRoom(room);
     console.log(`[RoomManager] Player ${socketId} removed from room ${roomId}`);
     return room;
   }
@@ -220,6 +225,7 @@ export class RoomManager {
     }
 
     const gameInProgress = room.status === 'playing' && room.gameState !== null;
+    saveRoom(room);
     console.log(`[RoomManager] ${nickname} rejoined room ${room.id} (${oldSocketId} -> ${newSocketId}), gameInProgress: ${gameInProgress}`);
     return { room, player: oldPlayer, gameInProgress };
   }
@@ -234,6 +240,7 @@ export class RoomManager {
     const player = room.getPlayer(socketId);
     if (player) {
       player.isConnected = false;
+      saveRoom(room);
     }
     return room;
   }
@@ -247,5 +254,26 @@ export class RoomManager {
       totalPlayers += room.players.size;
     }
     return { totalRooms: this.rooms.size, totalPlayers };
+  }
+
+  /**
+   * Restore all rooms from Redis on server startup.
+   */
+  async restoreFromRedis(): Promise<void> {
+    const { rooms, playerRoomMap } = await loadAllRooms();
+    for (const [id, room] of rooms.entries()) {
+      this.rooms.set(id, room);
+    }
+    for (const [playerId, roomId] of playerRoomMap.entries()) {
+      this.playerRoomMap.set(playerId, roomId);
+    }
+    console.log(`[RoomManager] Restored ${rooms.size} rooms from Redis.`);
+  }
+
+  /**
+   * Persist a room to Redis (called by external code like GameManager).
+   */
+  persistRoom(room: Room): void {
+    saveRoom(room);
   }
 }

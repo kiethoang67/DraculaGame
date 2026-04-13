@@ -8,10 +8,12 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import { CONFIG } from './config';
 import { GameManager } from './managers/GameManager';
+import { RoomManager } from './managers/RoomManager';
 import { registerConnectionHandler } from './handlers/connectionHandler';
 import { registerRoomHandler } from './handlers/roomHandler';
 import { registerChatHandler } from './handlers/chatHandler';
 import { registerGameHandler } from './handlers/gameHandler';
+import { initRedis } from './persistence/RedisStore';
 
 // ── Express Setup ─────────────────────────────────────────
 const app = express();
@@ -48,14 +50,30 @@ io.on('connection', (socket) => {
   registerGameHandler(io, socket, gameManager);
 });
 
-// ── Start Server ──────────────────────────────────────────
-httpServer.listen(CONFIG.PORT, () => {
-  console.log(`
+// ── Initialize & Start ────────────────────────────────────
+async function start() {
+  // Initialize Redis persistence
+  initRedis(CONFIG.REDIS_URL);
+
+  // Restore rooms from Redis (if any)
+  const roomManager = RoomManager.getInstance();
+  await roomManager.restoreFromRedis();
+
+  // Start HTTP server
+  httpServer.listen(CONFIG.PORT, () => {
+    console.log(`
   ╔══════════════════════════════════════════════╗
   ║   🧛 Dracula's Feast: New Blood Server 🧛   ║
   ║                                              ║
   ║   Port: ${CONFIG.PORT}                            ║
   ║   CORS: ${CONFIG.CORS_ORIGIN}          ║
+  ║   Redis: ${CONFIG.REDIS_URL ? 'Connected' : 'Disabled'}                    ║
   ╚══════════════════════════════════════════════╝
-  `);
+    `);
+  });
+}
+
+start().catch(err => {
+  console.error('Failed to start server:', err);
+  process.exit(1);
 });
