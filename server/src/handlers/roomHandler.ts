@@ -82,6 +82,7 @@ export function registerRoomHandler(io: Server, socket: Socket, gameManager: Gam
               playerId: socket.id,
               nickname: player.nickname,
               players: room.getPlayersArray().map(p => p.toPublic()),
+              gameState: room.gameState ? room.gameState.toPublic() : undefined,
             });
             return;
           }
@@ -186,6 +187,7 @@ export function registerRoomHandler(io: Server, socket: Socket, gameManager: Gam
         playerId: socket.id,
         nickname: player.nickname,
         players: room.getPlayersArray().map(p => p.toPublic()),
+        gameState: room.gameState ? room.gameState.toPublic() : undefined,
       });
 
       console.log(`[Room] ${nickname} rejoined ${room.id} (gameInProgress: ${gameInProgress})`);

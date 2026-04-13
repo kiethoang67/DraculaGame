@@ -199,6 +199,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     // ── Rejoin handlers ──────────────────────────────────
     socket.on('rejoin-success', (data: any) => {
+      // Always persist session so subsequent reloads work
+      if (data.room?.id) {
+        sessionStorage.setItem('dracula_roomId', data.room.id);
+      }
+      const nick = data.player?.nickname || get().nickname;
+      if (nick) {
+        sessionStorage.setItem('dracula_nickname', nick);
+        set({ nickname: nick });
+      }
+
       if (data.gameInProgress) {
         // Rejoining a game in progress
         set({
@@ -224,10 +234,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
       sessionStorage.removeItem('dracula_nickname');
     });
 
-    socket.on('player-reconnected', (data: { playerId: string; nickname: string; players: PublicPlayer[] }) => {
+    socket.on('player-reconnected', (data: { playerId: string; nickname: string; players: PublicPlayer[]; gameState?: GameStatePublic }) => {
       const room = get().room;
       if (room) {
         set({ room: { ...room, players: data.players } });
+      }
+      // Update gameState if provided (seatOrder may have changed due to socket ID swap)
+      if (data.gameState) {
+        set({
+          gameState: data.gameState,
+          isMyTurn: data.gameState.turnPlayerId === socket.id,
+        });
       }
       get().addToast(`${data.nickname} đã quay lại!`, 'info');
     });
