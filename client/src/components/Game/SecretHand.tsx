@@ -8,7 +8,19 @@ import { CHARACTER_ICONS, CHARACTER_BACKSTORIES } from '../../utils/constants';
 export function SecretHand() {
   const { myCharacterId, myCharacterName, myCharacterDescription } = useGameStore();
 
-  if (!myCharacterId || !myCharacterName) return null;
+  if (!myCharacterId) {
+    if (myCharacterName === 'Khách') {
+      return (
+        <div className="secret-hand secret-hand--guest">
+          <div className="secret-hand__label">Chế Độ Khách</div>
+          <div className="character-card__icon">👁️</div>
+          <div className="secret-hand__character">Đang Quan Sát</div>
+          <div className="secret-hand__ability">{myCharacterDescription}</div>
+        </div>
+      );
+    }
+    return null;
+  }
 
   const icon = CHARACTER_ICONS[myCharacterId] || '❓';
 

@@ -16,8 +16,9 @@ export function PlayerCircle({ onPlayerClick, selectedPlayerId }: PlayerCirclePr
 
   if (!room || !gameState) return null;
 
-  const players = room.players;
-  const totalPlayers = players.length;
+  // Only show players actually in the game (in seatOrder)
+  const gamePlayers = room.players.filter(p => gameState.seatOrder.includes(p.id));
+  const totalPlayers = gamePlayers.length;
 
   return (
     <div className="player-circle">
@@ -37,7 +38,7 @@ export function PlayerCircle({ onPlayerClick, selectedPlayerId }: PlayerCirclePr
       </div>
 
       {/* Player nodes arranged in a circle */}
-      {players.map((player, index) => {
+      {gamePlayers.map((player, index) => {
         const angle = (index / totalPlayers) * 2 * Math.PI - Math.PI / 2;
         const radius = 42; // % from center
         const x = 50 + radius * Math.cos(angle);

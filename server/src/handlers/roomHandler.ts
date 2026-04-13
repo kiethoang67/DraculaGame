@@ -100,7 +100,7 @@ export function registerRoomHandler(io: Server, socket: Socket, gameManager: Gam
           player: player.toPublic(),
           gameInProgress: true,
           characterId: null,
-          characterName: 'Spectator',
+          characterName: 'Khách',
           characterDescription: 'Bạn đang theo dõi ván đấu đang diễn ra. Chúc bạn vui vẻ!',
           gameState: room.gameState.toPublic(),
           isMyTurn: false,

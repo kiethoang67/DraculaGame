@@ -13,6 +13,7 @@ import { AccuseModal } from './AccuseModal';
 import { InquiryResultModal } from './InquiryResultModal';
 import { WhisperResponseModal, InquiryWaitingModal } from './WhisperResponseModal';
 import { GameLog } from './GameLog';
+import { GuestList } from './GuestList';
 import { GameOverScreen } from './GameOverScreen';
 import { ChatBox } from '../Chat/ChatBox';
 import { Notepad } from './Notepad';
@@ -116,6 +117,7 @@ export function GameBoard() {
 
       {/* Overlays / Modals */}
       <div className="game-overlays">
+        <GuestList />
         <ChatBox />
         <Notepad />
       </div>
