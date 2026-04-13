@@ -576,6 +576,8 @@ export class GameManager {
       accuserCharacterId: accuserCharId,
       accuserCharacterName: accuserCharId ? CharacterFactory.create(accuserCharId).name : 'Unknown',
       accusations,
+      players: room.getPlayersArray().map(p => p.toPublic()),
+      gameState: gameState.toPublic(),
     });
 
     // Check each accusation for correctness
@@ -658,12 +660,13 @@ export class GameManager {
         timestamp: Date.now(),
       });
 
-      // Broadcast failure
+      // Broadcast failure with updated player data
       this.io.to(room.id).emit('accuse-result', {
         accuserId,
         accuserNickname: accuser.nickname,
         success: false,
-        // Don't reveal which ones were wrong — just that it failed
+        players: room.getPlayersArray().map(p => p.toPublic()),
+        gameState: gameState.toPublic(),
       });
 
       // Check Dracula's second chance

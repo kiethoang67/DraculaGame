@@ -402,19 +402,45 @@ export const useGameStore = create<GameStore>((set, get) => ({
     socket.on('accuse-reveal', (data: {
       accuserNickname: string;
       accuserCharacterName: string;
+      players?: PublicPlayer[];
+      gameState?: GameStatePublic;
     }) => {
       get().addToast(
         `${data.accuserNickname} reveals as ${data.accuserCharacterName} and accuses!`,
         'info'
       );
+      // Update players and gameState to reflect the reveal
+      const room = get().room;
+      if (room && data.players) {
+        set({ room: { ...room, players: data.players } });
+      }
+      if (data.gameState) {
+        set({
+          gameState: data.gameState,
+          isMyTurn: data.gameState.turnPlayerId === socket.id,
+        });
+      }
     });
 
     socket.on('accuse-result', (data: {
       accuserNickname: string;
       success: boolean;
+      players?: PublicPlayer[];
+      gameState?: GameStatePublic;
     }) => {
       if (!data.success) {
-        get().addToast(`${data.accuserNickname}'s accusation failed!`, 'error');
+        get().addToast(`${data.accuserNickname} buộc tội thất bại!`, 'error');
+      }
+      // Update players and gameState to reflect the failed accusation reveal
+      const room = get().room;
+      if (room && data.players) {
+        set({ room: { ...room, players: data.players } });
+      }
+      if (data.gameState) {
+        set({
+          gameState: data.gameState,
+          isMyTurn: data.gameState.turnPlayerId === socket.id,
+        });
       }
     });
 
