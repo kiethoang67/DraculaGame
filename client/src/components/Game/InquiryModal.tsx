@@ -14,13 +14,16 @@ interface InquiryModalProps {
 
 export function InquiryModal({ onClose, preSelectedTarget }: InquiryModalProps) {
   const { room, gameState } = useGameStore();
-  const [targetId, setTargetId] = useState<string | null>(preSelectedTarget || null);
+  const danceRefusedTargetId = gameState?.danceRefusedTargetId;
+  const [targetId, setTargetId] = useState<string | null>(
+    preSelectedTarget && preSelectedTarget !== danceRefusedTargetId ? preSelectedTarget : null
+  );
   const [characterGuess, setCharacterGuess] = useState<string | null>(null);
 
   if (!room || !gameState) return null;
 
   const validTargets = room.players.filter(
-    p => p.id !== socket.id && !p.isRevealed
+    p => p.id !== socket.id && !p.isRevealed && p.id !== danceRefusedTargetId
   );
 
   const handleSubmit = () => {

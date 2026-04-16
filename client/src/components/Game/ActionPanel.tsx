@@ -1,5 +1,5 @@
 // ============================================================
-// ActionPanel — Compact inline turn indicator + action buttons
+// ActionPanel — Bảng hành động trong lượt chơi
 // ============================================================
 
 import { useGameStore } from '../../stores/useGameStore';
@@ -15,6 +15,7 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
   const me = room?.players.find(p => p.id === gameState?.turnPlayerId);
   const canDance = me?.canDance !== false && !me?.isRevealed;
   const isGuest = !myCharacterId;
+  const isDanceRefused = gameState?.phase === 'DANCE_REFUSED';
 
   if (isGuest) {
     return (
@@ -32,6 +33,26 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
         <span className="action-panel__status">
           ⏳ Đang đợi lượt của {room?.players.find(p => p.id === gameState?.turnPlayerId)?.nickname || '...'}
         </span>
+      </div>
+    );
+  }
+
+  // After dance refusal: only Inquire is allowed
+  if (isDanceRefused) {
+    return (
+      <div className="action-panel">
+        <span className="action-panel__status action-panel__status--active">
+          🔍 Khiêu vũ bị từ chối — bạn phải Hỏi một người chơi khác
+        </span>
+        <div className="action-panel__buttons">
+          <button
+            id="inquire-btn"
+            className="btn btn--primary action-btn--inline"
+            onClick={onInquire}
+          >
+            🔍 Hỏi (Inquire)
+          </button>
+        </div>
       </div>
     );
   }

@@ -25,6 +25,7 @@ export enum GamePhase {
   INQUIRE_RESPONSE = 'INQUIRE_RESPONSE',
   DANCE_PENDING = 'DANCE_PENDING',
   DANCE_RESPONSE = 'DANCE_RESPONSE',
+  DANCE_REFUSED = 'DANCE_REFUSED',
   ACCUSE_PENDING = 'ACCUSE_PENDING',
   ACCUSE_RESPONSE = 'ACCUSE_RESPONSE',
   ACCUSE_RESULT = 'ACCUSE_RESULT',
@@ -97,6 +98,7 @@ export interface IGameStatePublic {
   revealedPlayers: string[];  // Player IDs who are revealed
   mysteryGuestCount: number;  // Number of mystery guest cards (1 or 2)
   turnHistory: ITurnAction[];
+  danceRefusedTargetId?: string; // Player ID who refused the dance (cannot be inquired)
 }
 
 // ── Turn Actions (public log) ──────────────────────────────

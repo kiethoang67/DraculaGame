@@ -158,7 +158,7 @@ export class GameManager {
       socket.emit('game-error', { message: 'Chưa đến lượt của bạn.' });
       return;
     }
-    if (gameState.phase !== GamePhase.ACTION_SELECT) {
+    if (gameState.phase !== GamePhase.ACTION_SELECT && gameState.phase !== GamePhase.DANCE_REFUSED) {
       socket.emit('game-error', { message: 'Hành động không hợp lệ trong giai đoạn này.' });
       return;
     }
@@ -178,6 +178,11 @@ export class GameManager {
     }
     if (targetId === askerId) {
       socket.emit('game-error', { message: 'Không thể tự hỏi chính mình.' });
+      return;
+    }
+    // Block inquiring the person who refused your dance
+    if (gameState.danceRefusedTargetId && targetId === gameState.danceRefusedTargetId) {
+      socket.emit('game-error', { message: 'Không thể hỏi người vừa từ chối khiêu vũ. Vui lòng chọn người khác.' });
       return;
     }
 
@@ -516,7 +521,8 @@ export class GameManager {
     });
 
     // Force the active player into an inquiry on a DIFFERENT player
-    gameState.phase = GamePhase.ACTION_SELECT;
+    gameState.phase = GamePhase.DANCE_REFUSED;
+    gameState.danceRefusedTargetId = targetId;
     gameState.pendingAction = null;
 
     // Log

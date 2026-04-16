@@ -49,6 +49,7 @@ interface GameStatePublic {
   revealedPlayers: string[];
   mysteryGuestCount: number;
   turnHistory: TurnAction[];
+  danceRefusedTargetId?: string;
 }
 
 interface Toast {

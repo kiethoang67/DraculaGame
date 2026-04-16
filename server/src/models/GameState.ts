@@ -23,6 +23,7 @@ export class GameState {
   public pendingAction: PendingAction | null;
   public draculaSecondChance: boolean;
   public failedAccusersThisTurn: Set<string>;    // Track failed accusers for Van Helsing
+  public danceRefusedTargetId: string | null;    // Track who refused dance (can't be inquired)
 
   constructor(seatOrder: string[]) {
     this.phase = GamePhase.TURN_START;
@@ -37,6 +38,7 @@ export class GameState {
     this.pendingAction = null;
     this.draculaSecondChance = false;
     this.failedAccusersThisTurn = new Set();
+    this.danceRefusedTargetId = null;
   }
 
   /**
@@ -53,6 +55,7 @@ export class GameState {
     this.phase = GamePhase.TURN_START;
     this.pendingAction = null;
     this.draculaSecondChance = false;
+    this.danceRefusedTargetId = null;
   }
 
   /**
@@ -120,6 +123,7 @@ export class GameState {
       revealedPlayers: Array.from(this.revealedPlayers),
       mysteryGuestCount: this.mysteryGuests.length,
       turnHistory: this.turnHistory,
+      danceRefusedTargetId: this.danceRefusedTargetId ?? undefined,
     };
   }
 }
