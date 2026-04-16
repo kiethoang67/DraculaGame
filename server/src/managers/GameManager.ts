@@ -515,15 +515,16 @@ export class GameManager {
       accepted: false,
     });
 
-    this.io.to(inviterId).emit('dance-refused', {
-      message: 'Khiêu vũ bị từ chối. Bạn phải chuyển sang hỏi một người chơi khác.',
-      targetId,
-    });
-
     // Force the active player into an inquiry on a DIFFERENT player
     gameState.phase = GamePhase.DANCE_REFUSED;
     gameState.danceRefusedTargetId = targetId;
     gameState.pendingAction = null;
+
+    this.io.to(inviterId).emit('dance-refused', {
+      message: 'Khiêu vũ bị từ chối. Bạn phải chuyển sang hỏi một người chơi khác.',
+      targetId,
+      gameState: gameState.toPublic(),
+    });
 
     // Log
     gameState.addTurnAction({

@@ -383,9 +383,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
       });
     });
 
-    socket.on('dance-refused', () => {
+    socket.on('dance-refused', (data: { message?: string, targetId?: string, gameState?: GameStatePublic }) => {
       get().addToast('Khiêu vũ bị từ chối. Bạn phải hỏi một người chơi khác.', 'info');
       set({ pendingDance: null });
+      if (data && data.gameState) {
+        set({
+          gameState: data.gameState,
+          isMyTurn: data.gameState.turnPlayerId === socket.id,
+        });
+      }
     });
 
     socket.on('dance-public', (data: {
