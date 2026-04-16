@@ -86,9 +86,9 @@ body {
   font-family: var(--font-ui);
   background: url('/background.png') center/cover fixed, var(--bg-primary);
   color: var(--text-primary);
-  min-height: 100vh;
+  height: 100vh;
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 #landscape-warning {
@@ -139,7 +139,8 @@ body::before {
 #root {
   position: relative;
   z-index: 1;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* ── Typography ────────────────────────────────────────────── */
@@ -769,6 +770,7 @@ p {
   max-width: 500px;
   max-height: 500px;
   margin: 0 auto;
+  transform: translate(150px, 15vh);
 }
 
 .player-circle__center {

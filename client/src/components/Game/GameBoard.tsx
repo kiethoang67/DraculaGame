@@ -118,7 +118,6 @@ export function GameBoard() {
       {/* Overlays / Modals */}
       <div className="game-overlays">
         <GuestList />
-        <ChatBox />
         <Notepad />
       </div>
 
