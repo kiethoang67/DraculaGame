@@ -769,7 +769,7 @@ p {
   max-width: 500px;
   max-height: 500px;
   margin: 0 auto;
-  transform: translate(150px, 15vh);
+  transform: translate(150px, 5vh);
 }
 
 .player-circle__center {
