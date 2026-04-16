@@ -62,10 +62,11 @@ export class RoomManager {
   /**
    * Join an existing room. Returns the room and the new player.
    */
-  joinRoom(socketId: string, roomId: string, nickname: string): { room: Room; player: Player } {
-    const room = this.rooms.get(roomId.toUpperCase());
+  joinRoom(socketId: string, rawRoomId: string, nickname: string): { room: Room; player: Player } {
+    const roomId = rawRoomId.toUpperCase();
+    const room = this.rooms.get(roomId);
     if (!room) {
-      throw new Error(`Không tìm thấy phòng "${roomId}".`);
+      throw new Error(`Không tìm thấy phòng "${rawRoomId}".`);
     }
     
     // Check for duplicate nicknames
@@ -88,11 +89,11 @@ export class RoomManager {
     // Remove player from any existing room
     this.removePlayerFromCurrentRoom(socketId);
 
-    const player = new Player(socketId, nickname, roomId);
+    const player = new Player(socketId, nickname, room.id);
     player.seatIndex = room.players.size;
 
     room.addPlayer(player);
-    this.playerRoomMap.set(socketId, roomId);
+    this.playerRoomMap.set(socketId, room.id);
 
     saveRoom(room);
     console.log(`[RoomManager] ${nickname} (${socketId}) joined room ${roomId}`);
@@ -145,7 +146,7 @@ export class RoomManager {
    * Get a room by its ID.
    */
   getRoom(roomId: string): Room | undefined {
-    return this.rooms.get(roomId.toUpperCase());
+    return this.rooms.get(roomId);
   }
 
   /**
@@ -160,7 +161,7 @@ export class RoomManager {
    * Returns the room, player, and whether the game is in progress.
    */
   rejoinRoom(newSocketId: string, roomId: string, nickname: string): { room: Room; player: Player; gameInProgress: boolean } | null {
-    const room = this.rooms.get(roomId.toUpperCase());
+    const room = this.rooms.get(roomId);
     if (!room) return null;
 
     // Find the disconnected player by nickname

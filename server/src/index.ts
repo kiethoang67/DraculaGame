@@ -25,6 +25,13 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: Date.now() });
 });
 
+// Debug: list active rooms
+app.get('/api/rooms', (_req, res) => {
+  const roomManager = RoomManager.getInstance();
+  const stats = roomManager.getStats();
+  res.json(stats);
+});
+
 // ── HTTP Server ───────────────────────────────────────────
 const httpServer = createServer(app);
 
