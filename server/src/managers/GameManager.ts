@@ -155,11 +155,11 @@ export class GameManager {
     // Validate
     if (!asker || !target) return;
     if (gameState.turnPlayerId !== askerId) {
-      socket.emit('game-error', { message: 'It is not your turn.' });
+      socket.emit('game-error', { message: 'Chưa đến lượt của bạn.' });
       return;
     }
     if (gameState.phase !== GamePhase.ACTION_SELECT) {
-      socket.emit('game-error', { message: 'Invalid action for current phase.' });
+      socket.emit('game-error', { message: 'Hành động không hợp lệ trong giai đoạn này.' });
       return;
     }
 
@@ -168,16 +168,16 @@ export class GameManager {
     if (askerCharacterId) {
       const askerChar = CharacterFactory.create(askerCharacterId);
       if (askerChar.mustDanceThisTurn(gameState)) {
-        socket.emit('game-error', { message: 'You must Dance this turn!' });
+        socket.emit('game-error', { message: 'Lượt này bạn bắt buộc phải Khiêu vũ!' });
         return;
       }
     }
     if (target.isRevealed) {
-      socket.emit('game-error', { message: 'Cannot inquire a revealed player.' });
+      socket.emit('game-error', { message: 'Không thể hỏi người đã lật bài.' });
       return;
     }
     if (targetId === askerId) {
-      socket.emit('game-error', { message: 'Cannot inquire yourself.' });
+      socket.emit('game-error', { message: 'Không thể tự hỏi chính mình.' });
       return;
     }
 
@@ -253,7 +253,7 @@ export class GameManager {
 
     // Validate: only the target can respond
     if (socket.id !== pending.targetId) {
-      socket.emit('game-error', { message: 'You are not the inquiry target.' });
+      socket.emit('game-error', { message: 'Bạn không phải là người được hỏi.' });
       return;
     }
 
@@ -308,19 +308,19 @@ export class GameManager {
     // Validate
     if (!inviter || !target) return;
     if (gameState.turnPlayerId !== inviterId) {
-      socket.emit('game-error', { message: 'It is not your turn.' });
+      socket.emit('game-error', { message: 'Chưa đến lượt của bạn.' });
       return;
     }
     if (gameState.phase !== GamePhase.ACTION_SELECT) {
-      socket.emit('game-error', { message: 'Invalid action for current phase.' });
+      socket.emit('game-error', { message: 'Hành động không hợp lệ trong giai đoạn này.' });
       return;
     }
     if (!inviter.canDance) {
-      socket.emit('game-error', { message: 'You can no longer dance (failed accusation).' });
+      socket.emit('game-error', { message: 'Bạn không thể khiêu vũ (đã buộc tội thất bại).' });
       return;
     }
     if (target.isRevealed) {
-      socket.emit('game-error', { message: 'Cannot dance with a revealed player.' });
+      socket.emit('game-error', { message: 'Không thể khiêu vũ với người đã lật bài.' });
       return;
     }
 
@@ -329,7 +329,7 @@ export class GameManager {
     if (inviterCharId) {
       const inviterChar = CharacterFactory.create(inviterCharId);
       if (!inviterChar.canInitiateDance()) {
-        socket.emit('game-error', { message: 'Your character cannot initiate dances.' });
+        socket.emit('game-error', { message: 'Nhân vật của bạn không thể mời khiêu vũ.' });
         return;
       }
     }
@@ -378,7 +378,7 @@ export class GameManager {
 
     const pending = gameState.pendingAction as IPendingDance;
     if (socket.id !== pending.targetId) {
-      socket.emit('game-error', { message: 'You are not the dance target.' });
+      socket.emit('game-error', { message: 'Bạn không phải là người được mời khiêu vũ.' });
       return;
     }
 
@@ -466,7 +466,7 @@ export class GameManager {
 
     // Check Alucard instant win
     if (alucardWin) {
-      this.handleGameOver(room, alucardWin.winnerId, 'Alucard danced with Dracula!');
+      this.handleGameOver(room, alucardWin.winnerId, 'Alucard đã khiêu vũ với Dracula!');
       return;
     }
 
@@ -496,7 +496,7 @@ export class GameManager {
       if (refuseResult === ActionResult.IMMEDIATE_ACCUSE) {
         // BoogieMonster can accuse immediately
         this.io.to(inviterId).emit('boogie-monster-accuse-option', {
-          message: 'Your dance was refused! You may reveal and accuse immediately.',
+          message: 'Lời mời bị từ chối! Bạn có thể lật bài và buộc tội ngay lập tức.',
         });
       }
     }
@@ -511,7 +511,7 @@ export class GameManager {
     });
 
     this.io.to(inviterId).emit('dance-refused', {
-      message: 'Dance was refused. You must now inquire a different player.',
+      message: 'Khiêu vũ bị từ chối. Bạn phải chuyển sang hỏi một người chơi khác.',
       targetId,
     });
 
@@ -551,11 +551,11 @@ export class GameManager {
     // Validate
     if (!accuser) return;
     if (gameState.turnPlayerId !== accuserId && !gameState.draculaSecondChance) {
-      socket.emit('game-error', { message: 'It is not your turn.' });
+      socket.emit('game-error', { message: 'Chưa đến lượt của bạn.' });
       return;
     }
     if (!accuser.canAccuse) {
-      socket.emit('game-error', { message: 'You can no longer accuse.' });
+      socket.emit('game-error', { message: 'Bạn không thể buộc tội nữa.' });
       return;
     }
 
@@ -564,7 +564,7 @@ export class GameManager {
     if (accuserCharId) {
       const accuserChar = CharacterFactory.create(accuserCharId);
       if (accuserChar.mustDanceThisTurn(gameState)) {
-        socket.emit('game-error', { message: 'You must Dance this turn!' });
+        socket.emit('game-error', { message: 'Lượt này bạn bắt buộc phải Khiêu vũ!' });
         return;
       }
     }
@@ -614,7 +614,7 @@ export class GameManager {
         if (accuseResult === ActionResult.COUNTER_ACCUSE) {
           // Ghost gets option to reveal and counter-accuse
           this.io.to(playerId).emit('ghost-counter-accuse-option', {
-            message: 'You were accused incorrectly! You may reveal yourself and counter-accuse immediately.',
+            message: 'Bạn bị buộc tội sai! Bạn có thể lật bài và buộc tội ngược lại ngay.',
           });
         }
       }
@@ -640,19 +640,19 @@ export class GameManager {
 
     // Check Alucard instant win first
     if (alucardWinnerId) {
-      this.handleGameOver(room, alucardWinnerId, 'Alucard was accused as Dracula!');
+      this.handleGameOver(room, alucardWinnerId, 'Alucard đã bị buộc tội là Dracula!');
       return;
     }
 
     if (swampCreatureWinnerId) {
-      this.handleGameOver(room, swampCreatureWinnerId, 'Swamp Creature correctly accused their neighbors!');
+      this.handleGameOver(room, swampCreatureWinnerId, 'Swamp Creature đã buộc tội đúng cả hai hàng xóm!');
       return;
     }
 
     // Process result
     if (allCorrect) {
       // ACCUSATION SUCCEEDS — accuser wins!
-      this.handleGameOver(room, accuserId, `${accuser.nickname} correctly identified everyone!`);
+      this.handleGameOver(room, accuserId, `${accuser.nickname} đã đoán đúng tất cả người chơi!`);
     } else {
       // ACCUSATION FAILS
       accuser.onAccuseFailed();
@@ -684,7 +684,7 @@ export class GameManager {
           // Dracula gets another chance
           gameState.phase = GamePhase.ACTION_SELECT;
           socket.emit('dracula-second-chance', {
-            message: 'Your accusation failed, but as Dracula, you may accuse again!',
+            message: 'Buộc tội thất bại, nhưng với tư cách Dracula, bạn được buộc tội lần nữa!',
           });
           return;
         }
@@ -720,10 +720,10 @@ export class GameManager {
             // Van Helsing gets to accuse one player as Dracula
             gameState.phase = GamePhase.VAN_HELSING_TRIGGER;
             this.io.to(playerId).emit('van-helsing-trigger', {
-              message: 'Total accusation failure! You may reveal yourself and accuse one player of being Dracula.',
+              message: 'Buộc tội hoàn toàn thất bại! Bạn có thể lật bài và buộc tội một người là Dracula.',
             });
             this.io.to(room.id).emit('van-helsing-activated', {
-              message: 'Van Helsing has been triggered!',
+              message: 'Van Helsing đã được kích hoạt!',
             });
           }
         }
@@ -747,7 +747,7 @@ export class GameManager {
     // Verify this player IS Van Helsing
     const vhCharId = gameState.getPlayerCharacter(vhId);
     if (vhCharId !== CharacterId.VAN_HELSING) {
-      socket.emit('game-error', { message: 'You are not Van Helsing.' });
+      socket.emit('game-error', { message: 'Bạn không phải là Van Helsing.' });
       return;
     }
 
@@ -757,7 +757,7 @@ export class GameManager {
     // Check if target is Dracula
     const targetCharId = gameState.getPlayerCharacter(targetId);
     if (targetCharId === CharacterId.DRACULA) {
-      this.handleGameOver(room, vhId, 'Van Helsing correctly identified Dracula!');
+      this.handleGameOver(room, vhId, 'Van Helsing đã tìm ra Dracula!');
     } else {
       // Failed
       vhPlayer.onAccuseFailed();
@@ -827,7 +827,7 @@ export class GameManager {
           const result = bmChar.onAnyDance(dancer1Id, dancer2Id, gameState);
           if (result === ActionResult.IMMEDIATE_ACCUSE) {
             this.io.to(playerId).emit('boogie-monster-dance-trigger', {
-              message: 'A dance just occurred! You may reveal and accuse immediately.',
+              message: 'Có người vừa khiêu vũ! Bạn có thể lật bài và buộc tội ngay lập tức.',
             });
           }
         }

@@ -1,5 +1,5 @@
 // ============================================================
-// SecretHand — Displays the player's own hidden character
+// SecretHand — Hiển thị nhân vật bí mật của người chơi
 // ============================================================
 
 import { useGameStore } from '../../stores/useGameStore';
@@ -26,7 +26,7 @@ export function SecretHand() {
 
   return (
     <div className="secret-hand">
-      <div className="secret-hand__label">Thân Phận Của Sếp</div>
+      <div className="secret-hand__label">Nhân Vật Của Bạn</div>
       <div className="character-card__icon">{icon}</div>
       <div className="secret-hand__character">{myCharacterName}</div>
       <div className="secret-hand__ability" style={{ marginBottom: 4 }}>{myCharacterDescription}</div>

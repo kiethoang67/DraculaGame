@@ -1,5 +1,5 @@
 // ============================================================
-// GameOverScreen — End game reveal
+// GameOverScreen — Màn hình kết thúc trò chơi
 // ============================================================
 
 import { useGameStore } from '../../stores/useGameStore';
@@ -22,11 +22,11 @@ export function GameOverScreen() {
     <div className="game-over">
       <div className="game-over__content">
         <div className="game-over__title">
-          {isWinner ? '🎉 Tuyệt Đỉnh Phá Đảo! 🎉' : '💀 Xong Phim Cả Làng 💀'}
+          {isWinner ? '🎉 Chiến Thắng! 🎉' : '💀 Trò Chơi Kết Thúc 💀'}
         </div>
 
         <h2 style={{ color: 'var(--text-gold)', marginBottom: 'var(--space-sm)' }}>
-          Pháp Sư {gameOver.winnerNickname} Đã Out-Trình!
+          {gameOver.winnerNickname} đã giành chiến thắng!
         </h2>
         <p style={{
           color: 'var(--text-secondary)',
@@ -38,7 +38,7 @@ export function GameOverScreen() {
         </p>
 
         {/* All roles revealed */}
-        <h3 style={{ marginBottom: 'var(--space-md)' }}>🎭 Bóc Phốt Thành Công</h3>
+        <h3 style={{ marginBottom: 'var(--space-md)' }}>🎭 Danh Tính Các Người Chơi</h3>
         <div className="game-over__roles">
           {Object.entries(gameOver.allRoles).map(([playerId, role]) => {
             const player = room.players.find(p => p.id === playerId);
@@ -57,7 +57,7 @@ export function GameOverScreen() {
                   fontWeight: 600,
                   marginBottom: 2,
                 }}>
-                  {player?.nickname || 'Nick Ảo'}
+                  {player?.nickname || 'Không rõ'}
                 </div>
                 <div className="character-card__name" style={{ fontSize: '0.85rem' }}>
                   {role.characterName}
@@ -70,7 +70,7 @@ export function GameOverScreen() {
         {/* Mystery Guests */}
         {gameOver.mysteryGuests && gameOver.mysteryGuests.length > 0 && (
           <div style={{ marginTop: 'var(--space-lg)' }}>
-            <h4 style={{ marginBottom: 'var(--space-sm)' }}>🂠 Khách Mời Ăn Tiệc{gameOver.mysteryGuests.length > 1 ? 's' : ''}</h4>
+            <h4 style={{ marginBottom: 'var(--space-sm)' }}>🂠 Khách Ẩn</h4>
             <div style={{ display: 'flex', gap: 'var(--space-md)', justifyContent: 'center' }}>
               {gameOver.mysteryGuests.map((mg, i) => (
                 <div key={i} className="player-badge">
@@ -86,7 +86,7 @@ export function GameOverScreen() {
           onClick={handlePlayAgain}
           style={{ marginTop: 'var(--space-xl)' }}
         >
-          🏰 Về Sảnh Gỡ Gạc
+          🏰 Trở Về Sảnh Chính
         </button>
       </div>
     </div>

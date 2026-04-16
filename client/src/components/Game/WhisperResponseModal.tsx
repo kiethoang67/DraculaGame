@@ -1,10 +1,10 @@
 // ============================================================
-// WhisperResponseModal — Target responds with Yes/No Whisper card
+// WhisperResponseModal — Đáp lại thẻ Thì Thầm (Có/Không)
 // ============================================================
-// When someone asks you "Are you [character]?", you see this modal
-// and choose which Whisper card to hand back (Yes or No).
-// Your character's ability suggests the "correct" answer, but
-// you ultimately choose — just like in the physical board game.
+// Khi có người hỏi "Bạn có phải là [nhân vật] không?", bạn sẽ
+// thấy modal này và chọn đưa lại thẻ Thì Thầm (Có hoặc Không).
+// Năng lực nhân vật sẽ gợi ý câu trả lời "đúng" cho bạn,
+// nhưng quyết định cuối cùng vẫn thuộc về bạn.
 // ============================================================
 
 import { useGameStore } from '../../stores/useGameStore';
@@ -27,7 +27,7 @@ export function WhisperResponseModal() {
     <div className="modal-overlay">
       <div className="modal-content" style={{ textAlign: 'center' }}>
         <h3 style={{ marginBottom: 'var(--space-lg)' }}>
-          🃏 Trả Lời "Thì Thầm"
+          🃏 Trả Lời Thì Thầm
         </h3>
 
         <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-sm)' }}>
@@ -56,10 +56,10 @@ export function WhisperResponseModal() {
           color: 'var(--text-muted)',
           fontStyle: 'italic',
         }}>
-          💡 Gợi ý trả lời dựa trên kỹ năng của bạn: <strong style={{
+          💡 Gợi ý trả lời dựa trên năng lực nhân vật: <strong style={{
             color: pendingInquiry.suggestedAnswer ? '#4caf50' : 'var(--color-blood-light)',
           }}>
-            {pendingInquiry.suggestedAnswer ? 'YES' : 'NO'}
+            {pendingInquiry.suggestedAnswer ? 'CÓ' : 'KHÔNG'}
           </strong>
         </div>
 
@@ -68,7 +68,7 @@ export function WhisperResponseModal() {
           color: 'var(--text-secondary)',
           marginBottom: 'var(--space-lg)',
         }}>
-          Đưa cho nó 1 tấm thẻ để chốt deal:
+          Hãy chọn thẻ Thì Thầm để trả lời:
         </p>
 
         <div style={{ display: 'flex', gap: 'var(--space-lg)', justifyContent: 'center' }}>
@@ -104,7 +104,7 @@ export function WhisperResponseModal() {
               fontFamily: 'var(--font-display)',
               fontSize: '1.3rem',
               fontWeight: 700,
-            }}>NO</span>
+            }}>KHÔNG</span>
           </button>
 
           {/* YES card */}
@@ -139,7 +139,7 @@ export function WhisperResponseModal() {
               fontFamily: 'var(--font-display)',
               fontSize: '1.3rem',
               fontWeight: 700,
-            }}>YES</span>
+            }}>CÓ</span>
           </button>
         </div>
 
@@ -148,7 +148,7 @@ export function WhisperResponseModal() {
           fontSize: '0.75rem',
           color: 'var(--text-muted)',
         }}>
-          Chỉ có đứa rảnh đi check var mới thấy câu trả lời này
+          Chỉ người hỏi mới nhìn thấy câu trả lời của bạn.
         </p>
       </div>
     </div>
@@ -156,7 +156,7 @@ export function WhisperResponseModal() {
 }
 
 // ── Inquiry Waiting Indicator ─────────────────────────────
-// Shown to the asker while waiting for the target's response
+// Hiển thị cho người hỏi khi chờ đối phương trả lời
 export function InquiryWaitingModal() {
   const { inquiryWaiting } = useGameStore();
 
@@ -169,16 +169,16 @@ export function InquiryWaitingModal() {
     <div className="modal-overlay">
       <div className="modal-content" style={{ textAlign: 'center' }}>
         <h3 style={{ marginBottom: 'var(--space-lg)' }}>
-          🔍 Đang Chờ Ai Đó Seen...
+          🔍 Đang Chờ Phản Hồi...
         </h3>
 
         <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-md)' }}>
-          Bạn vừa tra hỏi <strong style={{ color: 'var(--text-gold)' }}>
+          Bạn đã hỏi <strong style={{ color: 'var(--text-gold)' }}>
             {inquiryWaiting.targetNickname}
           </strong>:
         </p>
         <p style={{ fontSize: '1.1rem', marginBottom: 'var(--space-lg)' }}>
-          "Ê fen có phải {charIcon} <strong>{charName}</strong> hử?"
+          "Bạn có phải là {charIcon} <strong>{charName}</strong> không?"
         </p>
 
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--space-md)' }}>
@@ -186,7 +186,7 @@ export function InquiryWaitingModal() {
         </div>
 
         <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', fontSize: '0.85rem' }}>
-          Đang chờ nó đánh rơi tờ tóp tóp Whisper card...
+          Đang chờ đối phương đưa lại thẻ Thì Thầm...
         </p>
       </div>
     </div>

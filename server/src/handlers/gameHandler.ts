@@ -21,11 +21,11 @@ export function registerGameHandler(io: Server, socket: Socket, gameManager: Gam
   function getPlayerRoom() {
     const room = roomManager.getPlayerRoom(socket.id);
     if (!room) {
-      socket.emit('game-error', { message: 'You are not in a room.' });
+      socket.emit('game-error', { message: 'Bạn chưa ở trong phòng nào.' });
       return null;
     }
     if (!room.gameState) {
-      socket.emit('game-error', { message: 'Game has not started.' });
+      socket.emit('game-error', { message: 'Trò chơi chưa bắt đầu.' });
       return null;
     }
     return room;

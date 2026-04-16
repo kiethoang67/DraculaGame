@@ -1,5 +1,5 @@
 // ============================================================
-// GameLog — Public game event log (collapsible, max 3 visible)
+// GameLog — Nhật ký sự kiện trò chơi (thu gọn, tối đa 2 hiển thị)
 // ============================================================
 
 import { useState } from 'react';
@@ -22,7 +22,7 @@ export function GameLog() {
         onClick={() => setIsOpen(!isOpen)}
       >
         <h4 style={{ fontSize: '0.75rem', margin: 0 }}>
-          📜 Log ({entries.length})
+          📜 Nhật ký ({entries.length})
         </h4>
         <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', cursor: 'pointer' }}>
           {isOpen ? '▼ Thu gọn' : '▲ Xem thêm'}
@@ -33,7 +33,7 @@ export function GameLog() {
           {displayEntries.map((entry, i) => (
             <div key={i} className="game-log__entry">
               <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>
-                T{entry.turnNumber}
+                L{entry.turnNumber}
               </span>{' '}
               <span className="highlight">{entry.playerNickname}</span>
               {entry.action === 'inquire' && (
@@ -53,15 +53,15 @@ export function GameLog() {
               {entry.action === 'dance' && (
                 <>
                   {entry.danceAccepted
-                    ? <> 💃 Khiêu vũ cùng <span className="highlight">{entry.targetNickname}</span></>
-                    : <> 🚫 bị từ chối Khiêu vũ bởi <span className="highlight">{entry.targetNickname}</span></>
+                    ? <> 💃 đã khiêu vũ cùng <span className="highlight">{entry.targetNickname}</span></>
+                    : <> 🚫 bị từ chối khiêu vũ bởi <span className="highlight">{entry.targetNickname}</span></>
                   }
                 </>
               )}
               {entry.action === 'accuse' && (
                 <>
-                  {' '}bóc phốt{' '}
-                  {entry.accuseSuccess ? '✅ TRÚNG' : '❌ TRƯỢT'}
+                  {' '}đã buộc tội{' '}
+                  {entry.accuseSuccess ? '✅ THÀNH CÔNG' : '❌ THẤT BẠI'}
                 </>
               )}
             </div>

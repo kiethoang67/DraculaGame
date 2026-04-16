@@ -16,7 +16,7 @@ export function registerRoomHandler(io: Server, socket: Socket, gameManager: Gam
     try {
       const nickname = data.nickname?.trim();
       if (!nickname || nickname.length < 1 || nickname.length > 20) {
-        socket.emit('room-error', { message: 'Nickname must be 1-20 characters.' });
+        socket.emit('room-error', { message: 'Tên phải từ 1-20 ký tự.' });
         return;
       }
 
@@ -143,13 +143,13 @@ export function registerRoomHandler(io: Server, socket: Socket, gameManager: Gam
       const roomId = data.roomId?.trim().toUpperCase();
       const nickname = data.nickname?.trim();
       if (!roomId || !nickname) {
-        socket.emit('rejoin-failed', { message: 'Missing room ID or nickname.' });
+        socket.emit('rejoin-failed', { message: 'Thiếu mã phòng hoặc tên người chơi.' });
         return;
       }
 
       const result = roomManager.rejoinRoom(socket.id, roomId, nickname);
       if (!result) {
-        socket.emit('rejoin-failed', { message: 'Cannot rejoin. Room may no longer exist or you were not in it.' });
+        socket.emit('rejoin-failed', { message: 'Không thể vào lại. Phòng có thể đã bị xóa hoặc bạn không thuộc phòng này.' });
         return;
       }
 
@@ -201,11 +201,11 @@ export function registerRoomHandler(io: Server, socket: Socket, gameManager: Gam
     try {
       const room = roomManager.getPlayerRoom(socket.id);
       if (!room) {
-        socket.emit('game-error', { message: 'You are not in a room.' });
+        socket.emit('game-error', { message: 'Bạn chưa ở trong phòng nào.' });
         return;
       }
       if (room.hostId !== socket.id) {
-        socket.emit('game-error', { message: 'Only the host can start the game.' });
+        socket.emit('game-error', { message: 'Chỉ chủ phòng mới có thể bắt đầu trò chơi.' });
         return;
       }
       if (!room.canStart()) {

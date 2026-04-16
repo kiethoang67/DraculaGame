@@ -1,5 +1,5 @@
 // ============================================================
-// InquiryModal — Select target + character to inquire about
+// InquiryModal — Chọn mục tiêu và nhân vật để hỏi dò
 // ============================================================
 
 import { useState } from 'react';
@@ -33,13 +33,13 @@ export function InquiryModal({ onClose, preSelectedTarget }: InquiryModalProps) 
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
         <h3 style={{ textAlign: 'center', marginBottom: 'var(--space-lg)' }}>
-          🔍 Hỏi (Inquire)
+          🔍 Hỏi Dò (Inquire)
         </h3>
 
         {/* Step 1: Select target */}
         <div style={{ marginBottom: 'var(--space-lg)' }}>
           <h4 style={{ fontSize: '0.85rem', marginBottom: 'var(--space-sm)' }}>
-            1. Bạn muốn Hỏi người chơi nào?
+            1. Chọn người chơi bạn muốn hỏi:
           </h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
             {validTargets.map(player => (
@@ -62,7 +62,7 @@ export function InquiryModal({ onClose, preSelectedTarget }: InquiryModalProps) 
         {targetId && (
           <div style={{ marginBottom: 'var(--space-lg)' }}>
             <h4 style={{ fontSize: '0.85rem', marginBottom: 'var(--space-sm)' }}>
-              2. Giơ mặt ra hỏi: "Ê phen, mài là..."
+              2. Hỏi: "Bạn có phải là..."
             </h4>
             <div className="character-grid">
               {CHARACTER_IDS.map(id => (
@@ -82,7 +82,7 @@ export function InquiryModal({ onClose, preSelectedTarget }: InquiryModalProps) 
         {/* Actions */}
         <div style={{ display: 'flex', gap: 'var(--space-md)', marginTop: 'var(--space-lg)' }}>
           <button className="btn btn--ghost" onClick={onClose} style={{ flex: 1 }}>
-            Tem Tém Lại
+            Hủy bỏ
           </button>
           <button
             className="btn btn--primary"
@@ -90,7 +90,7 @@ export function InquiryModal({ onClose, preSelectedTarget }: InquiryModalProps) 
             disabled={!targetId || !characterGuess}
             style={{ flex: 1 }}
           >
-            Hỏi Thử Cái Nhe
+            Gửi câu hỏi
           </button>
         </div>
       </div>

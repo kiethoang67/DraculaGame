@@ -1,5 +1,5 @@
 // ============================================================
-// PlayerCircle — Players arranged around a circular table
+// PlayerCircle — Người chơi xếp quanh bàn tròn
 // ============================================================
 
 import { useGameStore } from '../../stores/useGameStore';
@@ -31,9 +31,9 @@ export function PlayerCircle({ onPlayerClick, selectedPlayerId }: PlayerCirclePr
           color: 'var(--text-muted)',
           marginTop: 'var(--space-xs)',
         }}>
-          Khách Không Mời
+          Khách Ẩn
           <br />
-          ({gameState.mysteryGuestCount} thẻ{gameState.mysteryGuestCount !== 1 ? '' : ''})
+          ({gameState.mysteryGuestCount} thẻ)
         </div>
       </div>
 
@@ -94,7 +94,7 @@ export function PlayerCircle({ onPlayerClick, selectedPlayerId }: PlayerCirclePr
                 whiteSpace: 'nowrap',
               }}>
                 {player.nickname}
-                {isSelf ? ' (bản tôn)' : ''}
+                {isSelf ? ' (Bạn)' : ''}
               </span>
               {isRevealed && player.revealedCharacterId && (
                 <span style={{
@@ -110,7 +110,7 @@ export function PlayerCircle({ onPlayerClick, selectedPlayerId }: PlayerCirclePr
                   color: 'var(--color-gold-bright)',
                   animation: 'pulse 1.5s ease-in-out infinite',
                 }}>
-                  ◆ Đang quậy
+                  ◆ Đang hành động
                 </span>
               )}
             </div>

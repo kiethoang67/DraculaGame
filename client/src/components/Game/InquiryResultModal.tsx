@@ -1,5 +1,5 @@
 // ============================================================
-// InquiryResultModal — Shows the answer to an inquiry
+// InquiryResultModal — Hiển thị kết quả hỏi dò
 // ============================================================
 
 import { useGameStore } from '../../stores/useGameStore';
@@ -10,7 +10,7 @@ export function InquiryResultModal() {
 
   if (!inquiryResult) return null;
 
-  const targetNickname = inquiryResult.targetNickname || 'Unknown';
+  const targetNickname = inquiryResult.targetNickname || 'Không rõ';
   const charName = CHARACTER_NAMES[inquiryResult.characterGuess] || inquiryResult.characterGuess;
   const charIcon = CHARACTER_ICONS[inquiryResult.characterGuess] || '❓';
 
@@ -18,13 +18,13 @@ export function InquiryResultModal() {
     <div className="modal-overlay" onClick={clearInquiryResult}>
       <div className="modal-content" onClick={e => e.stopPropagation()} style={{ textAlign: 'center' }}>
         <h3 style={{ marginBottom: 'var(--space-lg)' }}>
-          🔍 Inquiry Result
+          🔍 Kết Quả Hỏi Dò
         </h3>
         <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-md)' }}>
-          You asked <strong style={{ color: 'var(--text-gold)' }}>{targetNickname}</strong>:
+          Bạn đã hỏi <strong style={{ color: 'var(--text-gold)' }}>{targetNickname}</strong>:
         </p>
         <p style={{ fontSize: '1.1rem', marginBottom: 'var(--space-lg)' }}>
-          "Are you {charIcon} <strong>{charName}</strong>?"
+          "Bạn có phải là {charIcon} <strong>{charName}</strong> không?"
         </p>
 
         <div style={{
@@ -44,12 +44,12 @@ export function InquiryResultModal() {
             fontSize: '1.5rem',
             color: inquiryResult.answer ? '#4caf50' : 'var(--color-blood-light)',
           }}>
-            {inquiryResult.answer ? 'YES' : 'NO'}
+            {inquiryResult.answer ? 'CÓ' : 'KHÔNG'}
           </div>
         </div>
 
         <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
-          Only you can see this answer
+          Chỉ bạn mới nhìn thấy câu trả lời này.
         </p>
 
         <button
@@ -57,7 +57,7 @@ export function InquiryResultModal() {
           onClick={clearInquiryResult}
           style={{ width: '100%', marginTop: 'var(--space-md)' }}
         >
-          Got it
+          Đã hiểu
         </button>
       </div>
     </div>

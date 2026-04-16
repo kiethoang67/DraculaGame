@@ -1,5 +1,5 @@
 // ============================================================
-// AccuseModal — Assign characters to all players
+// AccuseModal — Chọn nhân vật cho tất cả người chơi để buộc tội
 // ============================================================
 
 import { useState } from 'react';
@@ -49,7 +49,7 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
           fontSize: '0.85rem',
           marginBottom: 'var(--space-lg)',
         }}>
-          ⚠️ Lưu ý: Hành động này yêu cầu bạn lật ngửa thẻ bí mật của mình. Bạn phải dự đoán chuẩn xác 100% tất cả người chơi để giành chiến thắng.
+          ⚠️ Lưu ý: Hành động này yêu cầu bạn lật ngửa thẻ bí mật của mình. Bạn phải dự đoán chính xác tất cả người chơi để giành chiến thắng.
         </p>
 
         {/* Player → Character assignments */}
@@ -86,7 +86,7 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
                   className="btn btn--ghost btn--sm"
                   onClick={() => setSelectingFor(player.id)}
                 >
-                  Chỉ Mặt Gọi Tên →
+                  Chọn nhân vật →
                 </button>
               )}
             </div>
@@ -97,7 +97,7 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
         {selectingFor && (
           <div style={{ marginBottom: 'var(--space-lg)' }}>
             <h4 style={{ fontSize: '0.85rem', marginBottom: 'var(--space-sm)', color: 'var(--text-gold)' }}>
-              Lên Đơn Bóc Phốt: {room.players.find(p => p.id === selectingFor)?.nickname}
+              Dự đoán nhân vật của: {room.players.find(p => p.id === selectingFor)?.nickname}
             </h4>
             <div className="character-grid">
               {CHARACTER_IDS.map(id => {
@@ -123,7 +123,7 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
         {/* Actions */}
         <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
           <button className="btn btn--ghost" onClick={onClose} style={{ flex: 1 }}>
-            Quay Dừng
+            Hủy bỏ
           </button>
           <button
             className="btn btn--primary"
@@ -131,7 +131,7 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
             disabled={!allAssigned}
             style={{ flex: 1 }}
           >
-            ⚡ Phốt Liền ({Object.keys(accusations).length}/{targets.length})
+            ⚡ Xác nhận buộc tội ({Object.keys(accusations).length}/{targets.length})
           </button>
         </div>
       </div>
