@@ -41,18 +41,11 @@ export class GameState {
 
   /**
    * Advance to the next player's turn (clockwise).
-   * Skips revealed players.
+   * Revealed players still get turns (they can Inquire/Accuse, just not Dance).
    */
   advanceTurn(): void {
     const playerCount = this.seatOrder.length;
-    let nextIndex = (this.currentTurnIndex + 1) % playerCount;
-
-    // Skip revealed players (they're out of the active rotation)
-    let attempts = 0;
-    while (this.revealedPlayers.has(this.seatOrder[nextIndex]) && attempts < playerCount) {
-      nextIndex = (nextIndex + 1) % playerCount;
-      attempts++;
-    }
+    const nextIndex = (this.currentTurnIndex + 1) % playerCount;
 
     this.currentTurnIndex = nextIndex;
     this.turnPlayerId = this.seatOrder[nextIndex];

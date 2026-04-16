@@ -13,7 +13,7 @@ interface ActionPanelProps {
 export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) {
   const { isMyTurn, room, gameState, myCharacterId } = useGameStore();
   const me = room?.players.find(p => p.id === gameState?.turnPlayerId);
-  const canDance = me?.canDance !== false;
+  const canDance = me?.canDance !== false && !me?.isRevealed;
   const isGuest = !myCharacterId;
 
   if (isGuest) {
