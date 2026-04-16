@@ -557,9 +557,20 @@ export class GameManager {
 
     // Validate
     if (!accuser) return;
-    if (gameState.turnPlayerId !== accuserId && !gameState.draculaSecondChance) {
-      socket.emit('game-error', { message: 'Chưa đến lượt của bạn.' });
-      return;
+    // Check out-of-turn Boogie Monster interruption
+    let isBoogieMonsterOutOfturn = false;
+    let accuserCharId = gameState.getPlayerCharacter(accuserId);
+    if (gameState.turnPlayerId !== accuserId) {
+      if (accuserCharId === CharacterId.BOOGIE_MONSTER && !accuser.isRevealed) {
+        const lastAction = gameState.turnHistory[gameState.turnHistory.length - 1];
+        if (lastAction && lastAction.action === 'dance' && lastAction.danceAccepted) {
+          isBoogieMonsterOutOfturn = true;
+        }
+      }
+      if (!isBoogieMonsterOutOfturn && !gameState.draculaSecondChance) {
+        socket.emit('game-error', { message: 'Chưa đến lượt của bạn.' });
+        return;
+      }
     }
     if (!accuser.canAccuse) {
       socket.emit('game-error', { message: 'Bạn không thể buộc tội nữa.' });
@@ -567,7 +578,7 @@ export class GameManager {
     }
 
     // Check if player is forced to dance (e.g., Zombie)
-    let accuserCharId = gameState.getPlayerCharacter(accuserId);
+    accuserCharId = gameState.getPlayerCharacter(accuserId);
     if (accuserCharId) {
       const accuserChar = CharacterFactory.create(accuserCharId);
       if (accuserChar.mustDanceThisTurn(gameState)) {
@@ -702,8 +713,14 @@ export class GameManager {
         this.checkVanHelsingTrigger(room, accuserId);
       }
 
-      // Advance turn
-      this.advanceTurn(room);
+      // Advance turn (or just restore phase if it was a Boogie Monster interruption)
+      if (isBoogieMonsterOutOfturn) {
+        gameState.phase = GamePhase.ACTION_SELECT;
+        // Make sure the room knows the phase went back and the player failed
+        this.io.to(room.id).emit('room-updated', { room: room.toPublic() });
+      } else {
+        this.advanceTurn(room);
+      }
     }
   }
 

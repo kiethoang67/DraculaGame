@@ -11,7 +11,7 @@ interface ActionPanelProps {
 }
 
 export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) {
-  const { isMyTurn, room, gameState, myCharacterId } = useGameStore();
+  const { isMyTurn, room, gameState, myCharacterId, boogieMonsterDanceTriggered } = useGameStore();
   const me = room?.players.find(p => p.id === gameState?.turnPlayerId);
   const canDance = me?.canDance !== false && !me?.isRevealed;
   const isGuest = !myCharacterId;
@@ -33,6 +33,18 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
         <span className="action-panel__status">
           ⏳ Đang đợi lượt của {room?.players.find(p => p.id === gameState?.turnPlayerId)?.nickname || '...'}
         </span>
+        {boogieMonsterDanceTriggered && (
+          <div className="action-panel__buttons" style={{ marginLeft: 'var(--space-md)' }}>
+            <button
+              id="accuse-btn-interrupt"
+              className="btn btn--primary action-btn--inline"
+              onClick={onAccuse}
+              style={{ animation: 'pulse 1.5s infinite' }}
+            >
+              🚨 Bạn có muốn NGẮT LỜI CƯỚP LƯỢT để Buộc Tội ngay không?
+            </button>
+          </div>
+        )}
       </div>
     );
   }
@@ -42,7 +54,7 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
     return (
       <div className="action-panel">
         <span className="action-panel__status action-panel__status--active">
-          🔍 Khiêu vũ bị từ chối — bạn phải Hỏi một người chơi khác
+          🔍 Khiêu vũ bị từ chối {myCharacterId === 'boogie_monster' ? '— Boogie Monster có thể Bỏ qua Hỏi để Buộc tội ngay lập tức!' : '— bạn BẮT BUỘC phải Hỏi một người khác'}
         </span>
         <div className="action-panel__buttons">
           <button
@@ -52,6 +64,16 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
           >
             🔍 Hỏi (Inquire)
           </button>
+          {myCharacterId === 'boogie_monster' && me?.canAccuse && !me?.isRevealed && (
+            <button
+              id="accuse-btn-interrupt"
+              className="btn btn--primary action-btn--inline"
+              onClick={onAccuse}
+              style={{ animation: 'pulse 1.5s infinite' }}
+            >
+              ⚖️ Buộc tội ngay lập tức (Bỏ qua Hỏi)
+            </button>
+          )}
         </div>
       </div>
     );

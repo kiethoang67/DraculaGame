@@ -92,6 +92,7 @@ interface GameStore {
   inquiryResult: { targetId: string; targetNickname: string; characterGuess: string; answer: boolean } | null;
   danceResult: { partnerId: string; partnerCharacterName: string; newCharacterName: string; newCharacterDescription: string; newCharacterId: string} | null;
   gameOver: GameOverData | null;
+  boogieMonsterDanceTriggered: boolean;
   
   // Actions
   setNickname: (n: string) => void;
@@ -126,6 +127,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   inquiryResult: null,
   danceResult: null,
   gameOver: null,
+  boogieMonsterDanceTriggered: false,
 
   setNickname: (n) => set({ nickname: n }),
 
@@ -380,6 +382,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         myCharacterName: data.newCharacterName,
         myCharacterDescription: data.newCharacterDescription,
         pendingDance: null,
+        boogieMonsterDanceTriggered: false,
       });
     });
 
@@ -425,6 +428,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         set({
           gameState: data.gameState,
           isMyTurn: data.gameState.turnPlayerId === socket.id,
+          boogieMonsterDanceTriggered: false,
         });
       }
     });
@@ -447,6 +451,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         set({
           gameState: data.gameState,
           isMyTurn: data.gameState.turnPlayerId === socket.id,
+          boogieMonsterDanceTriggered: false,
         });
       }
     });
@@ -472,6 +477,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
         myCharacterDescription: data.newCharacterDescription,
       });
       get().addToast(`Your character changed to ${data.newCharacterName}!`, 'info');
+    });
+
+    socket.on('boogie-monster-dance-trigger', (data: { message: string }) => {
+      get().addToast(data.message, 'info');
+      set({ boogieMonsterDanceTriggered: true });
+    });
+
+    socket.on('boogie-monster-accuse-option', (data: { message: string }) => {
+      get().addToast(data.message, 'error');
     });
 
     // Game over
