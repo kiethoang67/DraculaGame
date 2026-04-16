@@ -1,5 +1,5 @@
 // ============================================================
-// LobbyScreen — Create or Join a game room
+// LobbyScreen — Tạo hoặc tham gia phòng chơi
 // ============================================================
 
 import { useState } from 'react';
@@ -14,7 +14,7 @@ export function LobbyScreen() {
 
   const handleConnect = () => {
     if (!nickname.trim()) {
-      addToast('Please enter a nickname', 'error');
+      addToast('Vui lòng nhập tên của bạn.', 'error');
       return;
     }
     if (nickname.trim().length > 20) {
@@ -130,9 +130,9 @@ export function LobbyScreen() {
 
           {mode === 'create' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
-              <h3 style={{ textAlign: 'center' }}>Lập Kèo Mới</h3>
+              <h3 style={{ textAlign: 'center' }}>Tạo Phòng Mới</h3>
               <p style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-                Đang dùng acc: <strong style={{ color: 'var(--text-gold)' }}>{nickname}</strong>
+                Tên của bạn: <strong style={{ color: 'var(--text-gold)' }}>{nickname}</strong>
               </p>
               <button
                 id="confirm-create-btn"
@@ -140,21 +140,21 @@ export function LobbyScreen() {
                 onClick={handleCreate}
                 style={{ width: '100%' }}
               >
-                🧛 Triển Bàn Mới Ngay
+                🧛 Xác nhận tạo phòng
               </button>
               <button
                 className="btn btn--ghost"
                 onClick={() => setMode('menu')}
                 style={{ width: '100%' }}
               >
-                ← Quay Xe
+                ← Quay lại
               </button>
             </div>
           )}
 
           {mode === 'join' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
-              <h3 style={{ textAlign: 'center' }}>Tham Gian Phòng Chơi</h3>
+              <h3 style={{ textAlign: 'center' }}>Tham Gia Phòng Chơi</h3>
               <p style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
                 Tên của bạn: <strong style={{ color: 'var(--text-gold)' }}>{nickname}</strong>
               </p>
@@ -184,7 +184,7 @@ export function LobbyScreen() {
                 onClick={() => setMode('menu')}
                 style={{ width: '100%' }}
               >
-                ← De Lại
+                ← Quay lại
               </button>
             </div>
           )}
@@ -196,7 +196,7 @@ export function LobbyScreen() {
           fontSize: '0.8rem',
           color: 'var(--text-muted)',
         }}>
-          4-8 Mạng Cùng Chơi • Trò Trách Nhiệm Xã Hội • Lột Mặt Nạ Hội Báo Thủ
+          4-8 người chơi • Ẩn vai suy luận • Tiệc ma cà rồng
         </p>
       </div>
     </div>

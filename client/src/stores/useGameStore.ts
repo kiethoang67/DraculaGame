@@ -383,7 +383,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     });
 
     socket.on('dance-refused', () => {
-      get().addToast('Dance was refused. You must inquire a different player.', 'info');
+      get().addToast('Khiêu vũ bị từ chối. Bạn phải hỏi một người chơi khác.', 'info');
       set({ pendingDance: null });
     });
 

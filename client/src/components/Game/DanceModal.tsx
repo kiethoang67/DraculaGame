@@ -78,7 +78,7 @@ export function DanceModal({ mode, onClose, preSelectedTarget }: DanceModalProps
   if (mode === 'respond' && pendingDance) {
     const handleRespond = (accepted: boolean) => {
       socket.emit('dance-response', { accepted });
-      onClose();
+      useGameStore.setState({ pendingDance: null });
     };
 
     return (
