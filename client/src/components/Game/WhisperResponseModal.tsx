@@ -56,11 +56,7 @@ export function WhisperResponseModal() {
           color: 'var(--text-muted)',
           fontStyle: 'italic',
         }}>
-          💡 Gợi ý trả lời dựa trên năng lực nhân vật: <strong style={{
-            color: pendingInquiry.suggestedAnswer ? '#4caf50' : 'var(--color-blood-light)',
-          }}>
-            {pendingInquiry.suggestedAnswer ? 'CÓ' : 'KHÔNG'}
-          </strong>
+          🎯 Theo luật trò chơi, bạn bắt buộc phải nói thật (trừ khi nhân vật của bạn có năng lực thay đổi điều này).
         </div>
 
         <p style={{
@@ -68,78 +64,44 @@ export function WhisperResponseModal() {
           color: 'var(--text-secondary)',
           marginBottom: 'var(--space-lg)',
         }}>
-          Hãy chọn thẻ Thì Thầm để trả lời:
+          Bạn chỉ có một lựa chọn trả lời hợp lệ duy nhất:
         </p>
 
         <div style={{ display: 'flex', gap: 'var(--space-lg)', justifyContent: 'center' }}>
-          {/* NO card */}
           <button
             className="btn"
-            onClick={() => handleRespond(false)}
+            onClick={() => handleRespond(!!pendingInquiry.suggestedAnswer)}
             style={{
               flex: 1,
-              maxWidth: 160,
+              maxWidth: 200,
               padding: 'var(--space-lg)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               gap: 'var(--space-sm)',
-              background: 'rgba(196, 30, 58, 0.1)',
-              border: '2px solid var(--color-blood-light)',
-              color: 'var(--color-blood-light)',
+              background: pendingInquiry.suggestedAnswer ? 'rgba(46, 125, 50, 0.1)' : 'rgba(196, 30, 58, 0.1)',
+              border: `2px solid ${pendingInquiry.suggestedAnswer ? '#4caf50' : 'var(--color-blood-light)'}`,
+              color: pendingInquiry.suggestedAnswer ? '#4caf50' : 'var(--color-blood-light)',
               borderRadius: 'var(--radius-md)',
               transition: 'all 0.2s ease',
             }}
             onMouseOver={(e) => {
-              e.currentTarget.style.background = 'rgba(196, 30, 58, 0.25)';
+              e.currentTarget.style.background = pendingInquiry.suggestedAnswer ? 'rgba(46, 125, 50, 0.25)' : 'rgba(196, 30, 58, 0.25)';
               e.currentTarget.style.transform = 'scale(1.05)';
             }}
             onMouseOut={(e) => {
-              e.currentTarget.style.background = 'rgba(196, 30, 58, 0.1)';
+              e.currentTarget.style.background = pendingInquiry.suggestedAnswer ? 'rgba(46, 125, 50, 0.1)' : 'rgba(196, 30, 58, 0.1)';
               e.currentTarget.style.transform = 'scale(1)';
             }}
           >
-            <span style={{ fontSize: '2.5rem' }}>❌</span>
+            <span style={{ fontSize: '2.5rem' }}>{pendingInquiry.suggestedAnswer ? '✅' : '❌'}</span>
             <span style={{
               fontFamily: 'var(--font-display)',
               fontSize: '1.3rem',
               fontWeight: 700,
-            }}>KHÔNG</span>
-          </button>
-
-          {/* YES card */}
-          <button
-            className="btn"
-            onClick={() => handleRespond(true)}
-            style={{
-              flex: 1,
-              maxWidth: 160,
-              padding: 'var(--space-lg)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 'var(--space-sm)',
-              background: 'rgba(46, 125, 50, 0.1)',
-              border: '2px solid #4caf50',
-              color: '#4caf50',
-              borderRadius: 'var(--radius-md)',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.background = 'rgba(46, 125, 50, 0.25)';
-              e.currentTarget.style.transform = 'scale(1.05)';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.background = 'rgba(46, 125, 50, 0.1)';
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
-          >
-            <span style={{ fontSize: '2.5rem' }}>✅</span>
-            <span style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '1.3rem',
-              fontWeight: 700,
-            }}>CÓ</span>
+            }}>
+              {pendingInquiry.suggestedAnswer ? 'ĐƯA THẺ CÓ' : 'ĐƯA THẺ KHÔNG'}
+            </span>
           </button>
         </div>
 
