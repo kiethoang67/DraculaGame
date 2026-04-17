@@ -96,7 +96,7 @@ export function DanceModal({ mode, onClose, preSelectedTarget }: DanceModalProps
           </p>
 
           <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
-            {!(myCharacterId === 'zombie' || myCharacterId === 'boogie_monster' || myCharacterId === 'doctor_jekyll') && (
+            {!(myCharacterId === 'zombie' || myCharacterId === 'boogie_monster' || myCharacterId === 'doctor_jekyll' || myCharacterId === 'ghost') && (
               <button
                 className="btn btn--ghost btn--lg"
                 onClick={() => handleRespond(false)}

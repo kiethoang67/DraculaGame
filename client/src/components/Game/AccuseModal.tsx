@@ -18,9 +18,31 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
 
   if (!room) return null;
 
-  const targets = room.players.filter(
+  let targets = room.players.filter(
     p => p.id !== socket.id && !p.isRevealed
   );
+
+  // Swamp Creature Special: Only target neighbors if neither is revealed
+  const { myCharacterId, gameState } = useGameStore();
+  if (myCharacterId === 'swamp_creature' && gameState && socket.id) {
+    const me = room.players.find(p => p.id === socket.id);
+    if (me) {
+      const myIndex = gameState.seatOrder.indexOf(socket.id);
+      const total = gameState.seatOrder.length;
+      const leftIdx = (myIndex - 1 + total) % total;
+      const rightIdx = (myIndex + 1) % total;
+      
+      const leftId = gameState.seatOrder[leftIdx];
+      const rightId = gameState.seatOrder[rightIdx];
+      
+      const leftPlayer = room.players.find(p => p.id === leftId);
+      const rightPlayer = room.players.find(p => p.id === rightId);
+      
+      if (leftPlayer && !leftPlayer.isRevealed && rightPlayer && !rightPlayer.isRevealed) {
+        targets = [leftPlayer, rightPlayer];
+      }
+    }
+  }
 
   const assignedCharacters = Object.values(accusations);
   const allAssigned = targets.every(t => accusations[t.id]);

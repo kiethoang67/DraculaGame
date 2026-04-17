@@ -599,6 +599,26 @@ export class GameManager {
     // Set phase
     gameState.phase = GamePhase.ACCUSE_PENDING;
 
+    // VALIDATION: Ensure the correct number of targets are accused
+    const playersArray = room.getPlayersArray();
+    const expectedTargets = CharacterFactory.create(accuserCharId!).getAccuseTargets(playersArray, playersArray.findIndex(p => p.id === accuserId), gameState);
+    const accusedIds = Object.keys(accusations);
+    
+    if (accusedIds.length !== expectedTargets.length) {
+      gameState.phase = GamePhase.ACTION_SELECT; // revert
+      socket.emit('game-error', { message: `Bạn cần buộc tội chính xác ${expectedTargets.length} người.` });
+      return;
+    }
+
+    // Ensure all target IDs match the expected ones
+    const expectedIds = expectedTargets.map(t => t.id);
+    const hasInvalidTarget = accusedIds.some(id => !expectedIds.includes(id));
+    if (hasInvalidTarget) {
+      gameState.phase = GamePhase.ACTION_SELECT;
+      socket.emit('game-error', { message: 'Danh sách mục tiêu buộc tội không hợp lệ.' });
+      return;
+    }
+
     // Reveal the accuser's character to the room
     accuser.reveal();
     accuserCharId = gameState.getPlayerCharacter(accuserId);
@@ -873,6 +893,8 @@ export class GameManager {
 
     // Broadcast that they are revealed
     this.io.to(room.id).emit('room-updated', { room: room.toPublic() });
+    
+    // Specifically sync the mystery guest area if Jekyll was involved (though room-updated covers it)
     this.io.to(room.id).emit('dance-public', {
       message: 'Zombie đã sử dụng sức mạnh để lật bài đối phương!',
       inviterId: zombieId,
@@ -893,12 +915,14 @@ export class GameManager {
         gameState.mysteryGuests
       );
 
-      // Update assignments
-      gameState.mysteryGuests = updatedMysteryGuests;
+      // Jekyll's old card is revealed at the center
+      gameState.revealedMysteryGuests.push(player.characterId);
+      
+      // Update assignments: Player gets the FIRST mystery card, Jekyll's old card is GONE from mystery (revealed instead)
+      gameState.mysteryGuests.shift(); 
       gameState.setPlayerCharacter(player.id, newCharacterId);
       player.characterId = newCharacterId;
-      // DO NOT call player.reveal() here! Jekyll reveals their OLD card, but their NEW card remains secret!
-      // They are still in play as an unrevealed player with a new identity.
+      // Dr. Jekyll remains unrevealed (they have a new identity).
 
       // Notify the player of their new character (private)
       this.io.to(player.id).emit('character-swapped', {

@@ -42,8 +42,8 @@ export class Zombie extends CharacterRole {
     // Look for actions in the previous turn
     const lastTurnActions = gameState.turnHistory.filter(a => a.turnNumber === currentTurn - 1);
     
-    // If ANY action in the previous turn was 'dance', the Zombie must dance
-    return lastTurnActions.some(a => a.action === 'dance');
+    // Rule: Zombie ONLY forced to dance if previous player's dance was SUCCESSFUL (accepted)
+    return lastTurnActions.some(a => a.action === 'dance' && a.danceAccepted === true);
   }
 
   /**
