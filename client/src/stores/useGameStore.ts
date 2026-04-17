@@ -137,7 +137,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
   setNickname: (n) => set({ nickname: n }),
 
   addToast: (message, type = 'info') => {
-    const id = Date.now().toString();
+    // Prevent spam if the exact same message is already visible
+    if (get().toasts.some(t => t.message === message)) return;
+    
+    const id = Date.now().toString() + Math.random().toString();
     set(state => ({ toasts: [...state.toasts, { id, message, type }] }));
     setTimeout(() => get().removeToast(id), 4000);
   },
