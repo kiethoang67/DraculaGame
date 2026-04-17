@@ -54,6 +54,7 @@ export class Player implements IPlayerData {
    */
   reveal(): void {
     this.isRevealed = true;
+    this.canDance = false; // Một khi lật bài là không thể dance nữa theo luật New Blood
   }
 
   /**
@@ -61,7 +62,6 @@ export class Player implements IPlayerData {
    * They lose the ability to dance but remain in the game.
    */
   onAccuseFailed(): void {
-    this.canDance = false;
     this.reveal();
   }
 
