@@ -58,6 +58,13 @@ export function registerGameHandler(io: Server, socket: Socket, gameManager: Gam
     gameManager.handleDanceResponse(socket, room, data.accepted);
   });
 
+  // ── DOCTOR JEKYLL ───────────────────────────────────────
+  socket.on('jekyll-swap', () => {
+    const room = getPlayerRoom();
+    if (!room) return;
+    gameManager.handleJekyllSwapRequest(socket, room);
+  });
+
   // ── ACCUSE ──────────────────────────────────────────────
   socket.on('accuse-start', (data: AccuseStartPayload) => {
     const room = getPlayerRoom();

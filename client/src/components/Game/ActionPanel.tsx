@@ -8,9 +8,10 @@ interface ActionPanelProps {
   onInquire: () => void;
   onDance: () => void;
   onAccuse: () => void;
+  onJekyllSwap: () => void;
 }
 
-export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) {
+export function ActionPanel({ onInquire, onDance, onAccuse, onJekyllSwap }: ActionPanelProps) {
   const { isMyTurn, room, gameState, myCharacterId, boogieMonsterDanceTriggered } = useGameStore();
   const me = room?.players.find(p => p.id === gameState?.turnPlayerId);
   const canDance = me?.canDance !== false && !me?.isRevealed;
@@ -109,6 +110,16 @@ export function ActionPanel({ onInquire, onDance, onAccuse }: ActionPanelProps) 
         >
           ⚖️ Buộc tội (Accuse)
         </button>
+
+        {myCharacterId === 'doctor_jekyll' && !me?.isRevealed && (
+          <button
+            id="jekyll-swap-btn"
+            className="btn btn--secondary action-btn--inline"
+            onClick={onJekyllSwap}
+          >
+            🂠 Tráo Bài (Swap)
+          </button>
+        )}
       </div>
     </div>
   );

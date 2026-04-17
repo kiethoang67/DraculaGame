@@ -52,6 +52,11 @@ export function GameBoard() {
               onInquire={() => setShowInquiry(true)}
               onDance={() => setShowDance(true)}
               onAccuse={() => setShowAccuse(true)}
+              onJekyllSwap={() => {
+                if (window.confirm("Bạn có chắc muốn tráo đổi Thẻ vai trò của mình với Khách Ẩn không? Lượt của bạn sẽ kết thúc ngay sau đó.")) {
+                  import('../../socket').then(module => module.default.emit('jekyll-swap'));
+                }
+              }}
             />
           </div>
 

@@ -797,7 +797,44 @@ export class GameManager {
   // ── Doctor Jekyll Special ───────────────────────────────
 
   /**
-   * Handle Doctor Jekyll's reveal-and-swap with Mystery Guest.
+   * Handle Doctor Jekyll's manual request to swap with Mystery Guest.
+   * This is an active choice the player makes during their turn.
+   */
+  handleJekyllSwapRequest(socket: Socket, room: Room): void {
+    const gameState = room.gameState;
+    if (!gameState) return;
+
+    const playerId = socket.id;
+    if (gameState.turnPlayerId !== playerId) {
+      socket.emit('game-error', { message: 'Chưa đến lượt của bạn.' });
+      return;
+    }
+
+    if (gameState.phase !== GamePhase.ACTION_SELECT) {
+      socket.emit('game-error', { message: 'Không thể tráo bài trong giai đoạn này.' });
+      return;
+    }
+
+    const charId = gameState.getPlayerCharacter(playerId);
+    if (charId !== CharacterId.DOCTOR_JEKYLL) {
+      socket.emit('game-error', { message: 'Bạn không phải là Doctor Jekyll.' });
+      return;
+    }
+
+    const player = room.getPlayer(playerId);
+    if (!player) return;
+
+    // Perform swap
+    this.handleDoctorJekyllSwap(room, player);
+
+    // Swap acts as the end of your turn, according to the rule:
+    // "Khi kết thúc lượt tiến hành của mình, bạn có quyền lật mặt nạ..."
+    // Because they actively click "Tráo bài", we end the turn immediately after.
+    this.advanceTurn(room);
+  }
+
+  /**
+   * Execute Doctor Jekyll's reveal-and-swap with Mystery Guest.
    */
   private handleDoctorJekyllSwap(room: Room, player: Player): void {
     const gameState = room.gameState;
@@ -813,7 +850,8 @@ export class GameManager {
       gameState.mysteryGuests = updatedMysteryGuests;
       gameState.setPlayerCharacter(player.id, newCharacterId);
       player.characterId = newCharacterId;
-      player.reveal(); // Jekyll must reveal
+      // DO NOT call player.reveal() here! Jekyll reveals their OLD card, but their NEW card remains secret!
+      // They are still in play as an unrevealed player with a new identity.
 
       // Notify the player of their new character (private)
       this.io.to(player.id).emit('character-swapped', {
