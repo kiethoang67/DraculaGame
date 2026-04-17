@@ -13,7 +13,7 @@ interface DanceModalProps {
 }
 
 export function DanceModal({ mode, onClose, preSelectedTarget }: DanceModalProps) {
-  const { room, pendingDance } = useGameStore();
+  const { room, pendingDance, myCharacterId } = useGameStore();
   const [targetId, setTargetId] = useState<string | null>(preSelectedTarget || null);
 
   if (!room) return null;
@@ -96,13 +96,15 @@ export function DanceModal({ mode, onClose, preSelectedTarget }: DanceModalProps
           </p>
 
           <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
-            <button
-              className="btn btn--ghost btn--lg"
-              onClick={() => handleRespond(false)}
-              style={{ flex: 1 }}
-            >
-              ✋ Từ chối
-            </button>
+            {!(myCharacterId === 'zombie' || myCharacterId === 'boogie_monster' || myCharacterId === 'doctor_jekyll') && (
+              <button
+                className="btn btn--ghost btn--lg"
+                onClick={() => handleRespond(false)}
+                style={{ flex: 1 }}
+              >
+                ✋ Từ chối
+              </button>
+            )}
             <button
               className="btn btn--primary btn--lg"
               onClick={() => handleRespond(true)}

@@ -339,16 +339,9 @@ export class GameManager {
       }
     }
 
-    // Check if target must accept (Werewolf, Zombie, BoogieMonster)
-    const targetCharId = gameState.getPlayerCharacter(targetId);
-    if (targetCharId) {
-      const targetChar = CharacterFactory.create(targetCharId);
-      if (targetChar.mustAcceptDance()) {
-        // Auto-accept
-        this.processDanceAccepted(room, inviterId, targetId);
-        return;
-      }
-    }
+    // We no longer auto-accept here.
+    // The target will receive 'dance-incoming' and be forced to manually click 'Chấp nhận' on the UI
+    // to preserve timing and not give away their identity immediately.
 
     // Set pending dance and wait for target's response
     gameState.phase = GamePhase.DANCE_PENDING;

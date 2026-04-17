@@ -99,8 +99,6 @@ export function ActionPanel({ onInquire, onDance, onAccuse, onJekyllSwap }: Acti
                onClick={() => {
                  import('../../socket').then(module => module.default.emit('zombie-force-reveal', { targetId: useGameStore.getState().zombieRevealOption!.targetId }));
                  useGameStore.setState({ zombieRevealOption: null });
-                 // Auto open the Accuse modal right after
-                 onAccuse();
                }}
                style={{ animation: 'pulse 1.5s infinite' }}
              >

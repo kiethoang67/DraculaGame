@@ -83,18 +83,23 @@ export function RulesModal() {
             </ul>
           </div>
 
-          <h3 style={{ color: 'var(--color-gold-bright)', marginTop: 'var(--space-lg)' }}>5. 🏆 Điều kiện chiến thắng Đặc Diệt</h3>
+          <h3 style={{ color: 'var(--color-gold-bright)', marginTop: 'var(--space-lg)' }}>5. 🧙‍♂️ Sức Mạnh Khách Mời Đặc Biệt</h3>
           <ul>
-            <li><strong>Thắng nhờ Buộc Tội (Đoán trúng cả bàn):</strong> Tiêu chuẩn thắng cơ bản.</li>
-            <li><strong>Alucard (Kẻ Ảo Ảnh):</strong> Thắng nếu được Khiêu vũ với Dracula, hoặc nếu ai đó Buộc tội bạn và quy bạn là "Dracula".</li>
-            <li><strong>Van Helsing (Thợ Săn):</strong> Nếu có một pha Buộc tội bất kỳ ra kết quả toàn "No", lập tức Van Helsing kích hoạt. Phải lật bài và chỉ buộc tội 1 người duy nhất là Dracula. Đoán chuẩn là Thắng luôn!</li>
-            <li><strong>Swamp Creature (Mộc Nhân Tinh):</strong> Chỉ cần Buộc tội trúng DUY NHẤT 2 người bên cạnh trái phải của mình (hàng xóm) là lập tức vô địch.</li>
+            <li><strong style={{ color: 'var(--color-crimson)' }}>Dracula:</strong> Mặc định có trong mọi ván. Được xài quyền Buộc Tội (Accuse) 2 LẦN nến lần đầu tiên trong game đoán thất bại (có người trả lời No). Bị Alucard đoán trúng là thua ngay.</li>
+            <li><strong style={{ color: 'var(--color-gold-bright)' }}>Alucard (Kẻ Ảo Ảnh):</strong> Thắng luôn nếu được Khiêu vũ với Dracula, hoặc nếu bị ai đó Buộc tội và gọi tên là "Dracula".</li>
+            <li><strong style={{ color: 'var(--color-blood-glow)' }}>Van Helsing:</strong> Nếu bất kì ai xài quyền Buộc tội mà trả lời kết quả toàn bộ là "No" (Không trúng ai), Van Helsing lập tức bị kích hoạt thức tỉnh, phải lật ngửa bài để Buộc tội 1 người duy nhất trong bàn là Dracula. Đoán chuẩn là Thắng luôn!</li>
+            <li><strong style={{ color: 'var(--color-gold-bright)' }}>Swamp Creature:</strong> Mộc nhân tinh lười biếng. Có đặc điểm chỉ có thể Buộc tội duy nhất 2 người bên trái/phải mình (Hàng Xóm). Đoán trúng cả 2 là vô địch! (Nếu hàng xóm đã lộ mặt, Swamp Creature lại phải đoán tất cả người chơi như bình thường).</li>
+            <li><strong style={{ color: 'var(--color-crimson)' }}>Zombie:</strong> Phải chấp nhận MỌI lời mời Khiêu vũ. Khi mời người khác nhưng bị từ chối, Zombie có quyền chọn ÉP người đó lật bài, đồng thời Zombie cũng lật thân phận để tiến hành Buộc tội ngay lập tức.</li>
+            <li><strong style={{ color: 'var(--color-crimson)' }}>Boogie Monster:</strong> Phải chấp nhận MỌI lời mời Khiêu vũ. Có quyền ngắt lời bất cứ ai nếu thấy có 2 người khác vừa Khiêu Vũ thành công, bằng cách nhảy ra giành quyền lật bài để Buộc tội.</li>
+            <li><strong style={{ color: 'var(--color-blood-glow)' }}>Doctor Jekyll:</strong> Phải chấp nhận MỌI lời mời Khiêu Vũ. Được tự chọn đổi danh phận lấy Thẻ cất giấu của Khách Ẩn (Mystery Guest) ở giữa bàn trong lượt của mình và mang lấy một chức năng bí mật mới. Thẻ cũ bị lật công khai.</li>
+            <li><strong style={{ color: 'var(--color-gold-bright)' }}>The Ghost:</strong> Mỗi khi bị ai đó đoán sai sự thật mình là nhân vật gì (kể cả lúc đang Inquire hay Accuse), có lựa chọn "Cướp lượt" để ngửa bài chứng minh họ sai, và tự giành quyền Buộc tội ngược lại họ hoặc cả bàn tuỳ thích.</li>
+            <li><strong style={{ color: 'var(--color-blood-glow)' }}>Trickster (Gã Lừa Gạt):</strong> Năng lực duy nhất: Cho dù ai hỏi dò (Inquire) xem mình là ai, Trickster LUÔN LUÔN phải đưa thẻ trả lời "Yes" (Có, tôi là nhân vật đó). Lời nói thật chỉ được trả trong lúc Buộc Tội (Accuse).</li>
           </ul>
 
           <h3 style={{ color: 'var(--color-gold-bright)', marginTop: 'var(--space-lg)' }}>6. ⚠️ Lưu ý quan trọng</h3>
           <ul>
-            <li><strong>Khi bị lật bài (Revealed):</strong> Khi bạn thân thế bạn đã bị phơi bày/hoặc buộc tội xịt thì bạn vẫn chơi! Bạn vẫn được "Hỏi" và "Buộc tội", MÀ CHỈ BỊ CẤM "Khiêu vũ". Khi ai khác Buộc tội cả bàn, bạn được miễn nhiễm không cần đưa thẻ phản hồi nữa.</li>
-            <li><strong>Khách Ẩn:</strong> Vai này vô gia cư. Ai cũng không thể "Hỏi" hay "Khiêu vũ" với nó. Khỏi phải đoán Khách Ẩn khi dùng chức năng Buộc tội.</li>
+            <li><strong>Khi bị lộ bài (Revealed):</strong> Kể cả khi bạn đã bị lật bài úp (vì đoán sai buộc tội, hoặc bị xài phép), bạn VẪN ĐƯỢC CHƠI TIẾP. Bạn vẫn được "Hỏi" và "Buộc tội", MÀ CHỈ BỊ CẤM "Khiêu vũ" (Cấm cả mời và cấm cả bị ai đó mời). Ngoài ra, khi người khác đang Buộc tội cả bàn, bạn được miễn trừ không cần nộp thẻ phản hồi Yes/No nữa.</li>
+            <li><strong>Khách Ẩn:</strong> Vai này vô gia cư úp ở giữa. Không ai có thể "Hỏi" hay "Khiêu vũ" với Khách Ẩn, cũng không cần chỉ định họ trong quá trình dự đoán Buộc tội.</li>
           </ul>
         </div>
       </div>
