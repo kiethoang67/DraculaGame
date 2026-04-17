@@ -10,6 +10,7 @@ import { ActionPanel } from './ActionPanel';
 import { InquiryModal } from './InquiryModal';
 import { DanceModal, DanceResultModal } from './DanceModal';
 import { AccuseModal } from './AccuseModal';
+import { VanHelsingAccuseModal } from './VanHelsingAccuseModal';
 import { InquiryResultModal } from './InquiryResultModal';
 import { WhisperResponseModal, InquiryWaitingModal } from './WhisperResponseModal';
 import { GameLog } from './GameLog';
@@ -19,7 +20,7 @@ import { ChatBox } from '../Chat/ChatBox';
 import { Notepad } from './Notepad';
 
 export function GameBoard() {
-  const { gameState, pendingDance, pendingInquiry, inquiryWaiting, inquiryResult, danceResult, gameOver } = useGameStore();
+  const { gameState, pendingDance, pendingInquiry, inquiryWaiting, inquiryResult, danceResult, gameOver, myCharacterId } = useGameStore();
 
   // Modal states
   const [showInquiry, setShowInquiry] = useState(false);
@@ -108,6 +109,11 @@ export function GameBoard() {
       {/* Accuse modal */}
       {showAccuse && (
         <AccuseModal onClose={() => setShowAccuse(false)} />
+      )}
+
+      {/* Special Character Modals */}
+      {gameState?.phase === 'VAN_HELSING_TRIGGER' && myCharacterId === 'van_helsing' && (
+        <VanHelsingAccuseModal onClose={() => {}} />
       )}
 
       {/* Whisper card response (target answers Yes/No) */}

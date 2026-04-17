@@ -48,6 +48,7 @@ interface GameStatePublic {
   seatOrder: string[];
   revealedPlayers: string[];
   mysteryGuestCount: number;
+  revealedMysteryGuests: string[];
   turnHistory: TurnAction[];
   danceRefusedTargetId?: string;
 }
@@ -93,10 +94,12 @@ interface GameStore {
   danceResult: { partnerId: string; partnerCharacterName: string; newCharacterName: string; newCharacterDescription: string; newCharacterId: string} | null;
   gameOver: GameOverData | null;
   boogieMonsterDanceTriggered: boolean;
+  zombieRevealOption: { targetId: string } | null;
+  ghostCounterAccuseOption: boolean;
   
   // Actions
   setNickname: (n: string) => void;
-  addToast: (message: string, type?: 'info' | 'error' | 'success') => void;
+  addToast: (message: string, type?: Toast['type']) => void;
   removeToast: (id: string) => void;
   clearInquiryResult: () => void;
   clearInquiryWaiting: () => void;
@@ -126,6 +129,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   inquiryWaiting: null,
   inquiryResult: null,
   danceResult: null,
+  zombieRevealOption: null,
+  ghostCounterAccuseOption: false,
   gameOver: null,
   boogieMonsterDanceTriggered: false,
 
@@ -462,8 +467,18 @@ export const useGameStore = create<GameStore>((set, get) => ({
       set({ isMyTurn: true });
     });
 
+    socket.on('zombie-reveal-option', (data: { message: string, targetId: string }) => {
+      get().addToast(data.message, 'info');
+      set({ zombieRevealOption: { targetId: data.targetId } });
+    });
+
     socket.on('van-helsing-trigger', (data: { message: string }) => {
       get().addToast(data.message, 'info');
+    });
+
+    socket.on('ghost-counter-accuse-option', (data: { message: string }) => {
+      get().addToast(data.message, 'info');
+      set({ ghostCounterAccuseOption: true });
     });
 
     socket.on('character-swapped', (data: {

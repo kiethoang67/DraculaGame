@@ -17,6 +17,8 @@ export function ActionPanel({ onInquire, onDance, onAccuse, onJekyllSwap }: Acti
   const canDance = me?.canDance !== false && !me?.isRevealed;
   const isGuest = !myCharacterId;
   const isDanceRefused = gameState?.phase === 'DANCE_REFUSED';
+  const isZombieForcedToDance = myCharacterId === 'zombie' && 
+    gameState?.turnHistory?.some(a => a.turnNumber === gameState.turnNumber - 1 && a.action === 'dance');
 
   if (isGuest) {
     return (
@@ -43,6 +45,21 @@ export function ActionPanel({ onInquire, onDance, onAccuse, onJekyllSwap }: Acti
               style={{ animation: 'pulse 1.5s infinite' }}
             >
               🚨 Bạn có muốn NGẮT LỜI CƯỚP LƯỢT để Buộc Tội ngay không?
+            </button>
+          </div>
+        )}
+        {myCharacterId === 'ghost' && useGameStore.getState().ghostCounterAccuseOption && !me?.isRevealed && (
+          <div className="action-panel__buttons" style={{ marginLeft: 'var(--space-md)' }}>
+            <button
+              id="ghost-counter-accuse-btn"
+              className="btn btn--primary action-btn--inline"
+              onClick={() => {
+                useGameStore.setState({ ghostCounterAccuseOption: false });
+                onAccuse(); // Opens Accuse Modal
+              }}
+              style={{ animation: 'pulse 1.5s infinite' }}
+            >
+              👻 Đoán sai rồi! Lật bài và Buộc tội ngay?
             </button>
           </div>
         )}
@@ -75,6 +92,21 @@ export function ActionPanel({ onInquire, onDance, onAccuse, onJekyllSwap }: Acti
               ⚖️ Buộc tội ngay lập tức (Bỏ qua Hỏi)
             </button>
           )}
+          {myCharacterId === 'zombie' && useGameStore.getState().zombieRevealOption && (
+            <button
+               id="zombie-force-reveal-btn"
+               className="btn btn--primary action-btn--inline"
+               onClick={() => {
+                 import('../../socket').then(module => module.default.emit('zombie-force-reveal', { targetId: useGameStore.getState().zombieRevealOption!.targetId }));
+                 useGameStore.setState({ zombieRevealOption: null });
+                 // Auto open the Accuse modal right after
+                 onAccuse();
+               }}
+               style={{ animation: 'pulse 1.5s infinite' }}
+             >
+               ⚠️ Ép Lật Bài & Buộc Tội (Zombie)
+             </button>
+          )}
         </div>
       </div>
     );
@@ -90,6 +122,7 @@ export function ActionPanel({ onInquire, onDance, onAccuse, onJekyllSwap }: Acti
           id="inquire-btn"
           className="btn btn--secondary action-btn--inline"
           onClick={onInquire}
+          disabled={isZombieForcedToDance}
         >
           🔍 Hỏi (Inquire)
         </button>
@@ -107,6 +140,7 @@ export function ActionPanel({ onInquire, onDance, onAccuse, onJekyllSwap }: Acti
           id="accuse-btn"
           className="btn btn--primary action-btn--inline"
           onClick={onAccuse}
+          disabled={isZombieForcedToDance}
         >
           ⚖️ Buộc tội (Accuse)
         </button>

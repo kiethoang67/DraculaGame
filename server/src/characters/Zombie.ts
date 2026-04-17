@@ -48,10 +48,9 @@ export class Zombie extends CharacterRole {
 
   /**
    * Override: If Zombie's dance invitation is refused,
-   * they can immediately flip the refuser's card to accuse.
-   * We use the IMMEDIATE_ACCUSE action result to signal the game manager.
+   * they can force the refuser to reveal their card and then must immediately accuse.
    */
   onDanceRefused(_gameState: GameState): ActionResult {
-    return ActionResult.IMMEDIATE_ACCUSE;
+    return ActionResult.ZOMBIE_REVEAL_AND_ACCUSE;
   }
 }

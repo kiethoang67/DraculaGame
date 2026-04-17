@@ -35,6 +35,29 @@ export function PlayerCircle({ onPlayerClick, selectedPlayerId }: PlayerCirclePr
           <br />
           ({gameState.mysteryGuestCount} thẻ)
         </div>
+
+        {/* Display revealed Mystery Guests (e.g. from Jekyll swap) */}
+        {gameState.revealedMysteryGuests && gameState.revealedMysteryGuests.length > 0 && (
+          <div style={{ marginTop: 'var(--space-md)', display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+            {gameState.revealedMysteryGuests.map((charId, idx) => (
+              <div key={idx} style={{
+                background: 'var(--bg-surface)',
+                border: '1px solid var(--border-color)',
+                borderRadius: 'var(--radius-sm)',
+                padding: 'var(--space-xs) var(--space-sm)',
+                fontSize: '0.75rem',
+                color: 'var(--text-primary)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.25rem',
+                boxShadow: 'var(--shadow-sm)'
+              }} title="Thẻ đã lật ở vị trí Khách Ẩn">
+                <span>{CHARACTER_ICONS[charId as keyof typeof CHARACTER_ICONS]}</span>
+                {CHARACTER_NAMES[charId as keyof typeof CHARACTER_NAMES]}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Player nodes arranged in a circle */}

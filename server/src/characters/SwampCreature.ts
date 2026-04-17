@@ -27,10 +27,22 @@ export class SwampCreature extends CharacterRole {
     const leftIndex = (selfIndex - 1 + total) % total;
     const rightIndex = (selfIndex + 1) % total;
 
+    const leftPlayerId = gameState.seatOrder[leftIndex];
+    const rightPlayerId = gameState.seatOrder[rightIndex];
+
+    const leftPlayer = allPlayers.find(p => p.id === leftPlayerId);
+    const rightPlayer = allPlayers.find(p => p.id === rightPlayerId);
+
+    // Rule: "Nếu 1 trong 2 (hoặc cả 2) hàng xóm đã bị lật bài, hắn phải buộc tội tất cả mọi người như bình thường."
+    if ((leftPlayer && leftPlayer.isRevealed) || (rightPlayer && rightPlayer.isRevealed)) {
+      // Fallback: Must accuse EVERYONE (all unrevealed)
+      return allPlayers.filter(p => !p.isRevealed && p.id !== gameState.seatOrder[selfIndex]);
+    }
+
     // Build unique neighbor IDs
     const neighborIds = new Set<string>();
-    neighborIds.add(gameState.seatOrder[leftIndex]);
-    neighborIds.add(gameState.seatOrder[rightIndex]);
+    neighborIds.add(leftPlayerId);
+    neighborIds.add(rightPlayerId);
     
     // Also remove the player themselves if it's < 3 players (edge case)
     neighborIds.delete(gameState.seatOrder[selfIndex]);

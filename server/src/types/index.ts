@@ -47,8 +47,9 @@ export enum ActionResult {
   RETRY_ACCUSE = 'RETRY_ACCUSE',   // Dracula's second chance
   IMMEDIATE_WIN = 'IMMEDIATE_WIN', // Alucard/VanHelsing instant win
   IMMEDIATE_ACCUSE = 'IMMEDIATE_ACCUSE', // BoogieMonster accuses after dance
-  SWAP_MYSTERY = 'SWAP_MYSTERY',   // Doctor Jekyll swaps with mystery guest
-  COUNTER_ACCUSE = 'COUNTER_ACCUSE', // Ghost counter-accuses when incorrectly accused
+  SWAP_MYSTERY = 'SWAP_MYSTERY',         // Doctor Jekyll swaps with mystery guest
+  COUNTER_ACCUSE = 'COUNTER_ACCUSE',     // Ghost counter-accuses when incorrectly accused
+  ZOMBIE_REVEAL_AND_ACCUSE = 'ZOMBIE_REVEAL_AND_ACCUSE', // Zombie forces refuser to reveal and then accuses
 }
 
 // ── Player Data ────────────────────────────────────────────
@@ -97,6 +98,7 @@ export interface IGameStatePublic {
   seatOrder: string[];        // Player IDs in clockwise order
   revealedPlayers: string[];  // Player IDs who are revealed
   mysteryGuestCount: number;  // Number of mystery guest cards (1 or 2)
+  revealedMysteryGuests: CharacterId[]; // Revealed mystery guest cards
   turnHistory: ITurnAction[];
   danceRefusedTargetId?: string; // Player ID who refused the dance (cannot be inquired)
 }

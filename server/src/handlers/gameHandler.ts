@@ -78,4 +78,11 @@ export function registerGameHandler(io: Server, socket: Socket, gameManager: Gam
     if (!room) return;
     gameManager.handleVanHelsingAccuse(socket, room, data.targetId);
   });
+
+  // ── ZOMBIE SPECIAL ──────────────────────────────────────
+  socket.on('zombie-force-reveal', (data: { targetId: string }) => {
+    const room = getPlayerRoom();
+    if (!room) return;
+    gameManager.handleZombieForceReveal(socket, room, data.targetId);
+  });
 }

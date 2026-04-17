@@ -503,6 +503,12 @@ export class GameManager {
         this.io.to(inviterId).emit('boogie-monster-accuse-option', {
           message: 'Lời mời bị từ chối! Bạn có thể lật bài và buộc tội ngay lập tức.',
         });
+      } else if (refuseResult === ActionResult.ZOMBIE_REVEAL_AND_ACCUSE) {
+        // Zombie can force the refuser to reveal, and then must accuse immediately
+        this.io.to(inviterId).emit('zombie-reveal-option', {
+          message: 'Khiêu vũ bị từ chối. Bạn có quyền lật bài của người đó, nhưng bạn cũng sẽ phải lật theo và buộc tội ngay!',
+          targetId: targetId
+        });
       }
     }
 
@@ -559,6 +565,7 @@ export class GameManager {
     if (!accuser) return;
     // Check out-of-turn Boogie Monster interruption
     let isBoogieMonsterOutOfturn = false;
+    let isGhostOutOfTurn = false;
     let accuserCharId = gameState.getPlayerCharacter(accuserId);
     if (gameState.turnPlayerId !== accuserId) {
       if (accuserCharId === CharacterId.BOOGIE_MONSTER && !accuser.isRevealed) {
@@ -567,11 +574,20 @@ export class GameManager {
           isBoogieMonsterOutOfturn = true;
         }
       }
-      if (!isBoogieMonsterOutOfturn && !gameState.draculaSecondChance) {
+      
+      isGhostOutOfTurn = accuserCharId === CharacterId.GHOST && gameState.ghostCounterAccuseOption && !accuser.isRevealed;
+
+      if (!isBoogieMonsterOutOfturn && !isGhostOutOfTurn && !gameState.draculaSecondChance) {
         socket.emit('game-error', { message: 'Chưa đến lượt của bạn.' });
         return;
       }
     }
+    
+    // Clear the ghost option once they start their counter-accuse or someone else acts
+    if (gameState.ghostCounterAccuseOption) {
+      gameState.ghostCounterAccuseOption = false;
+    }
+
     if (!accuser.canAccuse) {
       socket.emit('game-error', { message: 'Bạn không thể buộc tội nữa.' });
       return;
@@ -581,7 +597,7 @@ export class GameManager {
     accuserCharId = gameState.getPlayerCharacter(accuserId);
     if (accuserCharId) {
       const accuserChar = CharacterFactory.create(accuserCharId);
-      if (accuserChar.mustDanceThisTurn(gameState)) {
+      if (accuserChar.mustDanceThisTurn(gameState) && gameState.phase !== GamePhase.DANCE_REFUSED) {
         socket.emit('game-error', { message: 'Lượt này bạn bắt buộc phải Khiêu vũ!' });
         return;
       }
@@ -631,6 +647,7 @@ export class GameManager {
         const accuseResult = targetChar.onAccusedIncorrectly(guessedCharId, gameState);
         if (accuseResult === ActionResult.COUNTER_ACCUSE) {
           // Ghost gets option to reveal and counter-accuse
+          gameState.ghostCounterAccuseOption = true;
           this.io.to(playerId).emit('ghost-counter-accuse-option', {
             message: 'Bạn bị buộc tội sai! Bạn có thể lật bài và buộc tội ngược lại ngay.',
           });
@@ -713,8 +730,8 @@ export class GameManager {
         this.checkVanHelsingTrigger(room, accuserId);
       }
 
-      // Advance turn (or just restore phase if it was a Boogie Monster interruption)
-      if (isBoogieMonsterOutOfturn) {
+      // Advance turn (or just restore phase if it was a Boogie Monster or Ghost interruption)
+      if (isBoogieMonsterOutOfturn || isGhostOutOfTurn) {
         gameState.phase = GamePhase.ACTION_SELECT;
         // Make sure the room knows the phase went back and the player failed
         this.io.to(room.id).emit('room-updated', { room: room.toPublic() });
@@ -831,6 +848,43 @@ export class GameManager {
     // "Khi kết thúc lượt tiến hành của mình, bạn có quyền lật mặt nạ..."
     // Because they actively click "Tráo bài", we end the turn immediately after.
     this.advanceTurn(room);
+  }
+
+  // ── Zombie Special ─────────────────────────────────
+
+  handleZombieForceReveal(socket: Socket, room: Room, targetId: string): void {
+    const gameState = room.gameState;
+    if (!gameState) return;
+
+    const zombieId = socket.id;
+    if (gameState.turnPlayerId !== zombieId) return;
+
+    if (gameState.phase !== GamePhase.DANCE_REFUSED) {
+      socket.emit('game-error', { message: 'Không thể cưỡng chế lật bài lúc này.' });
+      return;
+    }
+
+    const zombieCharId = gameState.getPlayerCharacter(zombieId);
+    if (zombieCharId !== CharacterId.ZOMBIE) return;
+
+    const targetPlayer = room.getPlayer(targetId);
+    const zombiePlayer = room.getPlayer(zombieId);
+    if (!targetPlayer || !zombiePlayer) return;
+
+    // Both players are revealed!
+    targetPlayer.reveal();
+    zombiePlayer.reveal();
+
+    // Revert phase back safely so AccuseStart doesn't block them
+    gameState.phase = GamePhase.ACTION_SELECT;
+
+    // Broadcast that they are revealed
+    this.io.to(room.id).emit('room-updated', { room: room.toPublic() });
+    this.io.to(room.id).emit('dance-public', {
+      message: 'Zombie đã sử dụng sức mạnh để lật bài đối phương!',
+      inviterId: zombieId,
+      targetId: targetId
+    });
   }
 
   /**

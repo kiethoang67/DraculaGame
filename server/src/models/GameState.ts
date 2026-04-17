@@ -18,10 +18,12 @@ export class GameState {
   public seatOrder: string[];                    // Player IDs in clockwise order
   public characterAssignments: Map<string, CharacterId>; // SERVER-ONLY: playerId -> characterId
   public mysteryGuests: CharacterId[];           // Unused cards face-down
+  public revealedMysteryGuests: CharacterId[];   // Cards explicitly swapped and discarded (e.g. Dr Jekyll)
   public revealedPlayers: Set<string>;           // Player IDs who are revealed
   public turnHistory: ITurnAction[];
   public pendingAction: PendingAction | null;
   public draculaSecondChance: boolean;
+  public ghostCounterAccuseOption: boolean;      // True if Ghost was incorrectly accused and can interrupt
   public failedAccusersThisTurn: Set<string>;    // Track failed accusers for Van Helsing
   public danceRefusedTargetId: string | null;    // Track who refused dance (can't be inquired)
 
@@ -33,10 +35,12 @@ export class GameState {
     this.seatOrder = seatOrder;
     this.characterAssignments = new Map();
     this.mysteryGuests = [];
+    this.revealedMysteryGuests = [];
     this.revealedPlayers = new Set();
     this.turnHistory = [];
     this.pendingAction = null;
     this.draculaSecondChance = false;
+    this.ghostCounterAccuseOption = false;
     this.failedAccusersThisTurn = new Set();
     this.danceRefusedTargetId = null;
   }
@@ -122,6 +126,7 @@ export class GameState {
       seatOrder: this.seatOrder,
       revealedPlayers: Array.from(this.revealedPlayers),
       mysteryGuestCount: this.mysteryGuests.length,
+      revealedMysteryGuests: this.revealedMysteryGuests,
       turnHistory: this.turnHistory,
       danceRefusedTargetId: this.danceRefusedTargetId ?? undefined,
     };
