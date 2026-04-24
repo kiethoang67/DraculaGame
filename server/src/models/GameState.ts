@@ -26,6 +26,7 @@ export class GameState {
   public ghostCounterAccuseOption: boolean;      // True if Ghost was incorrectly accused and can interrupt
   public failedAccusersThisTurn: Set<string>;    // Track failed accusers for Van Helsing
   public danceRefusedTargetId: string | null;    // Track who refused dance (can't be inquired)
+  public boogieMonsterDanceCount: number;        // Count of successful dances by non-BM players (resets when BM dances)
 
   constructor(seatOrder: string[]) {
     this.phase = GamePhase.TURN_START;
@@ -43,6 +44,7 @@ export class GameState {
     this.ghostCounterAccuseOption = false;
     this.failedAccusersThisTurn = new Set();
     this.danceRefusedTargetId = null;
+    this.boogieMonsterDanceCount = 0;
   }
 
   /**

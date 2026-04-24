@@ -76,14 +76,14 @@ interface GameStore {
 
   // Room
   room: RoomData | null;
-  
+
   // Game
   gameState: GameStatePublic | null;
   myCharacterId: string | null;
   myCharacterName: string | null;
   myCharacterDescription: string | null;
   isMyTurn: boolean;
-  
+
   // UI
   screen: 'lobby' | 'room' | 'game';
   toasts: Toast[];
@@ -91,12 +91,12 @@ interface GameStore {
   pendingInquiry: { fromId: string; fromNickname: string; characterGuess: string; suggestedAnswer: boolean } | null;
   inquiryWaiting: { targetId: string; targetNickname: string; characterGuess: string } | null;
   inquiryResult: { targetId: string; targetNickname: string; characterGuess: string; answer: boolean } | null;
-  danceResult: { partnerId: string; partnerCharacterName: string; newCharacterName: string; newCharacterDescription: string; newCharacterId: string} | null;
+  danceResult: { partnerId: string; partnerCharacterName: string; newCharacterName: string; newCharacterDescription: string; newCharacterId: string } | null;
   gameOver: GameOverData | null;
   boogieMonsterDanceTriggered: boolean;
   zombieRevealOption: { targetId: string } | null;
   ghostCounterAccuseOption: boolean;
-  
+
   // Actions
   setNickname: (n: string) => void;
   addToast: (message: string, type?: Toast['type']) => void;
@@ -139,7 +139,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   addToast: (message, type = 'info') => {
     // Prevent spam if the exact same message is already visible
     if (get().toasts.some(t => t.message === message)) return;
-    
+
     const id = Date.now().toString() + Math.random().toString();
     set(state => ({ toasts: [...state.toasts, { id, message, type }] }));
     setTimeout(() => get().removeToast(id), 4000);
@@ -321,6 +321,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         gameState: data.gameState,
         isMyTurn: data.turnPlayerId === socket.id,
         pendingDance: null,
+        boogieMonsterDanceTriggered: false,
       });
     });
 
@@ -500,6 +501,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
     socket.on('boogie-monster-dance-trigger', (data: { message: string }) => {
       get().addToast(data.message, 'info');
       set({ boogieMonsterDanceTriggered: true });
+    });
+
+    socket.on('boogie-monster-dance-reset', () => {
+      set({ boogieMonsterDanceTriggered: false });
     });
 
     socket.on('boogie-monster-accuse-option', (data: { message: string }) => {

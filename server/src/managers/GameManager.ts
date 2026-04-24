@@ -116,7 +116,7 @@ export class GameManager {
     if (currentCharId) {
       const char = CharacterFactory.create(currentCharId);
       const endOfTurnResult = char.onEndOfTurn(room.gameState);
-      
+
       const player = room.getPlayer(currentTurnPlayerId);
       if (endOfTurnResult === ActionResult.SWAP_MYSTERY && player && !player.isRevealed) {
         // Automatically swap with mystery guest if not revealed
@@ -567,7 +567,7 @@ export class GameManager {
           isBoogieMonsterOutOfturn = true;
         }
       }
-      
+
       isGhostOutOfTurn = accuserCharId === CharacterId.GHOST && gameState.ghostCounterAccuseOption && !accuser.isRevealed;
 
       if (!isBoogieMonsterOutOfturn && !isGhostOutOfTurn && !gameState.draculaSecondChance) {
@@ -575,7 +575,7 @@ export class GameManager {
         return;
       }
     }
-    
+
     // Clear the ghost option once they start their counter-accuse or someone else acts
     if (gameState.ghostCounterAccuseOption) {
       gameState.ghostCounterAccuseOption = false;
@@ -603,7 +603,7 @@ export class GameManager {
     const playersArray = room.getPlayersArray();
     const expectedTargets = CharacterFactory.create(accuserCharId!).getAccuseTargets(playersArray, playersArray.findIndex(p => p.id === accuserId), gameState);
     const accusedIds = Object.keys(accusations);
-    
+
     if (accusedIds.length !== expectedTargets.length) {
       gameState.phase = GamePhase.ACTION_SELECT; // revert
       socket.emit('game-error', { message: `Bạn cần buộc tội chính xác ${expectedTargets.length} người.` });
@@ -893,7 +893,7 @@ export class GameManager {
 
     // Broadcast that they are revealed
     this.io.to(room.id).emit('room-updated', { room: room.toPublic() });
-    
+
     // Specifically sync the mystery guest area if Jekyll was involved (though room-updated covers it)
     this.io.to(room.id).emit('dance-public', {
       message: 'Zombie đã sử dụng sức mạnh để lật bài đối phương!',
@@ -917,9 +917,9 @@ export class GameManager {
 
       // Jekyll's old card is revealed at the center
       gameState.revealedMysteryGuests.push(player.characterId);
-      
+
       // Update assignments: Player gets the FIRST mystery card, Jekyll's old card is GONE from mystery (revealed instead)
-      gameState.mysteryGuests.shift(); 
+      gameState.mysteryGuests.shift();
       gameState.setPlayerCharacter(player.id, newCharacterId);
       player.characterId = newCharacterId;
       // Dr. Jekyll remains unrevealed (they have a new identity).
@@ -952,19 +952,38 @@ export class GameManager {
     const gameState = room.gameState;
     if (!gameState) return;
 
+    // Find the Boogie Monster player
+    let boogieMonsterPlayerId: string | null = null;
     for (const [playerId, charId] of gameState.characterAssignments) {
       if (charId === CharacterId.BOOGIE_MONSTER) {
         const player = room.getPlayer(playerId);
         if (player && !player.isRevealed) {
-          const bmChar = CharacterFactory.create(charId);
-          const result = bmChar.onAnyDance(dancer1Id, dancer2Id, gameState);
-          if (result === ActionResult.IMMEDIATE_ACCUSE) {
-            this.io.to(playerId).emit('boogie-monster-dance-trigger', {
-              message: 'Có người vừa khiêu vũ! Bạn có thể lật bài và buộc tội ngay lập tức.',
-            });
-          }
+          boogieMonsterPlayerId = playerId;
         }
+        break;
       }
+    }
+
+    if (!boogieMonsterPlayerId) return;
+
+    // If Boogie Monster was one of the dancers, RESET the counter
+    if (dancer1Id === boogieMonsterPlayerId || dancer2Id === boogieMonsterPlayerId) {
+      gameState.boogieMonsterDanceCount = 0;
+      // Also clear the client-side trigger
+      this.io.to(boogieMonsterPlayerId).emit('boogie-monster-dance-reset');
+      return;
+    }
+
+    // Otherwise, increment the counter
+    gameState.boogieMonsterDanceCount++;
+
+    // Trigger only when counter reaches 2
+    if (gameState.boogieMonsterDanceCount >= 2) {
+      this.io.to(boogieMonsterPlayerId).emit('boogie-monster-dance-trigger', {
+        message: 'Đã có 2 cặp khiêu vũ thành công! Bạn có thể lật bài và buộc tội ngay lập tức.',
+      });
+      // Reset the counter after triggering so the next cycle starts fresh
+      gameState.boogieMonsterDanceCount = 0;
     }
   }
 
