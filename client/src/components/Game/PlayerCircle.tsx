@@ -99,17 +99,18 @@ export function PlayerCircle({ onPlayerClick, selectedPlayerId }: PlayerCirclePr
               className={`player-badge ${isActive ? 'player-badge--active' : ''} ${isRevealed ? 'player-badge--revealed' : ''}`}
               style={{
                 flexDirection: 'column',
-                padding: 'var(--space-xs)',
+                padding: '0',
                 minWidth: 72,
                 textAlign: 'center',
-                border: isSelected ? '2px solid var(--color-gold-bright)' : undefined,
+                border: 'none',
+                background: 'transparent',
                 cursor: isSelf || isRevealed ? 'default' : 'pointer',
               }}
             >
               {/* Card Visual */}
               <div className="player-card" style={{
-                width: 60,
-                height: 84,
+                width: 68,
+                height: 95,
                 borderRadius: 6,
                 overflow: 'hidden',
                 position: 'relative',
