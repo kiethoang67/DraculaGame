@@ -4,7 +4,7 @@
 
 import { useState } from 'react';
 import { useGameStore } from '../../stores/useGameStore';
-import { CHARACTER_NAMES, CHARACTER_ICONS, CHARACTER_IDS } from '../../utils/constants';
+import { CHARACTER_NAMES, CHARACTER_ICONS, CHARACTER_IDS, CHARACTER_IMAGES } from '../../utils/constants';
 import socket from '../../socket';
 
 interface AccuseModalProps {
@@ -31,13 +31,13 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
       const total = gameState.seatOrder.length;
       const leftIdx = (myIndex - 1 + total) % total;
       const rightIdx = (myIndex + 1) % total;
-      
+
       const leftId = gameState.seatOrder[leftIdx];
       const rightId = gameState.seatOrder[rightIdx];
-      
+
       const leftPlayer = room.players.find(p => p.id === leftId);
       const rightPlayer = room.players.find(p => p.id === rightId);
-      
+
       if (leftPlayer && !leftPlayer.isRevealed && rightPlayer && !rightPlayer.isRevealed) {
         targets = [leftPlayer, rightPlayer];
       }
@@ -127,13 +127,14 @@ export function AccuseModal({ onClose }: AccuseModalProps) {
                 return (
                   <button
                     key={id}
-                    className={`character-option ${
-                      accusations[selectingFor] === id ? 'character-option--selected' : ''
-                    } ${isUsed ? 'character-option--assigned' : ''}`}
+                    className={`character-option ${accusations[selectingFor] === id ? 'character-option--selected' : ''
+                      } ${isUsed ? 'character-option--assigned' : ''}`}
                     onClick={() => !isUsed && handleAssign(id)}
                     disabled={isUsed}
                   >
-                    <div style={{ fontSize: '1.2rem' }}>{CHARACTER_ICONS[id]}</div>
+                    {CHARACTER_IMAGES[id] && (
+                      <img src={CHARACTER_IMAGES[id]} alt={CHARACTER_NAMES[id]} style={{ width: 36, height: 36, borderRadius: 4, objectFit: 'cover' }} />
+                    )}
                     <div>{CHARACTER_NAMES[id]}</div>
                   </button>
                 );

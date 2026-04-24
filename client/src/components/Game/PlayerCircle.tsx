@@ -3,7 +3,7 @@
 // ============================================================
 
 import { useGameStore } from '../../stores/useGameStore';
-import { CHARACTER_ICONS, CHARACTER_NAMES } from '../../utils/constants';
+import { CHARACTER_ICONS, CHARACTER_NAMES, CHARACTER_IMAGES } from '../../utils/constants';
 import socket from '../../socket';
 
 interface PlayerCircleProps {
@@ -94,21 +94,25 @@ export function PlayerCircle({ onPlayerClick, selectedPlayerId }: PlayerCirclePr
               }}
             >
               <div className="player-avatar" style={{
-                background: isSelf
-                  ? 'linear-gradient(135deg, var(--color-gold), var(--color-gold-dim))'
-                  : isRevealed
-                    ? 'var(--text-muted)'
-                    : 'linear-gradient(135deg, var(--color-blood), var(--color-blood-light))',
+                background: isRevealed && player.revealedCharacterId && CHARACTER_IMAGES[player.revealedCharacterId]
+                  ? `url(${CHARACTER_IMAGES[player.revealedCharacterId]}) center/cover`
+                  : isSelf
+                    ? 'linear-gradient(135deg, var(--color-gold), var(--color-gold-dim))'
+                    : isRevealed
+                      ? 'var(--text-muted)'
+                      : 'linear-gradient(135deg, var(--color-blood), var(--color-blood-light))',
                 width: 48,
                 height: 48,
                 fontSize: '1.4rem',
+                borderRadius: 'var(--radius-sm)',
               }}>
-                {isRevealed && player.revealedCharacterId
-                  ? CHARACTER_ICONS[player.revealedCharacterId] || '❓'
-                  : isSelf && myCharacterId
-                    ? CHARACTER_ICONS[myCharacterId] || player.nickname.charAt(0).toUpperCase()
-                    : player.nickname.charAt(0).toUpperCase()
-                }
+                {!(isRevealed && player.revealedCharacterId && CHARACTER_IMAGES[player.revealedCharacterId]) && (
+                  isRevealed && player.revealedCharacterId
+                    ? CHARACTER_ICONS[player.revealedCharacterId] || '❓'
+                    : isSelf && myCharacterId
+                      ? CHARACTER_ICONS[myCharacterId] || player.nickname.charAt(0).toUpperCase()
+                      : player.nickname.charAt(0).toUpperCase()
+                )}
               </div>
               <span style={{
                 fontSize: '0.75rem',

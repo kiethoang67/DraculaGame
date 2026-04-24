@@ -43,6 +43,19 @@ export const CHARACTER_ICONS: Record<string, string> = {
 
 export const CHARACTER_IDS = Object.keys(CHARACTER_NAMES);
 
+export const CHARACTER_IMAGES: Record<string, string> = {
+  dracula: '/cards/dracula.png',
+  alucard: '/cards/alucard.png',
+  trickster: '/cards/trickster.png',
+  van_helsing: '/cards/van_helsing.png',
+  ghost: '/cards/ghost.png',
+  boogie_monster: '/cards/boogie_monster.png',
+  doctor_jekyll: '/cards/doctor_jekyll.png',
+  swamp_creature: '/cards/swamp_creature.png',
+  zombie: '/cards/zombie.png',
+  witch: '/cards/witch.png',
+};
+
 export const ACTION_NAMES = {
   inquire: 'Check Var',
   dance: 'Rủ Quẩy',

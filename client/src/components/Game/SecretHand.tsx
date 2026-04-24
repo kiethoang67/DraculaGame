@@ -3,7 +3,7 @@
 // ============================================================
 
 import { useGameStore } from '../../stores/useGameStore';
-import { CHARACTER_ICONS, CHARACTER_BACKSTORIES } from '../../utils/constants';
+import { CHARACTER_IMAGES, CHARACTER_BACKSTORIES } from '../../utils/constants';
 
 export function SecretHand() {
   const { myCharacterId, myCharacterName, myCharacterDescription } = useGameStore();
@@ -22,12 +22,25 @@ export function SecretHand() {
     return null;
   }
 
-  const icon = CHARACTER_ICONS[myCharacterId] || '❓';
+  const cardImage = CHARACTER_IMAGES[myCharacterId];
 
   return (
     <div className="secret-hand">
       <div className="secret-hand__label">Nhân Vật Của Bạn</div>
-      <div className="character-card__icon">{icon}</div>
+      {cardImage && (
+        <img
+          src={cardImage}
+          alt={myCharacterName || 'Character'}
+          style={{
+            width: '100%',
+            maxWidth: 180,
+            borderRadius: 'var(--radius-md)',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+            margin: '0 auto var(--space-sm)',
+            display: 'block',
+          }}
+        />
+      )}
       <div className="secret-hand__character">{myCharacterName}</div>
       <div className="secret-hand__ability" style={{ marginBottom: 4 }}>{myCharacterDescription}</div>
       {CHARACTER_BACKSTORIES[myCharacterId] && (
